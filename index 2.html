@@ -754,8 +754,21 @@ a { color: inherit; text-decoration: none; }
 }
 .say .m { padding: 6px 9px; border-radius: 8px; background: var(--card); border: 1px solid var(--line); line-height: 1.35; }
 .say .m.me { align-self: flex-end; background: var(--card2); border-color: var(--line2); }
-.pal-b { display: flex; gap: 9px; align-items: center; padding: 8px 11px; border: 1px solid var(--line); border-radius: var(--r2); background: var(--card); width: calc(100% - 32px); margin: 0 16px 6px; text-align: start; cursor: grab; min-height: 42px; font-weight: 600; font-size: 12.5px; user-select: none; transition: background .12s, border-color .12s; }
-.pal-b:hover { border-color: var(--accent); background: var(--hover); }
+.pal-b { display: flex; gap: 9px; align-items: center; padding: 8px 11px; border: 1px solid var(--line); border-radius: var(--r2); background: var(--card); width: calc(100% - 32px); margin: 0 16px 6px; text-align: start; cursor: grab; min-height: 42px; font-weight: 600; font-size: 12.5px; user-select: none; transition: background .12s, border-color .12s, transform .1s, box-shadow .12s; }
+.pal-b:hover { border-color: var(--accent); background: var(--hover); transform: translateX(2px); }
+.pal-b:active { cursor: grabbing; }
+.pal-b.dragging { opacity: 0.45; border-color: var(--accent); box-shadow: 0 0 14px var(--accent-soft); }
+.canvas.drag-active { background-color: rgba(56, 189, 248, 0.04); }
+.canvas-dropzone { width: min(440px, 100%); border: 2px dashed var(--line2); border-radius: var(--r3); padding: 16px 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-top: 14px; background: var(--card2); color: var(--muted); transition: all .15s ease; user-select: none; }
+.canvas-dropzone:hover, .canvas-dropzone.drag-target-over { border-color: var(--accent); background: var(--accent-soft); color: var(--fg); box-shadow: 0 4px 18px rgba(0,0,0,.25); transform: scale(1.01); }
+.canvas-dropzone .dropzone-inner { display: flex; align-items: center; gap: 10px; font-size: 12.5px; font-weight: 600; pointer-events: none; }
+.conn.drag-target-over { height: 48px; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.conn.drag-target-over button { opacity: 1; background: var(--accent); color: #fff; border-color: var(--accent); transform: scale(1.2); }
+.item.drag-target-over { border-color: var(--accent) !important; background: var(--accent-soft) !important; }
+.node-del-btn { opacity: 0; width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--line2); background: var(--card2); color: var(--bad); display: grid; place-items: center; font-size: 11px; cursor: pointer; transition: opacity .12s, background .12s; flex: none; margin-inline-start: 4px; }
+.node:hover .node-del-btn { opacity: 1; }
+.node-del-btn:hover { background: var(--bad-soft); border-color: var(--bad); }
+.empty-flow-notice { width: min(440px, 100%); padding: 30px 20px; background: var(--card); border: 1px dashed var(--line2); border-radius: var(--r3); text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 12px; }
 .banner-sim { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--line2); border-radius: 999px; padding: 7px 16px; display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 12.5px; box-shadow: var(--shadow); z-index: 10; max-width: calc(100% - 24px); }
 .zoom { position: absolute; bottom: 16px; inset-inline-end: 16px; display: flex; gap: 5px; z-index: 10; }
 .zoom .btn { min-width: 36px; min-height: 30px; }
@@ -1577,6 +1590,130 @@ const WORKFLOWS = {
   }
 };
 
+const DEFAULT_WORKFLOWS = JSON.parse(JSON.stringify(WORKFLOWS));
+
+function saveWorkflows() {
+  try {
+    localStorage.setItem('beinex_workflows_v1', JSON.stringify(WORKFLOWS));
+  } catch (err) {
+    console.warn('Failed to save workflows to localStorage', err);
+  }
+}
+
+function loadSavedWorkflows() {
+  try {
+    const raw = localStorage.getItem('beinex_workflows_v1');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+        for (const k of Object.keys(WORKFLOWS)) delete WORKFLOWS[k];
+        Object.assign(WORKFLOWS, parsed);
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to restore workflows from localStorage', err);
+  }
+}
+
+loadSavedWorkflows();
+
+function createNodeFromBrick(type, title) {
+  const t = type || 'agent';
+  if (t === 'trigger') {
+    return N('trigger', title || 'Event Trigger', {
+      desc: 'Starts execution when an incoming email, schedule, or webhook event is received.',
+      tool: 'Schedule, Email, Webhook',
+      model: null
+    });
+  } else if (t === 'agent') {
+    return N('agent', title || 'AI Agent Task', {
+      agentId: 'ic',
+      desc: 'Autonomous agent task verifying data against rules and benchmarks.',
+      model: 'noah-verify'
+    });
+  } else if (t === 'council') {
+    return N('council', title || 'Procurement & Governance Council', {
+      councilId: 'proc',
+      desc: 'Multi-agent deliberation and consensus synthesis across governed agents.'
+    });
+  } else if (t === 'conditional') {
+    return N('conditional', title || 'Threshold & Logic Gate (> AED 50k)', {
+      desc: 'Branch logic evaluating amounts, variances, and golden rule criteria.'
+    });
+  } else if (t === 'human') {
+    return N('human', title || 'Fatima Al Mansoori Sign-Off', {
+      person: 'fa',
+      desc: 'Mandatory human sign-off gate before enterprise write or financial transaction (PRD 5.2).'
+    });
+  } else if (t === 'tool') {
+    return N('tool', title || 'SAP Finance Write / Action', {
+      tool: 'SAP Finance · Post to ledger',
+      desc: 'Executes direct write to enterprise system under authorized cryptographic seal.'
+    });
+  } else if (t === 'notify') {
+    return N('notify', title || 'Tell me & Record Audit', {
+      desc: 'Sends notification to owner and records immutable signed entry in regulatory audit log.'
+    });
+  }
+  return N(t, title || 'Workflow Step', { desc: 'Configured step in workflow pipeline.' });
+}
+
+function addBrickToWorkflow(brickType, brickTitle, insertIdx) {
+  const wf = WORKFLOWS[S.wf] || Object.values(WORKFLOWS)[0];
+  if (!wf) return;
+  if (!wf.nodes) wf.nodes = [];
+
+  const newNode = createNodeFromBrick(brickType, brickTitle);
+
+  if (insertIdx !== undefined && !isNaN(insertIdx) && insertIdx >= 0 && insertIdx <= wf.nodes.length) {
+    wf.nodes.splice(insertIdx, 0, newNode);
+  } else {
+    wf.nodes.push(newNode);
+  }
+
+  S.wf = wf.id;
+  S.wfSelNode = newNode.id;
+  saveWorkflows();
+  render();
+  toast('Added "' + newNode.title + '" to ' + wf.name);
+}
+
+function updateCurStep(field, val) {
+  const wf = WORKFLOWS[S.wf];
+  if (!wf || !wf.nodes) return;
+  const node = wf.nodes.find(n => n.id === S.wfSelNode);
+  if (!node) return;
+  node[field] = val;
+  saveWorkflows();
+  const nodeEl = document.querySelector(`[data-a="select-canvas-node"][data-id="${node.id}"] b`);
+  if (nodeEl && field === 'title') {
+    nodeEl.textContent = val;
+  }
+}
+
+function updateCurStepAdv(field, val) {
+  const wf = WORKFLOWS[S.wf];
+  if (!wf || !wf.nodes) return;
+  const node = wf.nodes.find(n => n.id === S.wfSelNode);
+  if (!node) return;
+  if (!node.adv) node.adv = {};
+  node.adv[field] = val;
+  saveWorkflows();
+}
+
+function getNodeBadge(node) {
+  switch (node.type) {
+    case 'trigger': return { ini: 'TR', tag: '<span class="tag">Trigger</span>' };
+    case 'agent': return { ini: 'AI', tag: '<span class="tag noah">Noah</span>' };
+    case 'council': return { ini: 'CC', tag: '<span class="tag accent">Council</span>' };
+    case 'conditional': return { ini: '?', tag: '<span class="tag wait">Logic Gate</span>' };
+    case 'human': return { ini: 'FA', tag: '<span class="tag inv">Fatima Gate</span>' };
+    case 'tool': return { ini: 'TL', tag: '<span class="tag accent">Action Tool</span>' };
+    case 'notify': return { ini: 'NT', tag: '<span class="tag ok">Audit Log</span>' };
+    default: return { ini: 'ST', tag: `<span class="tag">${(node.type || 'step').toUpperCase()}</span>` };
+  }
+}
+
 const RUNS = [
   { n: 215, wf: 'inv', inv: 'INV-2293', sup: 'Gulf Office Supplies', amt: 12400, trig: 'Email · Finance mailbox', out: 'waiting', by: 'Fatima Al Mansoori (pending)', when: 'Today 10:15', took: '—', cost: 0.9, ver: 3, note: 'Matches PO-10911 but a shipping surcharge of AED 400 is not on the PO.' },
   { n: 214, wf: 'inv', inv: 'INV-2291', sup: 'Al Noor Supplies', amt: 84200, trig: 'Email · Finance mailbox', out: 'approved', by: 'Fatima Al Mansoori', when: 'Today 09:31', took: '10 min', cost: 1.4, ver: 3, note: 'Extra units were agreed by email with the supplier on 14 Oct.' },
@@ -1739,7 +1876,7 @@ const S = {
   view: 'workflows', // 'chats' | 'agent' | 'workflows' | 'runs' | 'models' | 'activity'
   chat: 'agent:ic',
   chatFilter: '',
-  wf: 'inv',
+  wf: Object.keys(WORKFLOWS)[0] || 'inv',
   wtab: 'build', // 'build' | 'runs' | 'versions'
   run: null,
   rf: 'All',
@@ -1754,7 +1891,7 @@ const S = {
   wfSay: [
     { who: 'e', text: 'Ephrem Workflow Copilot ready. Say what you want on the canvas (e.g. "before Finance Posting, ask the Procurement council" or "if Fatima rejects, stop").' }
   ],
-  wfSelNode: '1',
+  wfSelNode: (WORKFLOWS.inv && WORKFLOWS.inv.nodes && WORKFLOWS.inv.nodes[0] && WORKFLOWS.inv.nodes[0].id) || null,
   wfNodeTab: 'cfg', // 'cfg' | 'adv' | 'io'
   simulating: false,
   simStep: 0,
@@ -2527,8 +2664,8 @@ function renderAgentBuilderView() {
    Visual Canvas + "Say what you want on the right" Copilot
    ===================================================================== */
 function renderWorkflowsView() {
-  const wf = WORKFLOWS[S.wf] || WORKFLOWS.inv;
-  const selNode = wf.nodes.find(n => n.id === S.wfSelNode) || wf.nodes[1];
+  const wf = WORKFLOWS[S.wf] || WORKFLOWS.inv || Object.values(WORKFLOWS)[0];
+  const selNode = (wf && wf.nodes && (wf.nodes.find(n => n.id === S.wfSelNode) || wf.nodes[0])) || null;
 
   return `
     <aside class="pane">
@@ -2552,23 +2689,26 @@ function renderWorkflowsView() {
         `).join('')}
 
         <div class="grp">Seven Core Bricks (Drag to Canvas)</div>
-        <div class="pal-b" draggable="true" data-pal="trigger" data-title="Trigger Node">
+        <div class="pal-b" draggable="true" data-a="add-brick" data-pal="trigger" data-title="Trigger Event" title="Click or drag to canvas to add a Trigger">
           ${IC.flow} <div>Trigger <small>Schedule, Email, Webhook</small></div>
         </div>
-        <div class="pal-b" draggable="true" data-pal="agent" data-title="Invoice Checker (Noah-Verify)">
+        <div class="pal-b" draggable="true" data-a="add-brick" data-pal="agent" data-title="AI Agent Task" title="Click or drag to canvas to add an AI Agent">
           ${IC.agent} <div>AI Agent <small>noah-verify / decide</small></div>
         </div>
-        <div class="pal-b" draggable="true" data-pal="council" data-title="Procurement Council">
+        <div class="pal-b" draggable="true" data-a="add-brick" data-pal="council" data-title="Procurement Council" title="Click or drag to canvas to add a Council">
           ${IC.chat} <div>Council <small>Multi-agent deliberation</small></div>
         </div>
-        <div class="pal-b" draggable="true" data-pal="conditional" data-title="Threshold Fork (> AED 50k)">
+        <div class="pal-b" draggable="true" data-a="add-brick" data-pal="conditional" data-title="Threshold Fork (> AED 50k)" title="Click or drag to canvas to add a Logic Fork">
           ${IC.flow} <div>Logic / Fork <small>If/Else, Loops, Thresholds</small></div>
         </div>
-        <div class="pal-b" draggable="true" data-pal="human" data-title="Fatima Human Gate">
+        <div class="pal-b" draggable="true" data-a="add-brick" data-pal="human" data-title="Fatima Human Gate" title="Click or drag to canvas to add a Human Approval Gate">
           ${IC.shield} <div>Human Step <small>Approve / Reject Gate</small></div>
         </div>
-        <div class="pal-b" draggable="true" data-pal="tool" data-title="SAP Finance Write">
+        <div class="pal-b" draggable="true" data-a="add-brick" data-pal="tool" data-title="SAP Finance Write" title="Click or drag to canvas to add an Action Tool">
           ${IC.lock} <div>Tool / Action <small>SAP ERP, Mailbox, API</small></div>
+        </div>
+        <div class="pal-b" draggable="true" data-a="add-brick" data-pal="notify" data-title="Tell me & Record Audit" title="Click or drag to canvas to add Notification & Audit">
+          ${IC.activity} <div>Notification / Audit <small>Signed Audit Log & Alerts</small></div>
         </div>
       </div>
     </aside>
@@ -2610,7 +2750,19 @@ function renderWorkflowsView() {
           ` : ''}
 
           <div class="graph" style="transform:scale(${S.zoom})">
-            ${wf.nodes.map((node, i) => renderCanvasNode(node, i, wf)).join('')}
+            ${wf && wf.nodes && wf.nodes.length > 0 ? wf.nodes.map((node, i) => renderCanvasNode(node, i, wf)).join('') : `
+              <div class="empty-flow-notice">
+                <div class="av lg accent round">${IC.flow}</div>
+                <div style="font-weight:700;font-size:14px;margin-top:10px">Canvas is Empty</div>
+                <div class="xs muted" style="margin-top:4px">Drag any of the 7 core bricks from the left panel, or click them to start building <b>${esc(wf ? wf.name : 'Flow')}</b>.</div>
+              </div>
+            `}
+            <div class="canvas-dropzone" data-insert-idx="${wf && wf.nodes ? wf.nodes.length : 0}" title="Drop a brick here or click in left panel to append">
+              <div class="dropzone-inner">
+                ${IC.plus}
+                <span>Drop a core brick here or click in left panel to append step</span>
+              </div>
+            </div>
           </div>
 
           <div class="zoom">
@@ -2623,9 +2775,10 @@ function renderWorkflowsView() {
         <aside class="inspector">
           <div class="ih">
             <b>Step Inspector</b>
-            <span class="tag">${selNode.type.toUpperCase()}</span>
+            <span class="tag">${selNode ? selNode.type.toUpperCase() : 'NO SELECTION'}</span>
           </div>
 
+          ${selNode ? `
           <div class="ntabs">
             <button class="${S.wfNodeTab === 'cfg' ? 'on' : ''}" data-a="node-tab" data-t="cfg">Configure</button>
             <button class="${S.wfNodeTab === 'adv' ? 'on' : ''}" data-a="node-tab" data-t="adv">Advanced</button>
@@ -2637,39 +2790,45 @@ function renderWorkflowsView() {
             ${S.wfNodeTab === 'cfg' ? `
               <div class="field">
                 <label>Step Title</label>
-                <input class="in" value="${esc(selNode.title)}">
+                <input class="in" id="step-title-in" value="${esc(selNode.title)}" oninput="updateCurStep('title', this.value)">
               </div>
               <div class="field">
                 <label>Description (Prompt)</label>
-                <textarea class="ta">${esc(selNode.desc)}</textarea>
+                <textarea class="ta" id="step-desc-in" oninput="updateCurStep('desc', this.value)">${esc(selNode.desc)}</textarea>
               </div>
               <div class="field">
                 <label>Assigned AI Brain (Model)</label>
-                <select class="sel">
-                  <option ${selNode.model === 'noah-verify' ? 'selected' : ''}>noah-verify (Extraction & Checks)</option>
-                  <option ${selNode.model === 'noah-decide' ? 'selected' : ''}>noah-decide (Recommendations & Scoring)</option>
-                  <option ${selNode.model === 'general-llm' ? 'selected' : ''}>general-llm (Q&A & Drafting)</option>
+                <select class="sel" id="step-model-in" onchange="updateCurStep('model', this.value)">
+                  <option value="noah-verify" ${selNode.model === 'noah-verify' ? 'selected' : ''}>noah-verify (Extraction & Checks)</option>
+                  <option value="noah-decide" ${selNode.model === 'noah-decide' ? 'selected' : ''}>noah-decide (Recommendations & Scoring)</option>
+                  <option value="general-llm" ${selNode.model === 'general-llm' ? 'selected' : ''}>general-llm (Q&A & Drafting)</option>
                 </select>
               </div>
             ` : S.wfNodeTab === 'adv' ? `
-              <div class="field"><label>Execution Retries</label><input class="in" value="${selNode.adv.retries} retries"></div>
-              <div class="field"><label>Timeout (seconds)</label><input class="in" value="${selNode.adv.timeout}"></div>
-              <div class="field"><label>Deterministic Temperature</label><input class="in" value="${selNode.adv.temp}"></div>
-              <div class="field"><label>Cost Limit</label><input class="in" value="${selNode.adv.cost}"></div>
-              <div class="field"><label>Fallback Model</label><input class="in" value="${selNode.adv.fallback}"></div>
+              <div class="field"><label>Execution Retries</label><input class="in" value="${(selNode.adv && selNode.adv.retries) || 3} retries" onchange="updateCurStepAdv('retries', parseInt(this.value,10)||3)"></div>
+              <div class="field"><label>Timeout (seconds)</label><input class="in" value="${(selNode.adv && selNode.adv.timeout) || 60}" onchange="updateCurStepAdv('timeout', parseInt(this.value,10)||60)"></div>
+              <div class="field"><label>Deterministic Temperature</label><input class="in" value="${(selNode.adv && selNode.adv.temp) || 0}" onchange="updateCurStepAdv('temp', parseFloat(this.value)||0)"></div>
+              <div class="field"><label>Cost Limit</label><input class="in" value="${(selNode.adv && selNode.adv.cost) || 'AED 0.004'}" onchange="updateCurStepAdv('cost', this.value)"></div>
+              <div class="field"><label>Fallback Model</label><input class="in" value="${(selNode.adv && selNode.adv.fallback) || 'noah-verify'}" onchange="updateCurStepAdv('fallback', this.value)"></div>
             ` : `
               <div class="field"><label>Last Input Payload (JSON)</label><textarea class="ta mono" readonly style="height:90px">{
-  "invoice": "INV-2291",
-  "amount": 84200,
-  "po": "PO-10877"
+  "step": "${esc(selNode.id)}",
+  "title": "${esc(selNode.title)}",
+  "status": "ready"
 }</textarea></div>
               <div class="field"><label>Last Output Payload (JSON)</label><textarea class="ta mono" readonly style="height:90px">{
-  "mismatch": true,
-  "variance_units": 5,
+  "verified": true,
   "confidence": 0.984
 }</textarea></div>
             `}
           </div>
+          ` : `
+          <div class="ic" style="display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:40px 20px;gap:12px">
+            <div class="av lg accent round">${IC.flow}</div>
+            <b>No Step Selected</b>
+            <div class="xs muted">Select any step on the canvas to configure it, or drag a brick from the left panel to add a new step.</div>
+          </div>
+          `} 
 
           <div class="say">
             <div class="ih" style="padding:0;border:none">
@@ -2695,10 +2854,11 @@ function renderWorkflowsView() {
 function renderCanvasNode(node, i, wf) {
   const isSelected = S.wfSelNode === node.id;
   const isRunning = S.simulating && S.simStep === (i + 1);
+  const badge = getNodeBadge(node);
 
   if (node.type === 'conditional') {
     return `
-      <div class="conn"><button>+</button></div>
+      ${i > 0 ? `<div class="conn" data-insert-idx="${i}"><button data-a="add-step-at" data-idx="${i}" title="Insert step here">+</button></div>` : ''}
       <div class="fork">
         <div class="node ${isSelected ? 'sel' : ''} ${isRunning ? 'active-running' : ''}" data-a="select-canvas-node" data-id="${node.id}">
           <div class="node-h">
@@ -2707,6 +2867,8 @@ function renderCanvasNode(node, i, wf) {
               <b>${esc(node.title)}</b>
               <div class="k">THRESHOLD FORK · GOLDEN RULE (PRD 5.2)</div>
             </div>
+            <span class="tag wait">Logic Gate</span>
+            <button type="button" class="node-del-btn" data-a="delete-canvas-node" data-id="${node.id}" title="Delete step" onclick="event.stopPropagation()">${IC.x}</button>
           </div>
         </div>
         <svg viewBox="0 0 540 42" fill="none">
@@ -2727,16 +2889,16 @@ function renderCanvasNode(node, i, wf) {
   }
 
   return `
-    ${i > 0 ? '<div class="conn"><button>+</button></div>' : ''}
+    ${i > 0 ? `<div class="conn" data-insert-idx="${i}"><button data-a="add-step-at" data-idx="${i}" title="Insert step here">+</button></div>` : ''}
     <div class="node ${isSelected ? 'sel' : ''} ${isRunning ? 'active-running' : ''}" data-a="select-canvas-node" data-id="${node.id}">
       <div class="node-h">
-        <div class="av sm ${node.type}">${node.type === 'trigger' ? 'TR' : node.type === 'human' ? 'FA' : node.type === 'council' ? 'CC' : 'AI'}</div>
+        <div class="av sm ${node.type}">${badge.ini}</div>
         <div class="t">
           <b>${esc(node.title)}</b>
-          <div class="k">${node.type.toUpperCase()} · ${node.desc.slice(0, 48)}...</div>
+          <div class="k">${node.type.toUpperCase()} · ${esc((node.desc || '').slice(0, 48))}...</div>
         </div>
-        ${node.type === 'human' ? '<span class="tag inv">Fatima Gate</span>' : ''}
-        ${node.type === 'agent' ? '<span class="tag noah">Noah</span>' : ''}
+        ${badge.tag}
+        <button type="button" class="node-del-btn" data-a="delete-canvas-node" data-id="${node.id}" title="Delete step" onclick="event.stopPropagation()">${IC.x}</button>
       </div>
     </div>
   `;
@@ -2952,16 +3114,17 @@ function renderModal() {
 
   if (S.modal === 'confirm-delete') {
     const data = S.modalData || { title: 'Item', type: 'item', id: null };
+    const isStep = data.type === 'node';
     root.innerHTML = `
       <div class="overlay">
         <div class="modal" style="width:min(440px, 100%)">
           <div class="mh" style="border-bottom:1px solid var(--line);background:var(--card)">
-            <b style="color:var(--bad)">${IC.warn} Confirm Deletion</b>
+            <b style="color:var(--bad)">${IC.warn} ${isStep ? 'Delete Workflow Step' : 'Confirm Deletion'}</b>
             <button class="ib" data-a="close-modal">${IC.x}</button>
           </div>
           <div class="mb" style="padding:20px;gap:14px">
             <div>Are you sure you want to delete <b style="color:var(--fg)">${esc(data.title)}</b>?</div>
-            <div class="xs muted" style="line-height:1.4">Unwanted items or ones created by mistake can be safely deleted. This will remove it from active workflows, chats, and registers. This action cannot be undone.</div>
+            <div class="xs muted" style="line-height:1.4">${isStep ? 'This step will be permanently removed from this workflow pipeline. Downstream connectors will automatically reconnect. This action cannot be undone.' : 'Unwanted items or ones created by mistake can be safely deleted. This will remove it from active workflows, chats, and registers. This action cannot be undone.'}</div>
           </div>
           <div class="mf" style="padding:12px 18px;background:var(--card);display:flex;justify-content:flex-end;gap:8px">
             <button type="button" class="btn" data-a="close-modal">Cancel</button>
@@ -3589,17 +3752,30 @@ document.addEventListener('click', e => {
       return;
     }
     const nid = el.dataset.id;
-    const idx = wf.nodes.findIndex(n => n.id === nid);
-    if (idx !== -1) {
-      const removedTitle = wf.nodes[idx].title;
-      wf.nodes.splice(idx, 1);
-      S.wfSelNode = wf.nodes[Math.max(0, idx - 1)].id;
-      render();
-      toast('Removed step "' + removedTitle + '" from canvas');
-    }
+    const node = wf.nodes.find(n => n.id === nid);
+    if (!node) return;
+    S.modal = 'confirm-delete';
+    S.modalData = {
+      type: 'node',
+      id: nid,
+      wfId: S.wf,
+      title: node.title,
+      typeTitle: 'Step'
+    };
+    render();
+  }
+  else if (a === 'add-brick') {
+    const pal = el.dataset.pal;
+    const title = el.dataset.title;
+    addBrickToWorkflow(pal, title);
+  }
+  else if (a === 'add-step-at') {
+    const idx = parseInt(el.dataset.idx, 10);
+    addBrickToWorkflow('agent', 'AI Agent Task', idx);
   }
   else if (a === 'confirm-delete-action') {
     const data = S.modalData;
+    if (!data) { S.modal = null; render(); return; }
     if (data.type === 'agent') {
       delete AGENTS[data.id];
       delete CH['agent:' + data.id];
@@ -3637,7 +3813,25 @@ document.addEventListener('click', e => {
         remainingWfs.push('custom');
       }
       if (S.wf === data.id) S.wf = remainingWfs[0];
+      saveWorkflows();
       toast('Deleted workflow "' + data.title + '"');
+    } else if (data.type === 'node') {
+      const targetWfId = data.wfId || S.wf;
+      const wf = WORKFLOWS[targetWfId];
+      if (wf && wf.nodes) {
+        const idx = wf.nodes.findIndex(n => n.id === data.id);
+        if (idx !== -1) {
+          wf.nodes.splice(idx, 1);
+          if (wf.nodes.length > 0) {
+            const nextIdx = Math.min(idx, wf.nodes.length - 1);
+            S.wfSelNode = wf.nodes[nextIdx].id;
+          } else {
+            S.wfSelNode = null;
+          }
+          saveWorkflows();
+          toast('Deleted step "' + data.title + '" from workflow');
+        }
+      }
     }
     S.modal = null;
     S.modalData = null;
@@ -3665,6 +3859,7 @@ document.addEventListener('click', e => {
     const w = WORKFLOWS[S.wf];
     if (w && w.nodes) {
       w.nodes.push(N('council', c.name, { councilId: c.id, desc: 'Deliberation: ' + c.goal + '. Member agents: ' + c.members.join(', ') }));
+      saveWorkflows();
     }
     S.view = 'workflows';
     render();
@@ -3831,6 +4026,7 @@ document.addEventListener('click', e => {
       if (curWf) {
         curWf.status = 'live';
         curWf.version = (parseFloat(curWf.version) + 0.1).toFixed(1);
+        saveWorkflows();
         render();
         toast('Workflow "' + curWf.name + '" approved and promoted to Live by Fatima Al Mansoori!');
       }
@@ -4030,6 +4226,7 @@ document.addEventListener('submit', e => {
       if (wf) {
         wf.name = name;
         wf.trigger = trig;
+        saveWorkflows();
         toast('Updated workflow "' + name + '"');
       }
     } else {
@@ -4050,7 +4247,7 @@ document.addEventListener('submit', e => {
           N('trigger', trig, { desc: 'Initiating event.', tool: 'Trigger' }),
           N('agent', 'Invoice Checker', { agentId: 'ic', desc: 'Perform verification.' }),
           N('human', 'Fatima Human Gate', { person: 'fa', desc: 'Approve before write.' }),
-          N('notify', 'Tell me', { desc: 'Send confirmation summary.' })
+          N('notify', 'Tell me & Record Audit', { desc: 'Send confirmation summary.' })
         ];
       }
       WORKFLOWS[newId] = {
@@ -4068,6 +4265,7 @@ document.addEventListener('submit', e => {
       };
       S.wf = newId;
       S.wfSelNode = nodes[0].id;
+      saveWorkflows();
       toast('Created new workflow "' + name + '"');
     }
     S.modal = null;
@@ -4110,6 +4308,117 @@ document.addEventListener('submit', e => {
       toast('Workflow canvas updated');
     }, 600);
   }
+});
+
+// Drag and Drop for Seven Core Bricks (PRD Section 5 & 7.1)
+document.addEventListener('dragstart', e => {
+  const pal = e.target.closest('.pal-b');
+  if (pal) {
+    const brickType = pal.dataset.pal;
+    const brickTitle = pal.dataset.title || '';
+    e.dataTransfer.setData('text/plain', JSON.stringify({ brickType, brickTitle }));
+    e.dataTransfer.effectAllowed = 'copy';
+    pal.classList.add('dragging');
+    const canvas = $('#canvas-area');
+    if (canvas) canvas.classList.add('drag-active');
+  }
+});
+
+document.addEventListener('dragend', e => {
+  const pal = e.target.closest('.pal-b');
+  if (pal) pal.classList.remove('dragging');
+  const canvas = $('#canvas-area');
+  if (canvas) {
+    canvas.classList.remove('drag-active');
+    canvas.querySelectorAll('.drag-target-over').forEach(el => el.classList.remove('drag-target-over'));
+  }
+});
+
+document.addEventListener('dragover', e => {
+  const canvasArea = e.target.closest('#canvas-area');
+  const wfItem = e.target.closest('[data-a="select-wf"]');
+
+  if (canvasArea || wfItem) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+
+    if (canvasArea) {
+      const dropzone = e.target.closest('[data-insert-idx]');
+      canvasArea.querySelectorAll('.drag-target-over').forEach(el => {
+        if (el !== dropzone) el.classList.remove('drag-target-over');
+      });
+      if (dropzone) {
+        dropzone.classList.add('drag-target-over');
+      }
+    } else if (wfItem) {
+      document.querySelectorAll('[data-a="select-wf"]').forEach(el => {
+        if (el !== wfItem) el.classList.remove('drag-target-over');
+      });
+      wfItem.classList.add('drag-target-over');
+    }
+  }
+});
+
+document.addEventListener('dragleave', e => {
+  const dropzone = e.target.closest('[data-insert-idx]');
+  if (dropzone && (!e.relatedTarget || !dropzone.contains(e.relatedTarget))) {
+    dropzone.classList.remove('drag-target-over');
+  }
+  const wfItem = e.target.closest('[data-a="select-wf"]');
+  if (wfItem && (!e.relatedTarget || !wfItem.contains(e.relatedTarget))) {
+    wfItem.classList.remove('drag-target-over');
+  }
+});
+
+document.addEventListener('drop', e => {
+  const canvasArea = e.target.closest('#canvas-area');
+  const wfItem = e.target.closest('[data-a="select-wf"]');
+
+  if (!canvasArea && !wfItem) return;
+  e.preventDefault();
+
+  if (canvasArea) {
+    if (canvasArea.classList) canvasArea.classList.remove('drag-active');
+    if (canvasArea.querySelectorAll) canvasArea.querySelectorAll('.drag-target-over').forEach(el => el.classList.remove('drag-target-over'));
+  }
+  if (wfItem) {
+    if (wfItem.classList) wfItem.classList.remove('drag-target-over');
+  }
+
+  let brickType = null;
+  let brickTitle = null;
+
+  try {
+    const raw = e.dataTransfer.getData('text/plain');
+    if (raw && raw.startsWith('{')) {
+      const data = JSON.parse(raw);
+      brickType = data.brickType;
+      brickTitle = data.brickTitle;
+    } else {
+      brickType = raw;
+    }
+  } catch (err) {
+    brickType = e.dataTransfer.getData('text/plain');
+  }
+
+  if (!brickType) return;
+
+  if (wfItem) {
+    const targetWfId = wfItem.dataset.id;
+    if (targetWfId && WORKFLOWS[targetWfId]) {
+      S.wf = targetWfId;
+      addBrickToWorkflow(brickType, brickTitle);
+      return;
+    }
+  }
+
+  const dropzone = e.target.closest('[data-insert-idx]');
+  let insertIdx = undefined;
+  if (dropzone && dropzone.dataset.insertIdx !== undefined) {
+    insertIdx = parseInt(dropzone.dataset.insertIdx, 10);
+  }
+
+  addBrickToWorkflow(brickType, brickTitle, insertIdx);
 });
 
 // Initial boot
