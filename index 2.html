@@ -1734,10 +1734,7 @@ function renderChatsView() {
         <div class="box"><input id="search-chat-input" placeholder="Search agents or councils..." value="${esc(S.chatFilter || '')}" data-a="filter-chats" oninput="S.chatFilter=this.value;render()"></div>
       </div>
       <div class="pane-body">
-        <div class="grp" style="display:flex;justify-content:space-between;align-items:center">
-          <span>Multi-Agent Councils (PRD 7.9)</span>
-          <button type="button" class="xs-link" data-a="open-new-council-modal" style="background:none;border:none;color:var(--accent);font-size:11px;font-weight:700;cursor:pointer;padding:0">+ New Council</button>
-        </div>
+        <div class="grp">Multi-Agent Councils (PRD 7.9)</div>
         ${councilRows || '<div class="xs muted" style="padding:6px 14px">No councils match search</div>'}
         <div class="grp">My Governed Agents</div>
         ${agentRows || '<div class="xs muted" style="padding:6px 14px">No agents match search</div>'}
