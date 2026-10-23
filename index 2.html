@@ -541,6 +541,15 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   gap: 12px;
 }
+.card .thread {
+  flex: none;
+  height: auto;
+  min-height: 220px;
+  max-height: 380px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+}
 .msg { display: flex; gap: 9px; align-items: flex-start; max-width: 100%; }
 .msg .body { display: flex; flex-direction: column; gap: 5px; min-width: 0; max-width: calc(100% - 38px); }
 .msg .meta { font-size: 11px; color: var(--subtle); }
@@ -2347,16 +2356,18 @@ function renderAgentBuilderView() {
             </div>
             <div class="card" style="padding:16px">
               <h3>Simulate Multi-Agent Deliberation</h3>
-              <div class="thread scroll" style="max-height:280px;margin:12px 0">
+              <div class="thread scroll" style="min-height:220px;height:auto;max-height:380px;margin:12px 0">
                 <div class="msg me"><div class="bub">Deliberate on Desert Logistics INV-2288 (AED 61,900) with 60-day overdue trade license.</div></div>
                 <div class="msg">
                   <div class="av sm accent round">CC</div>
-                  <div class="bub">
-                    <b>Council Consensus (noah-decide):</b><br>
-                    • <b>Invoice Checker:</b> Line items matched PO-10911, but unit price variance +AED 4,200.<br>
-                    • <b>Contract Review:</b> Contract standard clause 14 requires active trade license at invoice presentation.<br>
-                    • <b>Supplier Risk:</b> Trade license renewal pending in Dubai Economy Dept.<br>
-                    • <b>Synthesis:</b> Block automated SAP ledger posting. Escalated to Fatima Al Mansoori with recommended conditional approval.
+                  <div class="bub" style="max-width:100%">
+                    <b style="color:var(--accent)">Council Consensus (noah-decide):</b>
+                    <div style="margin-top:6px;display:flex;flex-direction:column;gap:5px;font-size:12.5px;line-height:1.5">
+                      <div>• <b>Invoice Checker:</b> Line items matched PO-10911, but unit price variance +AED 4,200.</div>
+                      <div>• <b>Contract Review:</b> Contract standard clause 14 requires active trade license at invoice presentation.</div>
+                      <div>• <b>Supplier Risk:</b> Trade license renewal pending in Dubai Economy Dept.</div>
+                      <div style="padding-top:4px;border-top:1px dashed var(--line);color:var(--ok)">• <b>Synthesis:</b> Block automated SAP ledger posting. Escalated to Fatima Al Mansoori with recommended conditional approval.</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2375,11 +2386,11 @@ function renderAgentBuilderView() {
             </div>
             <div class="card" style="padding:16px">
               <h3>Test Ingestion & Accuracy</h3>
-              <div class="thread" style="max-height:280px;margin:12px 0">
+              <div class="thread scroll" style="min-height:220px;height:auto;max-height:380px;margin:12px 0">
                 <div class="msg me"><div class="bub">Test with invoice INV-2291 for Al Noor Supplies (AED 84,200).</div></div>
                 <div class="msg">
                   <div class="av sm ${agent.spec.ini}">${agent.spec.ini}</div>
-                  <div class="bub">
+                  <div class="bub" style="max-width:100%">
                     [noah-verify] Extracted invoice INV-2291: Amount AED 84,200. Checked against PO-10877 (AED 81,500). Mismatch detected (+AED 2,700, +5 units). Under policy rules, this triggers a human decision gate for Fatima Al Mansoori.
                   </div>
                 </div>
