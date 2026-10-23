@@ -765,9 +765,10 @@ a { color: inherit; text-decoration: none; }
 .conn.drag-target-over { height: 48px; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
 .conn.drag-target-over button { opacity: 1; background: var(--accent); color: #fff; border-color: var(--accent); transform: scale(1.2); }
 .item.drag-target-over { border-color: var(--accent) !important; background: var(--accent-soft) !important; }
-.node-del-btn { opacity: 0; width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--line2); background: var(--card2); color: var(--bad); display: grid; place-items: center; font-size: 11px; cursor: pointer; transition: opacity .12s, background .12s; flex: none; margin-inline-start: 4px; }
-.node:hover .node-del-btn { opacity: 1; }
-.node-del-btn:hover { background: var(--bad-soft); border-color: var(--bad); }
+.node-del-btn { opacity: 0; width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--line2); background: var(--card2); color: var(--bad); display: grid; place-items: center; font-size: 11px; cursor: pointer; transition: opacity .12s, background .12s, transform .1s; flex: none; margin-inline-start: 4px; }
+.node:hover .node-del-btn, .node.sel .node-del-btn { opacity: 1; }
+.node-del-btn:hover { background: var(--bad-soft); border-color: var(--bad); transform: scale(1.1); }
+.node-del-btn svg { pointer-events: none; }
 .empty-flow-notice { width: min(440px, 100%); padding: 30px 20px; background: var(--card); border: 1px dashed var(--line2); border-radius: var(--r3); text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 12px; }
 .banner-sim { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--line2); border-radius: 999px; padding: 7px 16px; display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 12.5px; box-shadow: var(--shadow); z-index: 10; max-width: calc(100% - 24px); }
 .zoom { position: absolute; bottom: 16px; inset-inline-end: 16px; display: flex; gap: 5px; z-index: 10; }
@@ -1713,6 +1714,27 @@ function getNodeBadge(node) {
     default: return { ini: 'ST', tag: `<span class="tag">${(node.type || 'step').toUpperCase()}</span>` };
   }
 }
+
+function deleteCanvasNode(nid) {
+  const wf = WORKFLOWS[S.wf];
+  if (!wf || !wf.nodes) return;
+  if (wf.nodes.length <= 1) {
+    toast('A workflow must contain at least one step');
+    return;
+  }
+  const node = wf.nodes.find(n => n.id === nid);
+  if (!node) return;
+  S.modal = 'confirm-delete';
+  S.modalData = {
+    type: 'node',
+    id: nid,
+    wfId: S.wf,
+    title: node.title,
+    typeTitle: 'Step'
+  };
+  render();
+}
+window.deleteCanvasNode = deleteCanvasNode;
 
 const RUNS = [
   { n: 215, wf: 'inv', inv: 'INV-2293', sup: 'Gulf Office Supplies', amt: 12400, trig: 'Email · Finance mailbox', out: 'waiting', by: 'Fatima Al Mansoori (pending)', when: 'Today 10:15', took: '—', cost: 0.9, ver: 3, note: 'Matches PO-10911 but a shipping surcharge of AED 400 is not on the PO.' },
@@ -2868,7 +2890,7 @@ function renderCanvasNode(node, i, wf) {
               <div class="k">THRESHOLD FORK · GOLDEN RULE (PRD 5.2)</div>
             </div>
             <span class="tag wait">Logic Gate</span>
-            <button type="button" class="node-del-btn" data-a="delete-canvas-node" data-id="${node.id}" title="Delete step" onclick="event.stopPropagation()">${IC.x}</button>
+            <button type="button" class="node-del-btn" data-a="delete-canvas-node" data-id="${node.id}" title="Delete step" onclick="deleteCanvasNode('${node.id}'); event.stopPropagation();">${IC.x}</button>
           </div>
         </div>
         <svg viewBox="0 0 540 42" fill="none">
@@ -2898,7 +2920,7 @@ function renderCanvasNode(node, i, wf) {
           <div class="k">${node.type.toUpperCase()} · ${esc((node.desc || '').slice(0, 48))}...</div>
         </div>
         ${badge.tag}
-        <button type="button" class="node-del-btn" data-a="delete-canvas-node" data-id="${node.id}" title="Delete step" onclick="event.stopPropagation()">${IC.x}</button>
+        <button type="button" class="node-del-btn" data-a="delete-canvas-node" data-id="${node.id}" title="Delete step" onclick="deleteCanvasNode('${node.id}'); event.stopPropagation();">${IC.x}</button>
       </div>
     </div>
   `;
@@ -3552,6 +3574,11 @@ function triggerSimulation() {
    EVENT DELEGATION CONTROLLER
    ===================================================================== */
 document.addEventListener('click', e => {
+  if (e.target && e.target.classList && e.target.classList.contains('overlay')) {
+    S.modal = null;
+    render();
+    return;
+  }
   const el = e.target.closest('[data-a]');
   if (!el) return;
   const a = el.dataset.a;
@@ -3745,24 +3772,7 @@ document.addEventListener('click', e => {
     render();
   }
   else if (a === 'delete-canvas-node') {
-    const wf = WORKFLOWS[S.wf];
-    if (!wf || !wf.nodes) return;
-    if (wf.nodes.length <= 1) {
-      toast('A workflow must contain at least one step');
-      return;
-    }
-    const nid = el.dataset.id;
-    const node = wf.nodes.find(n => n.id === nid);
-    if (!node) return;
-    S.modal = 'confirm-delete';
-    S.modalData = {
-      type: 'node',
-      id: nid,
-      wfId: S.wf,
-      title: node.title,
-      typeTitle: 'Step'
-    };
-    render();
+    deleteCanvasNode(el.dataset.id);
   }
   else if (a === 'add-brick') {
     const pal = el.dataset.pal;
