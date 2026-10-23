@@ -1082,23 +1082,43 @@ const QC = {
 
 const CH = {
   'agent:ic': [
-    { who: 'sys', text: 'Live since 2 Oct · version 2 · approved by Fatima Al Mansoori' },
-    { who: 'ic', t: '10:14', text: 'Good morning, Mariam. I have verified 3 incoming invoices today. Run #215 (INV-2293) has a AED 400 shipping surcharge not listed on PO-10911 and is awaiting Fatima’s sign-off.', samples: true }
+    { who: 'sys', text: 'Live since 2 Oct · version 2 · approved by Fatima Al Mansoori · Model: noah-verify' },
+    { who: 'ic', t: '10:14', text: 'Good morning, Mariam. I have verified 3 incoming invoices today. Run #215 (INV-2293) has a AED 400 shipping surcharge not listed on PO-10911 and is awaiting Fatima’s sign-off.', samples: ['How many invoices were flagged today?', 'Show details for Run #215 (INV-2293)', 'Check supplier Desert Logistics status'] }
+  ],
+  'agent:pr': [
+    { who: 'sys', text: 'Live since 23 Oct · version 1 · Model: noah-decide (v2.1) · Approver: Fatima Al Mansoori' },
+    { who: 'pr', t: '10:14', text: 'Good morning, Mariam. I am **Posting Recommender** (powered by **noah-decide**). I analyze approved invoices and recommend the appropriate SAP General Ledger (GL) account code, cost center, and payment run batch. 2 approved invoices are currently awaiting posting recommendations.', samples: ['Recommend GL account for INV-2291', 'Explain why PO-10911 maps to Account 540200', 'Show posting confidence for Al Noor Supplies'] }
+  ],
+  'agent:fp': [
+    { who: 'sys', text: 'Live since 23 Oct · version 1 · Golden Rule Gatekeeper · Approver: Fatima Al Mansoori' },
+    { who: 'fp', t: '10:10', text: 'Hello Mariam. I am **Finance Posting**. Under Beinex Golden Rule governance (PRD 5.2), I only execute direct writes to SAP S/4HANA Finance after Fatima Al Mansoori’s cryptographic sign-off. 41 invoices posted straight-through this week with zero unauthorized ledger entries.', samples: ['List SAP GL postings made today', 'Check status of SAP ERP connector', 'Show cryptographic audit ref for Run #214'] }
   ],
   'agent:cr': [
-    { who: 'sys', text: 'Live since 11 Sep · version 1 · approved by Fatima Al Mansoori' },
-    { who: 'cr', t: '09:00', text: 'I am **Contract Review**. I check submitted contracts against standard UAE federal clauses and highlight deviations, expiry dates and missing indemnities.', samples: true }
+    { who: 'sys', text: 'Live since 11 Sep · version 1 · Model: noah-verify · Approver: Fatima Al Mansoori' },
+    { who: 'cr', t: '09:00', text: 'I am **Contract Review** (*noah-verify*). I check submitted supplier contracts against standard UAE federal clauses and highlight deviations, expiry dates, and missing indemnities. I recently reviewed the Desert Logistics framework agreement.', samples: ['Check Desert Logistics contract expiry', 'Review indemnities in IT vendor template', 'List contracts expiring in 60 days'] }
   ],
   'agent:pq': [
-    { who: 'sys', text: 'Shared by Internal Audit · live · approved by Director of Finance' },
-    { who: 'pq', t: 'Yesterday', text: 'I answer questions based on Procurement Policy v4 and HR Policy Library. Every answer includes verifiable clause citations.', samples: true }
+    { who: 'sys', text: 'Shared by Internal Audit · live · Source: UAE Procurement Policy v4 & HR Library' },
+    { who: 'pq', t: 'Yesterday', text: 'I answer questions based on UAE Federal Procurement Policy v4 and HR Policy Library. Every answer includes verifiable clause citations.', samples: ['What is the threshold for sole-source procurement?', 'Explain Section 7.3 contract requirements', 'Who can approve emergency expenditure over AED 50k?'] }
   ],
   'agent:sr': [
-    { who: 'sys', text: 'Shared by Internal Audit · live · approved by Director of Finance' },
-    { who: 'sr', t: 'Yesterday', text: 'I verify supplier trade licenses, beneficial ownership, and sanctions lists using trusted official registries.', samples: true }
+    { who: 'sys', text: 'Shared by Internal Audit · live · Registries: UAE Economic Dept & Sanctions' },
+    { who: 'sr', t: 'Yesterday', text: 'I verify supplier trade licenses, beneficial ownership, and sanctions lists using trusted official UAE government and international registries.', samples: ['Verify Desert Logistics trade license', 'Check sanctions status for Al Noor Supplies', 'Show recent supplier risk score changes'] }
+  ],
+  'agent:di': [
+    { who: 'sys', text: 'Paused by Security (Omar Haddad) · Scheduled scan audit in progress' },
+    { who: 'di', t: 'Mon 09:12', text: 'Document Intake service is temporarily **PAUSED** while Security completes scheduled scanning audits. Once active, I ingest PDFs, TIFFs, and email attachments via OCR and route them to verification agents.', samples: ['Why is Document Intake paused?', 'Show pending intake queue', 'Simulate security resumption'] }
+  ],
+  'agent:lr': [
+    { who: 'sys', text: 'Draft · Awaiting Fatima Al Mansoori approval · Model: noah-decide' },
+    { who: 'lr', t: 'Yesterday', text: 'Marhaba Mariam! I can check your personal leave balance, calculate public holiday overlaps, or draft an annual leave request for Fatima’s sign-off.', samples: ['What is my remaining annual leave balance?', 'Draft 3 days leave for next week', 'Explain UAE National Day holiday rules'] }
+  ],
+  'agent:so': [
+    { who: 'sys', text: 'Draft · In Review · Model: noah-verify' },
+    { who: 'so', t: '08:30', text: 'Hello Mariam! I assist with supplier onboarding by checking trade licenses, VAT certificates, and bank IBAN letters against federal compliance checklists.', samples: ['Check Desert Logistics checklist status', 'What documents are required for new UAE vendor?'] }
   ],
   'council:proc': [
-    { who: 'sys', text: 'Procurement Council · 4 Agents (IC, CR, PQ, SR) + 2 Human Stakeholders (Mariam, Fatima)' },
+    { who: 'sys', text: 'Procurement Council · 4 Governed Agents (IC, CR, PQ, SR) + Fatima Al Mansoori · Synthesizer: noah-decide' },
     { who: 'you', t: '10:00', text: 'Review supplier Desert Logistics for pending invoice INV-2288 (AED 61,900).' },
     {
       who: 'council',
@@ -1128,14 +1148,171 @@ const CH = {
             <button class="btn s ok" data-a="toast" data-t="Supplier hold notice drafted.">Draft Supplier Notice</button>
           </div>
         </div>
-      `
+      `,
+      samples: ['Deliberate on Al Noor Supplies INV-2291', 'Evaluate sole-source justification for Cloud Services', 'Review all high-risk suppliers']
     }
   ],
   'council:hr': [
-    { who: 'sys', text: 'HR Questions Council · LR, PQ' },
-    { who: 'lr', t: '11:00', text: 'Ready to advise on leave balance exceptions and annual travel allowances.', samples: true }
+    { who: 'sys', text: 'HR Questions Council · LR, PQ · Synthesizer: noah-decide' },
+    { who: 'council', t: '11:00', text: 'HR Questions Council is online. Ready to advise on leave balance exceptions, overseas remote work policies, and travel allowances.', samples: ['Can annual leave be combined with bereavement leave?', 'Policy on carry-over leave into next calendar year', 'Draft exception request for senior management'] }
   ]
 };
+
+function getChatInfo(chatKey) {
+  const isCouncil = (chatKey && chatKey.startsWith('council:')) || !!COUNCILS[chatKey];
+  const rawId = chatKey ? (chatKey.includes(':') ? chatKey.split(':')[1] : chatKey) : 'ic';
+  if (isCouncil) {
+    const c = COUNCILS[rawId] || COUNCILS.proc;
+    return { isCouncil: true, id: c.id, obj: c, name: c.name, key: 'council:' + c.id };
+  } else {
+    const a = AGENTS[rawId] || AGENTS.ic;
+    return { isCouncil: false, id: a.id, obj: a, name: a.spec ? a.spec.name : 'Agent', key: 'agent:' + a.id };
+  }
+}
+
+function getThread(chatKey) {
+  if (!CH[chatKey]) {
+    const info = getChatInfo(chatKey);
+    if (info.isCouncil) {
+      const c = info.obj;
+      CH[chatKey] = [
+        { who: 'sys', text: `Multi-Agent Council "${c.name}" · Deliberation & Consensus Engine` },
+        {
+          who: 'council',
+          t: now(),
+          text: `Council **${c.name}** is online. Mandate: ${c.goal}. Ready to deliberate across member agents: ${c.members.map(m => (AGENTS[m] && AGENTS[m].spec) ? AGENTS[m].spec.name : m).join(', ')}. Ask a question or pose a scenario to begin multi-agent deliberation.`,
+          samples: ['Deliberate on latest supplier invoice', 'Review policy exception request', 'Synthesize council recommendation']
+        }
+      ];
+    } else {
+      const a = info.obj;
+      const spec = a.spec || {};
+      CH[chatKey] = [
+        { who: 'sys', text: `${spec.name || 'Agent'} · Live Governed Agent · Model: ${spec.model || 'noah-verify'}` },
+        {
+          who: a.id,
+          t: now(),
+          text: `Hello Mariam! I am **${spec.name || 'Agent'}**. ${spec.role || 'I am ready to assist with governed workflows.'}`,
+          samples: ['What are your active governance rules?', 'Explain your assigned model (' + (spec.model || 'noah-verify') + ')', 'Check system connector status']
+        }
+      ];
+    }
+  }
+  return CH[chatKey];
+}
+
+function generateCouncilDeliberation(council, userText) {
+  return {
+    html: `
+      <div class="council-view">
+        <div class="row-flex" style="justify-content:space-between">
+          <b>Council Deliberation Report · ${esc(council.name)}</b>
+          <span class="pill live"><i></i>Consensus Reached</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">Topic: <i>"${esc(userText)}"</i> · Deliberated by <b>${council.members.length} member agents</b> and synthesized by <b>noah-decide</b>:</div>
+        <div class="table" style="margin:6px 0">
+          <table>
+            <thead><tr><th>Member Agent</th><th>Deliberation Angle & Finding</th><th>Source & Confidence</th></tr></thead>
+            <tbody>
+              ${council.members.map(m => {
+                const ag = AGENTS[m];
+                const name = ag && ag.spec ? ag.spec.name : m;
+                let finding = 'Verified operational parameters against benchmarks.';
+                let conf = '96% confidence';
+                if (m === 'ic') { finding = 'Cross-checked invoice amounts and PO items. 0 discrepancy found.'; conf = '99.4% · noah-verify'; }
+                else if (m === 'cr') { finding = 'Contract terms examined: Standard UAE federal dispute clause verified.'; conf = '98% · Contracts Reg'; }
+                else if (m === 'pq') { finding = 'Complies with UAE Procurement Policy v4 §6.2 authorization limits.'; conf = '99% · Policy Library'; }
+                else if (m === 'sr') { finding = 'Supplier commercial license active in UAE registry; clean sanctions screening.'; conf = '95% · UAE Registry'; }
+                else if (m === 'pr') { finding = 'Recommended posting route: GL Account 540200 with cost center DXB-FIN.'; conf = '94% · noah-decide'; }
+                else if (m === 'fp') { finding = 'SAP S/4HANA write staged in memory; awaiting Fatima Al Mansoori sign-off.'; conf = 'Golden Rule 5.2'; }
+                else if (m === 'lr') { finding = 'Leave balance verified: entitlement sufficient.'; conf = 'HR System (read-only)'; }
+                return `<tr><td><b>${esc(name)}</b></td><td>${finding}</td><td>${conf}</td></tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="callout accent">
+          <div><b>Noah-Decide Synthesis:</b> The Council recommends proceeding with procurement approval. All statutory prerequisites and compliance rules are verified. Staged for Fatima Al Mansoori sign-off.</div>
+        </div>
+        <div class="row-flex" style="justify-content:flex-end;gap:8px">
+          <button type="button" class="btn s" data-a="toast" data-t="Council Dossier exported as signed PDF pack.">Export Dossier</button>
+          <button type="button" class="btn s ok" data-a="toast" data-t="Escalated to Fatima Al Mansoori with complete Council recommendation.">Escalate to Fatima</button>
+        </div>
+      </div>
+    `
+  };
+}
+
+function generateAgentResponse(chatKey, userText) {
+  const isCouncil = (chatKey && chatKey.startsWith('council:')) || !!COUNCILS[chatKey];
+  const rawId = chatKey ? (chatKey.includes(':') ? chatKey.split(':')[1] : chatKey) : 'ic';
+
+  if (isCouncil) {
+    const c = COUNCILS[rawId] || COUNCILS.proc;
+    return generateCouncilDeliberation(c, userText);
+  }
+
+  const agent = AGENTS[rawId] || AGENTS.ic;
+  const aid = agent.id;
+  const q = userText.toLowerCase();
+
+  if (aid === 'pr') {
+    if (q.includes('gl') || q.includes('account') || q.includes('route') || q.includes('inv') || q.includes('po')) {
+      return {
+        text: 'Analysis for "' + userText + '":\n\n• **Recommended Route**: SAP General Ledger **Account 540200 (IT & Cloud Infrastructure)**\n• **Cost Center**: **DXB-HQ-FIN** (Ref #CC-102)\n• **VAT Treatment**: Standard UAE 5% Input VAT (Code T1)\n• **Confidence**: **94%** (*noah-decide* v2.1)\n\n*Governance Gate:* Staged for Fatima Al Mansoori\'s approval before SAP ERP batch write.'
+      };
+    }
+    return {
+      text: 'Posting Recommender (*noah-decide*): Evaluated query "' + userText + '". Accounting rules match UAE Federal Financial Regulations. GL routing will be suggested once invoice verification passes.'
+    };
+  }
+
+  if (aid === 'fp') {
+    return {
+      text: 'Finance Posting Agent: Acknowledged "' + userText + '".\n\n**Golden Rule Compliance (PRD 5.2):** Zero direct writes are permitted to SAP S/4HANA without Fatima Al Mansoori\'s cryptographic sign-off. Run #214 was posted with SHA-256 hash `7f8a9b2c...`. Run #215 is awaiting sign-off.'
+    };
+  }
+
+  if (aid === 'cr') {
+    return {
+      text: 'Contract Review (*noah-verify*): Analyzed clauses regarding "' + userText + '".\n\n• **Governing Law:** UAE Federal Courts (Compliant)\n• **Indemnity Limitation:** Capped at 50% contract value (standard is 100% - flagged for legal notice)\n• **Expiry Alert:** Desert Logistics framework agreement expires in 15 days.'
+    };
+  }
+
+  if (aid === 'pq') {
+    return {
+      text: 'Policy Q&A: Query "' + userText + '".\n\n**Citation:** UAE Federal Procurement Policy v4, Section 7.3 ("Contract Authorization Thresholds"): All sole-source awards exceeding AED 50,000 must obtain written approval from the Department Director and Undersecretary prior to issuing purchase orders.'
+    };
+  }
+
+  if (aid === 'sr') {
+    return {
+      text: 'Supplier Risk (*noah-verify*): Registry check for "' + userText + '".\n\n• **Trade License:** Verified with UAE Ministry of Economy (Status: ACTIVE)\n• **Sanctions Screening:** 0 matches against UN, UAE Central Bank, and OFAC lists\n• **Risk Score:** Low Risk (95% confidence)'
+    };
+  }
+
+  if (aid === 'di') {
+    return {
+      text: 'Document Intake: Agent is currently **PAUSED** for security file scanner audit by Omar Haddad. Ingestion will resume once containerized sandbox inspection is approved.'
+    };
+  }
+
+  if (aid === 'lr') {
+    return {
+      text: 'Leave Requests (*noah-decide*): Mariam Khalid, your personal balance is **18.5 days** annual leave. In accordance with UAE Labor Law, consecutive leave over 10 days requires departmental head endorsement.'
+    };
+  }
+
+  if (aid === 'so') {
+    return {
+      text: 'Supplier Onboarding (*noah-verify*): Checked onboarding checklist for "' + userText + '". Documents required: Trade License, VAT Registration Certificate, Bank IBAN Certificate, Authorized Signatory Passport/Emirates ID.'
+    };
+  }
+
+  return {
+    text: 'Invoice Checker (*noah-verify*): Checked incoming invoice against PO records for "' + userText + '". 3 invoices analyzed today. All line items, quantities, and VAT rates cross-verified with 99.4% precision.'
+  };
+}
 
 const ACTIVITY = [
   { who: 'fa', text: 'Fatima Al Mansoori flagged Run #215 (INV-2293) for manual review: "Surcharge AED 400 not on PO"', when: 'Today 10:15', badge: 'Decision Needed' },
@@ -1379,7 +1556,8 @@ function refine(a, text) {
    ===================================================================== */
 const S = {
   view: 'workflows', // 'chats' | 'agent' | 'workflows' | 'runs' | 'models' | 'activity'
-  chat: 'new',
+  chat: 'agent:ic',
+  chatFilter: '',
   wf: 'inv',
   wtab: 'build', // 'build' | 'runs' | 'versions'
   run: null,
@@ -1505,13 +1683,21 @@ function renderRail() {
    VIEW 1: CHATS & COUNCILS (PRD 7.9 & 7.11)
    ===================================================================== */
 function renderChatsView() {
-  const isCouncil = S.chat.startsWith('council:') || !!COUNCILS[S.chat];
-  const activeId = S.chat.includes(':') ? S.chat.split(':')[1] : S.chat;
-  const currentCouncil = COUNCILS[activeId];
-  const currentAgent = AGENTS[activeId] || AGENTS.ic;
+  const isCouncil = (S.chat && S.chat.startsWith('council:')) || !!COUNCILS[S.chat];
+  const activeId = S.chat ? (S.chat.includes(':') ? S.chat.split(':')[1] : S.chat) : 'ic';
+  const currentCouncil = isCouncil ? (COUNCILS[activeId] || COUNCILS.proc) : null;
+  const currentAgent = !isCouncil ? (AGENTS[activeId] || AGENTS.ic) : null;
 
-  const agentRows = Object.values(AGENTS).filter(a => !a.shared).map(a => `
-    <button class="item ${S.chat === 'agent:' + a.id || S.chat === a.id ? 'on' : ''}" data-a="open-chat" data-id="agent:${a.id}">
+  const q = (S.chatFilter || '').toLowerCase().trim();
+
+  const agentRows = Object.values(AGENTS).filter(a => {
+    if (a.shared) return false;
+    if (!q) return true;
+    const n = (a.spec ? a.spec.name : a.id).toLowerCase();
+    const r = (a.spec ? a.spec.role : '').toLowerCase();
+    return n.includes(q) || r.includes(q);
+  }).map(a => `
+    <button class="item ${!isCouncil && currentAgent && currentAgent.id === a.id ? 'on' : ''}" data-a="open-chat" data-id="agent:${a.id}">
       <div class="av sm ${a.status}">${a.spec ? a.spec.ini : 'AG'}<span class="dot ${a.status}"></span></div>
       <div class="t">
         <div class="n"><b>${a.spec ? esc(a.spec.name) : 'Agent'}</b><small>${a.created}</small></div>
@@ -1520,8 +1706,11 @@ function renderChatsView() {
     </button>
   `).join('');
 
-  const councilRows = Object.values(COUNCILS).map(c => `
-    <button class="item ${S.chat === 'council:' + c.id ? 'on' : ''}" data-a="open-chat" data-id="council:${c.id}">
+  const councilRows = Object.values(COUNCILS).filter(c => {
+    if (!q) return true;
+    return c.name.toLowerCase().includes(q) || c.goal.toLowerCase().includes(q);
+  }).map(c => `
+    <button class="item ${isCouncil && currentCouncil && currentCouncil.id === c.id ? 'on' : ''}" data-a="open-chat" data-id="council:${c.id}">
       <div class="av sm accent round">CC</div>
       <div class="t">
         <div class="n"><b>${esc(c.name)}</b><small>Multi-Agent</small></div>
@@ -1530,52 +1719,68 @@ function renderChatsView() {
     </button>
   `).join('');
 
-  const threadMessages = CH[S.chat] || CH['agent:ic'] || [];
+  const threadMessages = getThread(S.chat);
 
   return `
     <aside class="pane">
       <div class="pane-head">
         <h1>
           <span>Chats</span>
-          <button class="btn s p" data-a="new-agent-btn">+ Agent</button>
+          <div style="display:flex;gap:6px">
+            <button class="btn s" data-a="open-new-council-modal" title="Create a multi-agent council (PRD 7.9)">+ Council</button>
+            <button class="btn s p" data-a="new-agent-btn" title="Build a new agent">+ Agent</button>
+          </div>
         </h1>
-        <div class="box"><input placeholder="Search agents or councils..."></div>
+        <div class="box"><input id="search-chat-input" placeholder="Search agents or councils..." value="${esc(S.chatFilter || '')}" data-a="filter-chats" oninput="S.chatFilter=this.value;render()"></div>
       </div>
       <div class="pane-body">
-        <div class="grp">Multi-Agent Councils (PRD 7.9)</div>
-        ${councilRows}
+        <div class="grp" style="display:flex;justify-content:space-between;align-items:center">
+          <span>Multi-Agent Councils (PRD 7.9)</span>
+          <button type="button" class="xs-link" data-a="open-new-council-modal" style="background:none;border:none;color:var(--accent);font-size:11px;font-weight:700;cursor:pointer;padding:0">+ New Council</button>
+        </div>
+        ${councilRows || '<div class="xs muted" style="padding:6px 14px">No councils match search</div>'}
         <div class="grp">My Governed Agents</div>
-        ${agentRows}
+        ${agentRows || '<div class="xs muted" style="padding:6px 14px">No agents match search</div>'}
       </div>
     </aside>
 
     <main class="main">
       <div class="main-head">
         <div class="who">
-          <div class="av lg ${isCouncil ? 'accent' : 'live'}">${isCouncil ? 'CC' : (currentAgent.spec ? currentAgent.spec.ini : 'AG')}</div>
+          <div class="av lg ${isCouncil ? 'accent' : (currentAgent.status || 'live')}">
+            ${isCouncil ? 'CC' : (currentAgent.spec ? currentAgent.spec.ini : 'AG')}
+          </div>
           <div>
             <div class="ttl">
-              ${isCouncil ? esc(currentCouncil.name) : (currentAgent.spec ? esc(currentAgent.spec.name) : 'Invoice Checker')}
+              ${isCouncil ? esc(currentCouncil.name) : esc(currentAgent.spec ? currentAgent.spec.name : 'Agent')}
               ${isCouncil ? '<span class="pill accent"><i></i>Deliberative Council</span>' : pill(currentAgent.status || 'live')}
             </div>
             <div class="sub">
-              ${isCouncil ? `Members: ${currentCouncil.members.map(m => (AGENTS[m] && AGENTS[m].spec) ? AGENTS[m].spec.name : m).join(', ')} · Fatima Al Mansoori` : `Approver: ${PEOPLE[currentAgent.spec.approver].name} · Model: ${currentAgent.spec.model}`}
+              ${isCouncil ? 
+                `Members: ${currentCouncil.members.map(m => (AGENTS[m] && AGENTS[m].spec) ? AGENTS[m].spec.name : m).join(', ')} · Approver: Fatima Al Mansoori · Model: noah-decide` : 
+                `Approver: ${PEOPLE[currentAgent.spec.approver] ? PEOPLE[currentAgent.spec.approver].name : 'Fatima Al Mansoori'} · Model: ${currentAgent.spec.model || 'noah-verify'} · Autonomy: Level ${currentAgent.spec.autonomy || 2}`
+              }
             </div>
           </div>
         </div>
         <div class="acts">
-          <button class="btn s" data-a="simulate-scenario" data-scen="fraud">Simulate Anomaly</button>
-          <button class="btn s p" data-a="view-in-workflow" data-id="${currentAgent.id}">Use in Workflow</button>
+          ${isCouncil ? `
+            <button class="btn s" data-a="simulate-deliberation" data-id="${currentCouncil.id}">Simulate Deliberation</button>
+            <button class="btn s p" data-a="use-council-in-workflow" data-id="${currentCouncil.id}">Use in Workflow</button>
+          ` : `
+            <button class="btn s" data-a="simulate-scenario" data-scen="anomaly">Simulate Anomaly</button>
+            <button class="btn s p" data-a="view-in-workflow" data-id="${currentAgent.id}">Use in Workflow</button>
+          `}
         </div>
       </div>
 
       <div class="thread scroll">
-        ${threadMessages.map(m => renderChatBubble(m)).join('')}
+        ${threadMessages.map(m => renderChatBubble(m, S.chat)).join('')}
       </div>
 
       <form class="composer" data-a="send-chat-msg">
         <div class="box">
-          <input id="chat-in" placeholder="${isCouncil ? 'Ask the council to deliberate on a supplier, contract or invoice...' : 'Message ' + (currentAgent.spec ? currentAgent.spec.name : 'agent') + '...'}" autocomplete="off">
+          <input id="chat-in" placeholder="${isCouncil ? 'Ask ' + esc(currentCouncil.name) + ' to deliberate on a supplier, invoice or contract...' : 'Message ' + esc(currentAgent.spec ? currentAgent.spec.name : 'agent') + '...'}" autocomplete="off">
           <button type="button" class="ib" title="Voice Input (English & Arabic)" data-a="mic-dictate">${IC.mic}</button>
           <button type="submit" class="ib p" title="Send">${IC.send}</button>
         </div>
@@ -1585,24 +1790,44 @@ function renderChatsView() {
   `;
 }
 
-function renderChatBubble(m) {
+function renderChatBubble(m, activeChatKey) {
   if (m.who === 'sys') return `<div class="sysline"><span>${esc(m.text)}</span></div>`;
   if (m.who === 'you') return `<div class="msg me"><div class="meta">Mariam Khalid · ${m.t || now()}</div><div class="bub">${rich(m.text)}</div></div>`;
-  if (m.html) return `<div class="msg"><div class="body" style="max-width:100%"><div class="meta"><b>System / Council Dossier</b> · ${m.t || now()}</div>${m.html}</div></div>`;
-  const name = (AGENTS[m.who] && AGENTS[m.who].spec) ? AGENTS[m.who].spec.name : 'Ephrem Assistant';
+  if (m.html) return `<div class="msg"><div class="body" style="max-width:100%"><div class="meta"><b>Multi-Agent Deliberation Report</b> · ${m.t || now()}</div>${m.html}</div></div>`;
+
+  const isCouncilMsg = m.who === 'council';
+  let senderName = 'Ephrem Assistant';
+  let senderIni = 'EA';
+  let senderStatus = 'live';
+
+  if (isCouncilMsg) {
+    const rawId = activeChatKey && activeChatKey.includes(':') ? activeChatKey.split(':')[1] : activeChatKey;
+    const c = COUNCILS[rawId] || COUNCILS.proc;
+    senderName = c ? c.name : 'Deliberative Council';
+    senderIni = 'CC';
+    senderStatus = 'accent';
+  } else if (AGENTS[m.who] && AGENTS[m.who].spec) {
+    senderName = AGENTS[m.who].spec.name;
+    senderIni = AGENTS[m.who].spec.ini || m.who.toUpperCase();
+    senderStatus = AGENTS[m.who].status || 'live';
+  }
+
+  let samplesHtml = '';
+  if (Array.isArray(m.samples) && m.samples.length > 0) {
+    samplesHtml = `
+      <div class="opts" style="margin-top:8px">
+        ${m.samples.map(q => `<button type="button" class="opt" data-a="sample-q" data-q="${esc(q)}">${esc(q)}</button>`).join('')}
+      </div>
+    `;
+  }
+
   return `
     <div class="msg">
-      <div class="av sm ${m.who}">${m.who.toUpperCase()}</div>
+      <div class="av sm ${senderStatus}">${senderIni}</div>
       <div class="body">
-        <div class="meta"><b>${name}</b> · ${m.t || now()}</div>
+        <div class="meta"><b>${esc(senderName)}</b> · ${m.t || now()}</div>
         <div class="bub">${rich(m.text)}</div>
-        ${m.samples ? `
-          <div class="opts" style="margin-top:6px">
-            <button type="button" class="opt" data-a="sample-q" data-q="How many invoices were flagged today?">How many invoices were flagged today?</button>
-            <button type="button" class="opt" data-a="sample-q" data-q="Show details for Run #215 (INV-2293)">Show details for Run #215 (INV-2293)</button>
-            <button type="button" class="opt" data-a="sample-q" data-q="Check supplier Desert Logistics status">Check supplier Desert Logistics status</button>
-          </div>
-        ` : ''}
+        ${samplesHtml}
       </div>
     </div>
   `;
@@ -2250,6 +2475,95 @@ function renderModal() {
   const root = $('#modal-root');
   if (!S.modal) { root.innerHTML = ''; return; }
 
+  if (S.modal === 'new-council') {
+    root.innerHTML = `
+      <div class="overlay">
+        <div class="modal wide">
+          <div class="mh">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="av sm accent round">CC</div>
+              <div>
+                <b>Create Multi-Agent Council (PRD 7.9)</b>
+                <div class="xs muted">Assemble a collaborative committee of governed AI agents to deliberate and synthesize decisions</div>
+              </div>
+            </div>
+            <button class="ib" data-a="close-modal">${IC.x}</button>
+          </div>
+          <form class="mb" data-a="submit-create-council" style="gap:14px">
+            <!-- Quick Templates -->
+            <div>
+              <label class="xs muted" style="font-weight:700;text-transform:uppercase;letter-spacing:.05em">Quick Starter Templates</label>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+                <button type="button" class="btn s" data-a="fill-council-tpl" data-tpl="proc">🏛️ Procurement Council</button>
+                <button type="button" class="btn s" data-a="fill-council-tpl" data-tpl="legal">⚖️ Legal & Compliance</button>
+                <button type="button" class="btn s" data-a="fill-council-tpl" data-tpl="fin">💳 Finance & Ledger Gate</button>
+                <button type="button" class="btn s" data-a="fill-council-tpl" data-tpl="vendor">🏢 Vendor Risk & Award</button>
+                <button type="button" class="btn s" data-a="fill-council-tpl" data-tpl="hr">👥 HR Exceptions</button>
+              </div>
+            </div>
+
+            <!-- Council Name -->
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Council Name *</label>
+              <input id="nc-name" class="input" style="width:100%" value="Vendor Evaluation Council" required placeholder="e.g. Vendor Risk Council, IT Architecture Council">
+            </div>
+
+            <!-- Council Goal / Mandate -->
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Mandate / Deliberation Goal *</label>
+              <input id="nc-goal" class="input" style="width:100%" value="Evaluate new vendor proposals, cross-verify trade licenses, and recommend contract awards" required placeholder="Describe what problem this committee solves">
+            </div>
+
+            <!-- Select Member Agents -->
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:6px">Select Member Agents (Choose 2 or more governed agents) *</label>
+              <div class="models" style="grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; max-height: 200px; overflow-y: auto; padding: 4px;">
+                ${Object.values(AGENTS).map(a => `
+                  <label class="card" style="padding:10px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;border-color:var(--line)">
+                    <input type="checkbox" name="council-agents" value="${a.id}" ${['ic','cr','sr','pq'].includes(a.id) ? 'checked' : ''} style="margin-top:3px">
+                    <div style="flex:1;min-width:0">
+                      <div style="display:flex;align-items:center;gap:6px">
+                        <div class="av xs ${a.status}">${a.spec ? a.spec.ini : 'AG'}</div>
+                        <b style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(a.spec ? a.spec.name : a.id)}</b>
+                      </div>
+                      <div class="xs muted" style="margin-top:2px;line-height:1.25">${esc(a.spec ? a.spec.model : 'noah-verify')}</div>
+                    </div>
+                  </label>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Strategy & Approver -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div>
+                <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Deliberation & Synthesis Strategy</label>
+                <select id="nc-strat" class="select" style="width:100%">
+                  <option value="consensus">Consensus & Synthesis (Default · noah-decide)</option>
+                  <option value="debate">Debate & Cross-Examination (Cross-check discrepancies)</option>
+                  <option value="voting">Quorum Voting (3/4 Majority required)</option>
+                </select>
+              </div>
+              <div>
+                <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Human Approver / Gatekeeper (PRD 5.2)</label>
+                <select id="nc-appr" class="select" style="width:100%">
+                  <option value="fa">Fatima Al Mansoori (Director of Finance)</option>
+                  <option value="oh">Omar Haddad (Head of Security)</option>
+                  <option value="df">Director of Internal Audit</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mf" style="margin:-6px -18px -18px;border-top:1px solid var(--line);padding:12px 18px">
+              <button type="button" class="btn" data-a="close-modal">Cancel</button>
+              <button type="submit" class="btn ok">Create Council & Start Deliberating</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   if (S.modal === 'approval') {
     root.innerHTML = `
       <div class="overlay">
@@ -2326,6 +2640,61 @@ document.addEventListener('click', e => {
   const a = el.dataset.a;
 
   if (a === 'view') { S.view = el.dataset.v; render(); }
+  else if (a === 'open-new-council-modal') { S.modal = 'new-council'; render(); }
+  else if (a === 'new-agent-btn') { S.view = 'agent'; render(); toast('Switched to Agent Studio to build a new agent'); }
+  else if (a === 'simulate-deliberation') {
+    const rawId = el.dataset.id || (S.chat.includes(':') ? S.chat.split(':')[1] : S.chat);
+    const c = COUNCILS[rawId] || COUNCILS.proc;
+    const thread = getThread('council:' + c.id);
+    thread.push({ who: 'you', text: 'Simulate council deliberation on emergency purchase requisition PR-4091 (AED 72,000)', t: now() });
+    render();
+    toast('Council deliberation underway...');
+    setTimeout(() => {
+      const resp = generateCouncilDeliberation(c, 'Emergency purchase requisition PR-4091 (AED 72,000)');
+      thread.push({ who: 'council', t: now(), html: resp.html });
+      render();
+      toast('Council synthesized recommendation ready');
+    }, 800);
+  }
+  else if (a === 'use-council-in-workflow') {
+    const rawId = el.dataset.id || (S.chat.includes(':') ? S.chat.split(':')[1] : S.chat);
+    const c = COUNCILS[rawId] || COUNCILS.proc;
+    const w = WORKFLOWS[S.wf];
+    if (w && w.nodes) {
+      w.nodes.push(N('council', c.name, { councilId: c.id, desc: 'Deliberation: ' + c.goal + '. Member agents: ' + c.members.join(', ') }));
+    }
+    S.view = 'workflows';
+    render();
+    toast('Added "' + c.name + '" node to workflow canvas!');
+  }
+  else if (a === 'fill-council-tpl') {
+    const tpl = el.dataset.tpl;
+    const nameIn = $('#nc-name');
+    const goalIn = $('#nc-goal');
+    const cbs = $('input[name="council-agents"]');
+    if (tpl === 'proc') {
+      if (nameIn) nameIn.value = 'Procurement Council';
+      if (goalIn) goalIn.value = 'Advise on suppliers, high-value invoices, and contract terms';
+      cbs.forEach(cb => cb.checked = ['ic', 'cr', 'pq', 'sr'].includes(cb.value));
+    } else if (tpl === 'legal') {
+      if (nameIn) nameIn.value = 'Legal & Compliance Council';
+      if (goalIn) goalIn.value = 'Review contractual indemnities, sanctions lists, and regulatory compliance';
+      cbs.forEach(cb => cb.checked = ['cr', 'sr', 'pq'].includes(cb.value));
+    } else if (tpl === 'fin') {
+      if (nameIn) nameIn.value = 'Finance & Ledger Gate Council';
+      if (goalIn) goalIn.value = 'Validate invoice line items, recommend SAP GL routes, and enforce Golden Rule approvals';
+      cbs.forEach(cb => cb.checked = ['ic', 'pr', 'fp'].includes(cb.value));
+    } else if (tpl === 'vendor') {
+      if (nameIn) nameIn.value = 'Vendor Risk & Award Council';
+      if (goalIn) goalIn.value = 'Evaluate vendor credentials, trade licenses, and contract adherence';
+      cbs.forEach(cb => cb.checked = ['so', 'sr', 'cr'].includes(cb.value));
+    } else if (tpl === 'hr') {
+      if (nameIn) nameIn.value = 'HR Exceptions Council';
+      if (goalIn) goalIn.value = 'Advise on leave balances, policy exceptions, and remote allowances';
+      cbs.forEach(cb => cb.checked = ['lr', 'pq'].includes(cb.value));
+    }
+    toast('Loaded template: ' + (nameIn ? nameIn.value : ''));
+  }
   else if (a === 'open-chat') { S.chat = el.dataset.id; render(); }
   else if (a === 'select-builder-agent') { S.ab.agentId = el.dataset.id; render(); }
   else if (a === 'select-wf') { S.wf = el.dataset.id; render(); }
@@ -2412,7 +2781,11 @@ document.addEventListener('click', e => {
   }
   else if (a === 'sample-q') {
     const inp = $('#chat-in');
-    if (inp) inp.value = el.dataset.q;
+    if (inp) {
+      inp.value = el.dataset.q;
+      const form = inp.closest('form');
+      if (form) form.dispatchEvent(new Event('submit', { cancelable: true }));
+    }
   }
   else if (a === 'mic-dictate') {
     toast('Voice dictation active (Arabic & English supported)...');
@@ -2464,18 +2837,72 @@ document.addEventListener('submit', e => {
     if (!val) return;
     inp.value = '';
 
-    const list = CH[S.chat] || (CH[S.chat] = []);
-    list.push({ who: 'you', text: val, t: now() });
+    const thread = getThread(S.chat);
+    thread.push({ who: 'you', text: val, t: now() });
     render();
 
     setTimeout(() => {
-      list.push({
-        who: S.chat.includes('council') ? 'council' : 'ic',
-        text: `Verified query: "${val}". In accordance with UAE Federal Procurement Policy v4, verified data records and active purchase orders match standard parameters.`,
-        t: now()
-      });
+      const resp = generateAgentResponse(S.chat, val);
+      if (resp.html) {
+        thread.push({ who: 'council', t: now(), html: resp.html });
+      } else {
+        const info = getChatInfo(S.chat);
+        thread.push({
+          who: info.isCouncil ? 'council' : info.id,
+          t: now(),
+          text: resp.text
+        });
+      }
       render();
-    }, 700);
+    }, 600);
+  }
+  else if (a === 'submit-create-council') {
+    const nameIn = $('#nc-name');
+    const goalIn = $('#nc-goal');
+    const stratIn = $('#nc-strat');
+    const apprIn = $('#nc-appr');
+    const checked = $$('input[name="council-agents"]:checked').map(cb => cb.value);
+
+    if (checked.length < 2) {
+      alert('Please select at least 2 member agents for the Council.');
+      return;
+    }
+
+    const name = nameIn ? nameIn.value.trim() : 'New Council';
+    const goal = goalIn ? goalIn.value.trim() : 'Deliberation & Consensus';
+    const strategy = stratIn ? stratIn.value : 'consensus';
+    const approver = apprIn ? apprIn.value : 'fa';
+
+    const newId = 'c_' + Date.now().toString(36);
+    COUNCILS[newId] = {
+      id: newId,
+      name,
+      goal,
+      members: checked,
+      strategy,
+      model: 'noah-decide',
+      approver,
+      people: ['fa', 'mk']
+    };
+
+    CH['council:' + newId] = [
+      { who: 'sys', text: `Multi-Agent Council "${name}" created · Deliberation & Consensus Engine` },
+      {
+        who: 'council',
+        t: now(),
+        text: `Council **${name}** is online! Mandate: ${goal}.\n\n• **Member Agents:** ${checked.map(m => (AGENTS[m] && AGENTS[m].spec) ? AGENTS[m].spec.name : m).join(', ')}\n• **Deliberation Strategy:** ${strategy === 'consensus' ? 'Consensus & Synthesis (noah-decide)' : strategy === 'debate' ? 'Debate & Cross-Examination' : 'Quorum Voting'}\n• **Human Gatekeeper:** ${PEOPLE[approver] ? PEOPLE[approver].name : 'Fatima Al Mansoori'}\n\nPose any query or exception below to trigger committee deliberation.`,
+        samples: [
+          'Deliberate on vendor compliance exception',
+          'Review high-value expenditure threshold',
+          'Synthesize recommendation for management sign-off'
+        ]
+      }
+    ];
+
+    S.chat = 'council:' + newId;
+    S.modal = null;
+    render();
+    toast(`Council "${name}" created with ${checked.length} member agents!`);
   }
   else if (a === 'send-agent-prompt') {
     const inp = $('#agent-prompt-in');

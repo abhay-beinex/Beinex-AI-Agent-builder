@@ -1,0 +1,573 @@
+﻿Beinex AI Agent Workflow Builder
+1. Project Overview
+1.1 Background
+The UAE government plans to move 50% of public-sector services and operations to autonomous (agentic) AI models within a two-year transformation window. Government entities, and the enterprises that serve them, will need a safe and controlled way to create AI agents and connect them to real business processes.
+1.2 What We Are Building
+In simple words: a website where a person describes a task in plain language, or drags blocks onto a canvas. The platform turns that into an AI agent or an automated workflow that runs by itself, asks a human to approve important steps, and records everything it did.
+The platform has two main features that work together:
+Feature
+What it does
+Result
+Agent Builder
+The user describes an AI worker in plain language and the platform creates it (name, role, tools, model, rules).
+A reusable AI agent that can chat, join workflows, join councils and be shared with other systems
+Workflow Builder
+The user describes a process in plain language, or drags bricks onto a canvas, to connect triggers, agents, tools, people and logic.
+An automated workflow that runs by itself and asks people to approve key steps
+In short: agents are the workers, and workflows are the processes that put the workers to use. Any agent built in the Agent Builder can be dropped into a workflow, and a workflow can also be used by an agent as a single tool.
+1.3 Product Goals
+#
+Goal
+How we will know
+G1
+A non-technical government employee can build a working workflow in under 15 minutes
+Usability testing with first-time users
+G2
+A user can create a working AI agent from a plain-language description in under 5 minutes
+Agent is chatting and passes its test before the user leaves the builder
+G3
+Workflows can be built two ways, by prompt or by drag-and-drop, with the same result
+The same workflow opens and edits in either mode
+G4
+Our own models (noah-verify, noah-decide) are first-class citizens
+Selectable on every step and used in demo scenarios
+G5
+Clients’ existing agents (e.g. Microsoft Copilot Studio) plug in without rebuilding
+A Copilot Studio agent can be called from a workflow, and a Beinex agent from Copilot Studio
+G6
+Workflows run automatically and safely, with people in control of important decisions
+Approvals, audit logs and limits in place on every live workflow
+G7
+Enterprise-grade trust: access control, audit, private deployment
+Passes client security review
+1.4 Scope
+In scope: agent builder (agents from prompts), prompt-based workflow builder, drag-and-drop canvas, agent builder, model registry (including the Noah models), tools and connectors, human approval gates, multi-agent “councils”, workflow automation, interoperability (MCP, OpenAPI, A2A), run monitoring, versioning, administration, security, Arabic and English support.
+2. Users and Roles
+Role
+Who they are
+What they need
+Business Builder
+A department employee, not a programmer
+Describe a process in words, get a workflow, adjust it by dragging
+Power Builder / Engineer
+AI or integration engineer (our team or client IT)
+Fine control: code steps, JSON editing, custom tools, model settings
+Approver
+A manager (e.g. Fatima Al Mansoori in the prototype)
+A clear card with evidence; Approve, Reject or Approve with conditions
+Administrator
+Platform owner at the client
+Manage users, models, spending limits, connectors and policies
+Auditor / Compliance
+Internal audit and regulators
+Read-only access to every run, decision and approval
+External system or agent
+Client’s Copilot Studio agent, n8n flow, custom API
+Standard, secure interfaces to call or be called
+3. Core Concepts: The Building Blocks
+Everything in the platform is made from seven building blocks. Understanding these is enough to understand the whole product. (In the interface a block is called a brick; in technical text it is called a node or step.)
+Block
+Plain meaning
+Examples
+1. Trigger
+What starts the workflow
+Schedule, new email, new file, API call, chat message, another workflow
+2. Agent
+An AI worker that does a task, built in the Agent Builder (Section 4) or chosen from the catalogue
+“Check this invoice against its contract”
+3. Tool / Connector
+A system the agent can use
+Outlook, SharePoint, web search, database, any API
+4. Logic
+Decisions and control
+If/else, loops, parallel branches, wait, retry
+5. Human step
+A person decides
+Approve, reject, review, edit
+6. Council
+A group of agents deliberates
+Contract Review + Policy Q&A + Invoice Checker give one recommendation
+7. Workflow call
+Reuse a whole workflow as one step
+Run “Supplier onboarding” inside another workflow
+Golden rule : a person always appears before anything is written to a system. Any step that changes real data (send an email, release a payment, update a record) must be preceded by a human approval, unless an administrator explicitly allows an exception within set limits.
+3.1 What Every Node Looks Like (inspired by Cohere North)
+Every agent node on the canvas is a card with the same settings, plus an Advanced tab:
+Setting
+Question it answers
+Example
+Description
+What should this step do? (a plain-language prompt)
+“Summarize the previous quarter’s financial results”
+Tools
+What may it use?
+My Files, SharePoint, Outlook, SAP
+Model
+Which AI brain does the work?
+noah-verify for checking, noah-decide for recommendations
+Advanced
+Fine controls
+Temperature, retries, timeout, output format, cost limit, test data
+In simple words: each block is like a small employee: you give them a job description, tell them which tools they may use, and choose which AI model does the job.
+4. Feature 1: Agent Builder (Create Agents from Prompts)
+The Agent Builder is a feature in its own right. It lets anyone create an AI agent simply by describing the job in plain language, with no coding. The agent can then be used on its own in chat, or as a ready-made worker inside workflows and councils.
+In simple words: an agent is like a new colleague with one clear job. You describe the role, the platform sets the colleague up, you test them, and once approved they can start work.
+4.1 What Is an Agent?
+Part of the agent
+What it holds
+Name and avatar
+How the agent appears in chat, in the sidebar and on the workflow canvas
+Role description
+The plain-language instructions (the prompt) that say what the agent does and does not do
+Tools
+Systems the agent may use (Outlook, SharePoint, web search, databases, any connected API)
+Model
+The AI brain used, for example noah-verify for checking or noah-decide for recommendations
+Knowledge
+Document libraries the agent can search (RAG), with citations back to the source
+Memory (optional)
+What the agent remembers between conversations, with a viewer and a delete button
+Rules and guardrails
+Topics to avoid, data it must never reveal, actions it may never take alone
+Owner and approver
+The named person responsible for the agent and for approving it
+Autonomy level and status
+How much freedom it has (Section 6.3) and its state: Draft, Awaiting approval, Live or Paused
+4.2 How an Agent Is Built by Prompt
+Step
+What happens
+1. Describe
+The user types or speaks (English or Arabic) what the agent should do. Example: “Check supplier invoices against purchase orders and flag any quantity or price mismatch.”
+2. Draft agent card
+The platform creates the agent: a name, role description, suggested tools, a suggested model and starting rules. If something is unclear (for example, who approves?) it asks a short question first.
+3. Review and edit
+The user changes anything, either by chatting (“only look at invoices above AED 5,000”) or by editing the card directly. The prompt method and the manual form always show the same agent.
+4. Test in chat
+The user talks to the draft agent using sample data and checks the answers. Nothing real is touched.
+5. Approve and go Live
+The owner approves the agent. Status moves from Draft, to Awaiting approval, to Live.
+6. Use
+The live agent can be chatted with, placed in a workflow, added to a council, or shared with outside systems.
+4.3 Example: From Prompt to Agent Card
+Item
+Result
+Prompt typed
+“I need an agent that checks supplier invoices against purchase orders and flags quantity or price mismatches. Fatima approves anything flagged.”
+Name and role
+Invoice Checker: compares each invoice with its purchase order and reports mismatches with evidence
+Tools suggested
+Outlook (read attachments), SharePoint (purchase orders), Document reader
+Model suggested
+noah-verify (a checking task), which the user can change
+Rules added
+Never approve or pay an invoice; always show the evidence; hand flagged items to Fatima
+Owner / approver
+Fatima Al Mansoori
+Status
+Draft, ready to test
+4.4 Where Agents Are Used
+Place
+How the agent is used
+Example
+Chat
+One-to-one conversation with rich cards and approval buttons
+Ask the Invoice Checker, “How many invoices were flagged today?”
+Workflow
+A step on the canvas (a brick) with its own tools and model
+Step 2 of the Invoice approval workflow
+Council
+A member of a group that debates a hard case
+Invoice Checker and Contract Review in the Procurement council
+Other agents
+Called as a tool by another agent
+A manager agent asks the Invoice Checker for a result
+External systems
+Exposed through MCP or an OpenAPI endpoint
+A Copilot Studio agent calls the Invoice Checker
+Inside a workflow, an agent brick can keep its saved settings or have them overridden for that one step (for example, a different model). Changes to the saved agent do not silently change live workflows: they create a new agent version that the workflow owner must accept.
+4.5 Agent Builder Requirements
+Day-to-day management of agents (lifecycle, pause, memory, skills) is covered in Section 7.5.
+Create by prompt: describe an agent in plain language (English or Arabic, typed or spoken) and the platform generates a complete draft agent card.
+Clarifying questions: the platform asks when the description is incomplete or risky (for example, no approver named).
+Smart suggestions: the platform proposes tools, a model (including noah-verify and noah-decide), knowledge libraries and starting rules, and the user can change each one.
+Prompt and form together: the user can refine the agent by chatting or by editing its fields, and both always show the same agent.
+Permission-aware: only tools, data and models the user is authorized to use can be given to the agent.
+Test before Live: a built-in chat to test the draft agent with sample data, with no effect on real systems.
+Draft first, approval to go Live: every new agent starts as Draft and needs its owner’s approval.
+Reusable everywhere: a Live agent appears in the sidebar, the workflow palette and the council member list.
+Safe defaults: a new agent cannot write to a system on its own; actions need a person unless an administrator sets a higher autonomy level.
+Templates: ready-made starting points such as Invoice Checker, Leave Requests, Contract Review and Supplier Onboarding.
+Duplicate and adapt: copy an existing agent and change it with a short prompt.
+Agent versions: every change is saved as a version that can be compared and rolled back.
+Quality check: run the agent against a set of example questions and see how often it answers correctly before approving it.
+Create from inside a workflow: if a needed agent does not exist, the workflow builder offers to create it on the spot.
+Import an external agent and wrap it with Beinex rules, approvals and logging.
+Agent suggestions: the platform proposes new agents based on repeated manual tasks it observes.
+5. Feature 2: Workflow Builder (End-to-End Platform Workflow)
+This section shows the journey of a workflow, from an idea in someone’s head to a live, automated process, and then what happens each time it runs.
+5.1 The Platform Lifecycle
+Stage
+What happens
+1. Build
+The user first creates any agents needed in the Agent Builder (Section 4), then describes the process in words (the platform draws the workflow) or drags bricks and agents onto the canvas. Both methods edit the same underlying definition, so the user can switch at any time.
+2. Configure
+For each step the user sets the Description, Tools and Model. The platform may suggest the best-fit model (for example noah-verify for checking tasks).
+3. Test
+“Try with sample data” runs the workflow, or a single step, in a safe mode that does not touch real systems.
+4. Approve
+The workflow is sent to its owner or approver. It cannot go Live without this approval.
+5. Go Live
+The workflow is published and switched on. Its triggers are now active.
+6. Run
+Triggers start the workflow automatically (see Section 6). Agents work, people approve, connectors act.
+7. Monitor
+Run history, step-by-step traces, dashboards, cost and alerts show what happened and why. Everything is written to the audit log.
+8. Improve
+Changes create a new version. The previous version can be restored at any time.
+5.2 What Happens When a Workflow Runs
+The example below follows an invoice through a live workflow. Orange boxes are the points where a person is involved.
+Trigger: a new invoice arrives by email (Outlook connector).
+Verify agent: noah-verify extracts the invoice data and checks it against the purchase order and contract.
+Logic: is the amount above AED 50,000? If not, the workflow continues under the administrator’s limits.
+Council: the Procurement council debates; a combined Council View is produced with sources.
+Human: an approval card goes to the named approver, who chooses Approve, Reject or Approve with conditions.
+Decide agent: noah-decide recommends the posting route and flags risks.
+Action: the finance step writes to the system (only after the human step) and drafts the confirmation email.
+Notify and audit: the requester is told in chat and every step is stored in the audit log.
+In simple words: the same workflow can be created by typing one paragraph, or by dragging eight bricks.
+6. Workflow Automation in the Platform
+Automation is the main purpose of the platform. Once a workflow is Live, nobody needs to press Start. It runs by itself when its trigger fires, and people are involved only where judgment or authority is needed.
+6.1 What the Platform Automates
+Area
+How it is automated
+Starting work
+Triggers start workflows on a schedule, on an event, or on a chat command.
+Doing the work
+Agents read documents, search data, check rules and draft outputs using their tools and models.
+Routing
+Logic steps send each case down the right path (for example by amount, risk or confidence).
+Waiting
+The workflow pauses safely for a human decision or a timer and resumes automatically when the answer arrives.
+Escalating
+Overdue approvals trigger reminders and move to a backup approver.
+Recovering
+Failed steps are retried; if a model or system is unavailable the workflow switches to a fallback or pauses and alerts.
+Recording
+Every run, decision and approval is logged without anyone doing anything.
+Building itself
+A described process is turned into a draft workflow automatically (Section 7.1).
+Improving
+The platform highlights slow steps, frequent failures and costly models, and suggests changes.
+6.2 Three Ways a Workflow Can Run
+Mode
+How it starts
+Example
+Reactive
+Someone asks in chat or uses a command such as /run invoice-approval
+A finance officer asks the Invoice Checker to review today’s invoices
+Scheduled
+A calendar rule (daily, monthly, custom)
+Monthly compliance check at 08:00 on the 1st
+Event-driven (autonomous)
+An event in a connected system
+A new email with an invoice attached, a new file, a webhook from another system
+Chained
+Another workflow, agent or council starts it
+A council decision starts a payment workflow; a workflow calls a council for a hard case
+6.3 The Autonomy Dial: How Much Freedom Does a Workflow Have?
+Because government clients need control, every workflow has an autonomy level that an administrator or owner sets. It can be raised as trust grows.
+Level
+What the workflow may do
+Typical use
+Level 1: Suggest
+Prepares drafts and recommendations only. A person performs every action.
+New workflows, sensitive services
+Level 2: Act after approval
+Performs actions only after a person approves (the default).
+Payments, official letters, record changes
+Level 3: Act within limits
+Acts alone for low-risk cases inside set limits (amount, confidence, data type) and asks a person otherwise.
+Routine, high-volume, low-value tasks
+6.4 Automation Requirements
+Triggers: schedule, email, file, webhook/API, chat command and workflow-to-workflow triggers can all start a workflow.
+Pause and resume: a workflow waiting for a person or a timer keeps its state, even across restarts, and resumes by itself.
+Automatic retries and error paths: each step can retry, and the builder can define what happens if it still fails.
+Human gates by rule: thresholds, low confidence or sensitive data automatically bring in a person.
+Autonomy levels (Section 6.3) set per workflow and enforced by the platform.
+Controls: pause, resume or stop any workflow instantly (kill switch); limits on cost, rate and number of simultaneous runs.
+Automatic logging of every run and decision.
+Reminders, deadlines and escalation for approvals, with delegation during leave.
+Fallback models and systems when the first choice fails or is over budget.
+Run queue and scaling so busy periods do not slow down or lose work.
+Alerts to chat, Teams or email for failures, long waits and budget overruns.
+Improvement suggestions based on run history.
+Maintenance windows and blackout calendars when workflows must not run.
+Event replay to re-process missed events after an outage.
+7. Functional Requirements by Module
+7.1 Building a Workflow by Prompt (“Describe it”)
+In simple words: the user types, “Every month, check all invoices over AED 50,000 against their contracts, ask the Procurement team to review problems, and let Fatima decide what to escalate.” The platform draws the workflow.
+Describe in plain language: type or speak (English or Arabic) a process; the platform generates a draft workflow on the canvas.
+Preview and explanation: the draft is shown with each step explained in plain language before anything is saved or run.
+Clarifying questions: the platform asks when something is unclear (for example, “Who should approve?”).
+Refine by chatting: “Add a step to notify finance” or “Remove the second check” updates the canvas.
+Permission-aware: the draft uses only tools, connectors and models the user is allowed to use.
+Safe by default: a human approval is inserted automatically before any step that writes to an external system.
+Suggestions: the platform proposes improvements, such as running two steps in parallel.
+Missing agents: if the described process needs an agent that does not exist yet, the platform offers to create it with the Agent Builder.
+7.2 Building a Workflow by Drag-and-Drop (“Build it”)
+The same workflow can be built visually. Both methods edit one underlying definition, so users can switch between them freely.
+Brick palette: Triggers, Agents (every Live agent from the Agent Builder), Tools, Logic, Human, Council and Workflow bricks can be dragged onto the canvas.
+Smart snapping: Bricks can connect only in the correct places. A trigger must come first, and the system cannot make any changes until a person approves or takes action. If a connection is not allowed, the platform explains why.
+Visual branching: lines connect nodes and forks such as approve/reject are shown, as in Cohere North’s “User review” step.
+Click to configure: selecting a node opens its settings panel (Section 3.1).
+Canvas basics: pan, zoom, undo/redo, copy/paste and auto-arrange.
+One definition: changes made by prompt or by dragging appear immediately in the other view.
+Side-panel chat: “Say what you want on the right” so prompting and dragging work together.
+Touch support: large targets and pinch-zoom for showcase displays.
+7.3 Workflow Structure and Logic
+Triggers: schedule, new email, new file, API/webhook, chat command, event from another system, another workflow.
+Logic: if/else, switch, loops, parallel branches, wait/timer, retry on error and an error-handling path.
+Defined data flow: each node declares its inputs and outputs, and the user can see “what goes in, what comes out” next to the settings (as in n8n).
+Autonomous or reactive: a workflow can run in the background on events, or only when someone asks in chat.
+Sub-workflows: any workflow can be used as a single step in another.
+Code node: optional JavaScript or Python step for engineers.
+7.4 Configuring Each Step (Description, Tools, Model)
+Description: a plain-language instruction field with example templates.
+Tools picker: shows only the tools the user is authorized to use, grouped as Files, Email, Web, Databases and Custom.
+Model picker: lists noah-verify, noah-decide and any other approved model, each with a one-line description and a “recommended for” label.
+Advanced tab: output format (text, table, JSON), temperature, maximum length, timeout, retries, cost budget and fallback model.
+Test this step: run one node with sample or mock data without running the whole workflow.
+Model recommendation: the platform suggests the best-fit model from the description; the user can override.
+Last input and output are shown on each node for easy debugging.
+7.5 Managing Agents
+In simple words: agents are created in the Agent Builder (Section 4). This module covers how live agents are managed and used day to day.
+Lifecycle: Draft, Awaiting approval, Live, Paused, with who approved and when.
+Owner and scope: each agent has a named human approver and a clear scope (for example, “runs only when asked in chat”).
+Instant pause: administrators can pause any agent with a reason attached.
+One-to-one chat with rich cards (tables, comparisons, approve buttons).
+Knowledge libraries (RAG): document sets an agent can search, with citations back to the source.
+Memory: an agent can keep context between runs, with a viewer and a delete button.
+Skills library: reusable capabilities (such as “Extract invoice data”) shared by many agents.
+7.6 AI Models, Including noah-verify and noah-decide
+In simple words: different jobs suit different brains. A model registry lists every available model, and each step simply picks the right one.
+Working assumption to confirm with the model team: noah-verify checks and validates (documents, data, claims, compliance) and noah-decide recommends or decides (scoring, routing, approve/escalate suggestions).
+Model registry: lists the Noah models plus any approved third-party or client model, with purpose, languages, limits, cost, hosting location, status and version.
+Noah models everywhere: available on every agent node and settable as the platform default.
+Mixed models in one workflow: for example noah-verify to check, a general model to summarize and noah-decide to recommend.
+Confidence and reasoning: every output shows a confidence score and a short reasoning summary where the model supports it; low confidence automatically routes to a human.
+Version pinning: a live workflow keeps its tested model version until an administrator upgrades it.
+Private hosting: models can run inside the client’s own environment.
+Dedicated Noah nodes: a *Verify* node (input: data plus rules; output: pass/fail plus evidence) and a *Decide* node (input: case facts plus policy; output: recommendation, confidence and reasons).
+Fallback: if a model is unavailable or over budget, switch to a backup or pause and alert.
+7.7 Tools and Connectors
+Outlook: triggers (new email, calendar events) and actions (search inbox, draft reply, extract attachments, send email gated by approval).
+Web search: live retrieval, allow-lists of trusted sites (such as government registries and sanctions lists) and automatic citations.
+Documents: read PDF, Word and Excel and extract tables and fields into structured data.
+Data: query databases and data platforms; read and write spreadsheets.
+HTTP/API tool: call any web service when no ready connector exists.
+Custom tool builder: an engineer registers a new tool with an OpenAPI description or MCP server link.
+Credential vault: secrets are stored encrypted; builders never see raw passwords or keys.
+Collaboration: Microsoft Teams, SharePoint and WhatsApp for messages and approvals.
+Catalogue growth: 100+ connectors over time, prioritized by client demand.
+7.8 Human Approvals and Guardrails
+Approval step: pauses the workflow and sends an approval card to the named person (in the platform, Teams or email).
+Decision-ready card: shows what is proposed, why, the evidence and sources and the model’s confidence, with buttons Approve, Reject, Approve with conditions and Ask a question.
+Rules for when a person is needed: amount thresholds, low confidence, sensitive data, or always.
+Guardrails: block or flag restricted topics, personal-data leaks and off-policy actions, defined centrally by administrators.
+Structured outputs: AI steps must return data in a defined format so later steps do not break.
+Spend governance: token and cost budgets and rate limits per user, agent, workflow and department, with alerts at 80%.
+Kill switch: administrators can stop all runs of a workflow or agent immediately.
+Deadlines, reminders, escalation and delegation for approvals.
+7.9 Councils (Multi-Agent Deliberation)
+In simple words: for difficult cases, several specialist agents discuss like a committee. Each cites its sources, they challenge each other, and a combined recommendation goes to a human.
+Create a council by choosing agents and a goal (for example, a Procurement council made of Contract Review, Policy Q&A and Invoice Checker).
+Council View: agents speak in turn, cite their sources and produce one combined view.
+Advisory only: any action that changes data needs a human decision click.
+Two-way link with workflows: a workflow can call a council as a step, and a council can start a workflow.
+Cross-examination: one agent can challenge another’s finding (for example, “this contract has expired”).
+Supervisor and worker pattern: a lead agent splits work among specialists.
+7.10 Interoperability: Working with Client Platforms (e.g. Copilot Studio)
+In simple words: clients should not have to throw away what they already own. Their agents can use ours, and ours can use theirs.
+MCP (Model Context Protocol) is an open standard that lets AI agents use tools and data from other systems in a uniform way. A2A (Agent-to-Agent) is an open standard for agents from different vendors to hand work to each other. OpenAPI is a standard description of a web service so other software can call it.
+Outbound (Beinex as provider): every agent, council and workflow can be exposed as an MCP server and as an OpenAPI/REST endpoint with a downloadable specification.
+Inbound (Beinex as consumer): a client registers an external agent by pasting an OpenAPI specification or MCP link; it appears with an avatar, can be chatted with, added to councils and dragged into workflows.
+Copilot Studio: a Beinex agent can be added to Copilot Studio as a tool or connector, and a Copilot Studio agent can be called from a Beinex workflow.
+Secure calls both ways: webhooks, API keys and OAuth.
+Same governance for external agents: the same approvals, logging and spend limits apply.
+A2A gateway: agents from different vendors can hand work to each other.
+Import/Export of workflows and agents as files, to move between Development, Test and Production and between clients.
+Client side
+Connection
+Beinex side
+Microsoft Copilot Studio
+A2A / MCP
+Beinex agents, councils, workflows
+n8n / Power Automate
+REST (OpenAPI)
+Beinex workflows
+Bedrock or custom agent
+MCP / OpenAPI
+Called by Beinex as a tool
+7.11 Chat and Messaging Interface
+Teams-like sidebar: Chats (my agents and councils), Workflows and Activity.
+Status labels: Live, Awaiting approval, Paused, Draft.
+“Needs you” area: items waiting for the user’s decision.
+Rich cards in chat: tables, comparisons, approval buttons and a “Use it in a workflow” button.
+Voice input (hold to talk) in English and Arabic.
+Slash commands to start workflows from chat.
+Notifications in Teams, email or WhatsApp.
+7.12 Running, Monitoring and Debugging
+Runs tab: status, start and end time, who approved and cost for each run.
+Execution trace: for every step, the prompt sent, the response received, the tools used and what happened next.
+Try with sample data: a safe test mode that does not touch real systems.
+Re-run a single step or replay with the same data.
+Evaluation: measure AI step accuracy against a test set before going live.
+Dashboards: runs per day, success rate, time saved, approvals pending, cost and model usage.
+Real-time alerts on failures, long waits and budget overruns.
+Log streaming to the client’s SIEM (security monitoring) tool.
+7.13 Versioning and Lifecycle
+Versions: every save creates a version that can be compared and rolled back.
+Approval to go Live: a workflow must be approved before it is switched on.
+Sharing: share with people or teams as view, run or edit (“Shared with me”).
+Environments: Development, Test and Production, with promotion between them.
+Git integration for engineers.
+7.14 Administration, Security and Deployment
+Sign-in and roles: single sign-on (SAML/OIDC, Azure AD) and role-based access control (Section 2).
+Immutable audit log of every action: build, change, run, approval and model call.
+Encryption at rest and in transit, with a secrets vault.
+Deployment options: cloud, client private cloud, on-premise and fully air-gapped (no internet connection).
+Data sovereignty: client data and prompts stay in the chosen UAE region and are never used to train external models.
+Admin console: users, models, connectors, budgets, guardrails and global pause.
+7.15 Language and Accessibility
+English and Arabic interface, including right-to-left layout.
+Agents understand and reply in Arabic and English.
+Accessibility: keyboard use, screen readers, high-contrast mode.
+7.16 Showcase / Kiosk Mode (HQ Experience Centre)
+Touch-first mode with large targets (at least 48×48 px), swipe-to-approve and pinch-to-zoom.
+One-touch reset of the demo to a clean state.
+Scenario buttons for client demos, such as “Simulate fraudulent invoice” or “Simulate expired contract”.
+8. Non-Functional Requirements (How Well It Must Work)
+Area
+Requirement
+Performance
+Canvas stays smooth with up to 100 nodes; chat replies start within 3 seconds; prompt-to-draft-workflow in under 30 seconds
+Reliability
+99.9% availability target; workflow state survives restarts (a paused approval is never lost)
+Scalability
+At least 1,000 concurrent workflow runs; long-running workflows (days) supported
+Security
+Zero-trust design, least-privilege access, encrypted storage, penetration test before launch
+Compliance
+Alignment with UAE data-protection and government information-security standards (to be confirmed per client)
+Explainability
+Every AI decision can be explained: inputs, sources, model, version and confidence
+Usability
+A new user completes a first workflow without training; every error message says what to do next
+Maintainability
+Modular parts so a connector or model can be added without changing the core
+Portability
+Runs on standard containers (Docker/Kubernetes) in any environment
+9. Solution Overview (for Technical Readers)
+9.1 High-Level Architecture
+Layer
+Contents
+Interface
+Chat UI, workflow canvas, prompt builder, admin console, kiosk mode
+Builder service
+Prompt-to-workflow translator (LLM), snap-rule validation
+Orchestration
+Workflow engine (state, retries, timers, wait-for-human); agent runtime (tools, memory, RAG, skills); council manager; governance (approvals, guardrails, budgets, audit)
+Model gateway
+noah-verify, noah-decide and other models, with routing, fallback and cost control
+Connectors
+Outlook, web search, documents, databases, HTTP/API, MCP
+Interoperability gateway
+MCP server and client, OpenAPI, A2A, Copilot Studio and n8n links
+Data
+PostgreSQL (workflows, audit), vector store (RAG), secrets vault, job queue
+Suggested technology (to be confirmed by architecture review): a durable workflow engine such as Temporal or LangGraph for orchestration; FastAPI backend; PostgreSQL with pgvector; React/Next.js front end keeping the prototype’s design; containers on Kubernetes.
+9.2 One Definition, Two Ways to Build
+The prompt builder and the drag-and-drop canvas both read and write the same declarative workflow definition (JSON). This is what makes switching between methods possible. Illustrative example:
+{
+  "name": "Monthly compliance check",
+  "version": 1,
+  "trigger": { "type": "schedule", "cron": "0 8 1 * *" },
+  "autonomy": "act_after_approval",
+  "steps": [
+    { "id": "s1", "type": "agent", "name": "Check invoices",
+      "description": "Compare invoices with contracts, list mismatches",
+      "tools": ["sharepoint", "documents"], "model": "noah-verify" },
+    { "id": "s2", "type": "council", "council": "procurement",
+      "description": "Review last month's exceptions", "model": "noah-decide" },
+    { "id": "s3", "type": "human", "assignee": "fatima",
+      "description": "Decide what to escalate" },
+    { "id": "s4", "type": "notify", "channel": "chat", "to": "owner" }
+  ]
+}
+10. What We Borrow from n8n and Cohere North
+Idea
+From
+How it appears in our platform
+Visual canvas plus code when needed
+n8n
+Drag-and-drop canvas with an optional code node (7.2, 7.3)
+See inputs and outputs next to each step
+n8n
+Node panel shows last input and output (7.3, 7.4)
+Re-run a single step, mock data
+n8n
+Test this step, replay, sample data (7.4, 7.12)
+Human approval on AI actions
+n8n
+Approval step and rules (7.8)
+Execution history, audit logs, log streaming
+n8n
+Runs tab, trace, audit log (7.12, 7.14)
+Any model, on-premise or air-gapped
+n8n / North
+Model registry, deployment options (7.6, 7.14)
+500+ integrations, MCP support
+n8n
+Connector catalogue, MCP (7.7, 7.10)
+Git version control, environments
+n8n
+Environments and Git integration (7.13)
+Workflow built from natural language
+North
+Prompt builder (7.1)
+Agents defined by description, tools and model
+North
+Agent Builder (4)
+AI agent nodes; workflows usable as agent tools
+n8n
+Agents in workflows, workflows as tools (4.4)
+Agent card with Description, Tools, Model, Advanced
+North
+Node configuration (3.1, 7.4)
+Vertical flow with approve/disapprove fork
+North
+Canvas layout and branching (7.2)
+Reusable skills and shared libraries
+North
+Skills library, knowledge libraries (7.5)
+Persistent memory
+North
+Agent memory (7.5)
+Guardrails and admin control panel
+North
+Guardrails and admin console (7.8, 7.14)
+Spend governance
+North
+Budgets and rate limits (7.8)
+Agent hierarchies, agent-to-agent standards
+Copilot Studio
+Councils, A2A, supervisor and worker (7.9, 7.10)
+Our differentiators: built-in Noah models; councils with explicit human decision gates; the autonomy dial for controlled automation; two-way interoperability with client platforms; bilingual Arabic/English; designed from day one for UAE government data sovereignty.
+12. Success Measures
+Time to create a first agent from a prompt: under 5 minutes for a new user.
+Time to build a first workflow: under 15 minutes for a new user.
+At least 80% of prompt-generated drafts accepted with minor edits only.
+Human approval response time reduced by 50% versus the current manual process.
+100% of write actions covered by an approval or an explicit administrator exception.
+Zero unlogged AI decisions.
+A Copilot Studio agent integrated at a pilot client within one day of setup.
