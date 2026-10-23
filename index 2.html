@@ -191,7 +191,104 @@ a { color: inherit; text-decoration: none; }
 .rail .spacer { flex: 1; }
 .rail .ctrl-btn { width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--rail-fg); margin-top: 3px; transition: background .15s, color .15s; flex: none; }
 .rail .ctrl-btn:hover { background: var(--rail-on); color: #fff; }
-.rail .me { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #d6d6de, #94a3b8); color: #0a0c10; display: grid; place-items: center; font-weight: 800; font-size: 11px; margin-top: 6px; margin-bottom: 4px; border: 2px solid var(--rail-on); flex: none; }
+.rail .me-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  margin-top: 6px;
+  margin-bottom: 4px;
+  transition: transform .12s;
+}
+.rail .me-btn:hover { transform: scale(1.08); }
+.rail .me {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d6d6de, #94a3b8);
+  color: #0a0c10;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 11px;
+  border: 2px solid var(--rail-on);
+  flex: none;
+  transition: all .15s;
+}
+.rail .me.gold {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #000;
+  border-color: #fbbf24;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.45);
+}
+.rail .me.oh {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  border-color: #f87171;
+}
+.rail .me.df {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff;
+  border-color: #a78bfa;
+}
+.user-badge-pulse {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  background: var(--wait);
+  color: #000;
+  font-size: 9.5px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  padding: 0 3px;
+  box-shadow: 0 0 6px var(--wait);
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* Gatekeeper Top Bar */
+.gatekeeper-bar {
+  flex: none;
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.16), rgba(245, 158, 11, 0.05));
+  border-bottom: 1.5px solid #f59e0b;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  z-index: 5;
+}
+.gatekeeper-bar .gb-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.gatekeeper-bar .gb-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.gatekeeper-bar.oh-bar {
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.16), rgba(239, 68, 68, 0.05));
+  border-bottom-color: #ef4444;
+}
+.gatekeeper-bar.df-bar {
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.16), rgba(139, 92, 246, 0.05));
+  border-bottom-color: #8b5cf6;
+}
 
 /* ---------- Side Pane ---------- */
 .pane {
@@ -752,11 +849,10 @@ const SAFE_RULE = 'Never write to a system on your own. A person approves every 
    REGISTRIES & METADATA (PRD 3, 4.1, 7.6, 7.7)
    ===================================================================== */
 const PEOPLE = {
-  mk: { id: 'mk', name: 'Mariam Khalid', ini: 'MK', role: 'Business Builder · Finance', approver: false, ar: ['مريم'] },
-  fa: { id: 'fa', name: 'Fatima Al Mansoori', ini: 'FA', role: 'Finance Approver · Senior Manager', approver: true, ar: ['فاطمة'] },
-  oh: { id: 'oh', name: 'Omar Haddad', ini: 'OH', role: 'Security & Compliance Lead', approver: true, ar: ['عمر'] },
-  lh: { id: 'lh', name: 'Layla Hassan', ini: 'LH', role: 'HR Operations Manager', approver: true, ar: ['ليلى'] },
-  df: { id: 'df', name: 'Director of Finance', ini: 'DF', role: 'Executive Approver', approver: true, ar: ['المدير'] }
+  mk: { id: 'mk', name: 'Mariam Khalid', ini: 'MK', role: 'Business Builder · Finance Specialist', approver: false, badge: 'Builder', desc: 'Creates agents, designs workflows, simulates scenarios', ar: ['مريم'] },
+  fa: { id: 'fa', name: 'Fatima Al Mansoori', ini: 'FA', role: 'Director of Finance · Authorized Signatory', approver: true, badge: 'Gatekeeper', desc: 'Signs transactions > AED 50,000, approves agents to Live, authorizes ERP writes', ar: ['فاطمة'] },
+  oh: { id: 'oh', name: 'Omar Haddad', ini: 'OH', role: 'Head of Information Security (CISO)', approver: true, badge: 'Security', desc: 'Audits tool access, pauses/resumes scanners, reviews air-gapping', ar: ['عمر'] },
+  df: { id: 'df', name: 'Dr. Faisal Al Nuaimi', ini: 'DF', role: 'Director of Internal Audit', approver: true, badge: 'Audit', desc: 'Verifies state audit seals and regulatory policy adherence', ar: ['المدير'] }
 };
 
 const MODELS = {
@@ -1555,6 +1651,7 @@ function refine(a, text) {
    APPLICATION STATE (CENTRAL REACTIVE CONTROLLER)
    ===================================================================== */
 const S = {
+  user: 'mk', // 'mk' (Mariam) | 'fa' (Fatima) | 'oh' (Omar) | 'df' (Faisal)
   view: 'workflows', // 'chats' | 'agent' | 'workflows' | 'runs' | 'models' | 'activity'
   chat: 'agent:ic',
   chatFilter: '',
@@ -1674,7 +1771,16 @@ function renderRail() {
         ${S.theme === 'dark' ? IC.sun : IC.moon}
       </button>
 
-      <div class="me" title="Mariam Khalid · Business Builder">MK</div>
+      ${(function() {
+        const u = PEOPLE[S.user] || PEOPLE.mk;
+        const pendingFaCount = RUNS.filter(r => r.out === 'waiting').length;
+        return `
+          <button class="me-btn" data-a="open-user-switcher" title="Active Login: ${esc(u.name)} (${esc(u.role)}) · Click to switch persona (Fatima Gate, Omar Security, etc.)">
+            <div class="me ${u.id === 'fa' ? 'gold' : u.id === 'oh' ? 'oh' : u.id === 'df' ? 'df' : ''}">${u.ini}</div>
+            ${u.id === 'fa' && pendingFaCount ? `<span class="user-badge-pulse" title="${pendingFaCount} Pending Approvals">${pendingFaCount}</span>` : ''}
+          </button>
+        `;
+      })()}
     </nav>
   `;
 }
@@ -1742,6 +1848,7 @@ function renderChatsView() {
     </aside>
 
     <main class="main">
+      ${renderGatekeeperBanner()}
       <div class="main-head">
         <div class="who">
           <div class="av lg ${isCouncil ? 'accent' : (currentAgent.status || 'live')}">
@@ -1791,9 +1898,66 @@ function renderChatsView() {
   `;
 }
 
+function renderGatekeeperBanner() {
+  const u = PEOPLE[S.user] || PEOPLE.mk;
+  if (u.id === 'mk') return '';
+
+  if (u.id === 'fa') {
+    const pendingWfRun = RUNS.find(r => r.out === 'waiting');
+    return `
+      <div class="gatekeeper-bar">
+        <div class="gb-left">
+          <span class="pill wait" style="font-weight:800;background:rgba(245,158,11,0.2);border-color:#f59e0b;color:#f59e0b">
+            👑 Fatima Al Mansoori · Director of Finance
+          </span>
+          <span><b>Authorized Human Approval Gatekeeper (PRD 5.2)</b> · You hold cryptographic key authority to approve transactions & promote agents</span>
+        </div>
+        <div class="gb-right">
+          ${pendingWfRun ? `
+            <button class="btn s ok" data-a="open-approval-modal" data-run="${pendingWfRun.n}">Review Run #${pendingWfRun.n} Gate (${esc(pendingWfRun.inv)})</button>
+          ` : ''}
+          <button class="btn s" data-a="switch-user" data-u="mk">Switch Back to Mariam</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (u.id === 'oh') {
+    return `
+      <div class="gatekeeper-bar oh-bar">
+        <div class="gb-left">
+          <span class="pill bad" style="font-weight:800">🛡️ Omar Haddad · CISO Security Authority</span>
+          <span>CISO Security Mode · Auditing tool permissions & container isolation</span>
+        </div>
+        <div class="gb-right">
+          <button class="btn s" data-a="switch-user" data-u="mk">Switch Back to Mariam</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (u.id === 'df') {
+    return `
+      <div class="gatekeeper-bar df-bar">
+        <div class="gb-left">
+          <span class="pill accent" style="font-weight:800">🏛️ Dr. Faisal Al Nuaimi · Internal Audit</span>
+          <span>State Audit Authority cryptographic seal inspector</span>
+        </div>
+        <div class="gb-right">
+          <button class="btn s" data-a="switch-user" data-u="mk">Switch Back to Mariam</button>
+        </div>
+      </div>
+    `;
+  }
+  return '';
+}
+
 function renderChatBubble(m, activeChatKey) {
   if (m.who === 'sys') return `<div class="sysline"><span>${esc(m.text)}</span></div>`;
-  if (m.who === 'you') return `<div class="msg me"><div class="meta">Mariam Khalid · ${m.t || now()}</div><div class="bub">${rich(m.text)}</div></div>`;
+  if (m.who === 'you') {
+    const curU = PEOPLE[S.user] || PEOPLE.mk;
+    return `<div class="msg me"><div class="meta">${esc(curU.name)} · ${m.t || now()}</div><div class="bub">${rich(m.text)}</div></div>`;
+  }
   if (m.html) return `<div class="msg"><div class="body" style="max-width:100%"><div class="meta"><b>Multi-Agent Deliberation Report</b> · ${m.t || now()}</div>${m.html}</div></div>`;
 
   const isCouncilMsg = m.who === 'council';
@@ -1870,6 +2034,7 @@ function renderAgentBuilderView() {
     </aside>
 
     <main class="main">
+      ${renderGatekeeperBanner()}
       <div class="stepper">
         <div class="step done"><div class="n">1</div><div class="l">Describe<small>Natural Language</small></div></div>
         <div class="step done"><div class="n">2</div><div class="l">Draft Card<small>Auto-generated</small></div></div>
@@ -1975,7 +2140,11 @@ function renderAgentBuilderView() {
                 <button class="btn danger" data-a="delete-agent-btn" data-id="${agent.id}">Delete Agent</button>
                 <div style="display:flex;gap:8px">
                   <button class="btn" data-a="save-agent-draft">Save Changes</button>
-                  <button class="btn ok" data-a="submit-agent-approval">Submit to Fatima Al Mansoori</button>
+                  ${S.user === 'fa' ? `
+                    <button class="btn ok" data-a="fatima-approve-agent" data-id="${agent.id}">Approve for Production (Fatima Al Mansoori)</button>
+                  ` : `
+                    <button class="btn ok" data-a="submit-agent-approval">Submit to Fatima Al Mansoori</button>
+                  `}
                 </div>
               </div>
             </div>
@@ -2120,6 +2289,7 @@ function renderWorkflowsView() {
     </aside>
 
     <main class="main">
+      ${renderGatekeeperBanner()}
       <div class="wf-top">
         <div class="row-flex grow">
           <b>${esc(wf.name)}</b>
@@ -2132,7 +2302,15 @@ function renderWorkflowsView() {
           <button class="btn s" data-a="open-edit-wf-modal" data-id="${wf.id}" title="Edit workflow name and trigger">Edit Flow</button>
           <button class="btn s danger" data-a="delete-wf-btn" data-id="${wf.id}" title="Delete this workflow">Delete Flow</button>
           <button class="btn s" data-a="export-audit-btn">Export Audit Pack</button>
-          <button class="btn s p" data-a="submit-wf-approval">Send for Approval</button>
+          ${S.user === 'fa' ? `
+            <button class="btn s ok" data-a="submit-wf-approval">Approve & Sign Off (Fatima)</button>
+          ` : `
+            <button class="btn s p" data-a="submit-wf-approval">Send for Approval</button>
+          `}
+          <button class="btn s" data-a="open-user-switcher" title="Active Persona: ${(PEOPLE[S.user] || PEOPLE.mk).name} · Click to switch persona" style="display:inline-flex;align-items:center;gap:6px">
+            <span class="me ${(PEOPLE[S.user] || PEOPLE.mk).id === 'fa' ? 'gold' : (PEOPLE[S.user] || PEOPLE.mk).id === 'oh' ? 'oh' : (PEOPLE[S.user] || PEOPLE.mk).id === 'df' ? 'df' : ''}" style="width:18px;height:18px;font-size:9.5px;margin:0;border-width:1px">${(PEOPLE[S.user] || PEOPLE.mk).ini}</span>
+            <span>${esc((PEOPLE[S.user] || PEOPLE.mk).name.split(' ')[0])} (${esc((PEOPLE[S.user] || PEOPLE.mk).badge)})</span>
+          </button>
         </div>
       </div>
 
@@ -2295,6 +2473,7 @@ function renderRunsView() {
 
   return `
     <main class="main" style="grid-column: 2 / -1">
+      ${renderGatekeeperBanner()}
       <div class="main-head">
         <div class="who">
           <div class="ttl">Execution Runs & Immutable Audit Log</div>
@@ -2392,7 +2571,10 @@ function renderRunsView() {
               </div>
             </div>
 
-            <div class="row-flex" style="gap:8px;margin-top:auto">
+            <div class="row-flex" style="gap:8px;margin-top:auto;flex-wrap:wrap">
+              ${selectedRun.out === 'waiting' ? `
+                <button class="btn s ok grow" data-a="open-approval-modal" data-run="${selectedRun.n}">Review Human Approval Gate (Fatima)</button>
+              ` : ''}
               <button class="btn s grow" data-a="toast" data-t="Replaying Run #${selectedRun.n} with same sample data...">Replay with same data</button>
             </div>
           </div>
@@ -2720,41 +2902,133 @@ function renderModal() {
     return;
   }
 
-  if (S.modal === 'approval') {
+  if (S.modal === 'user-switcher') {
     root.innerHTML = `
       <div class="overlay">
-        <div class="modal wide">
+        <div class="modal" style="width:min(580px, 100%)">
           <div class="mh">
-            <b>${IC.shield} Fatima Al Mansoori · Human Approval Gate (PRD 5.2)</b>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="av sm accent round">👥</div>
+              <div>
+                <b>Switch Workspace Persona (Multi-Role Testing)</b>
+                <div class="xs muted">Experience the platform from different stakeholder roles (PRD 1.1 & 5.2)</div>
+              </div>
+            </div>
             <button class="ib" data-a="close-modal">${IC.x}</button>
           </div>
-          <div class="mb">
-            <div class="callout wait">
-              <div><b>Golden Rule Activated:</b> System write action halted pending authorized managerial sign-off.</div>
-            </div>
-            <h3>Invoice INV-2291 Review (Al Noor Supplies)</h3>
-            <div class="table">
-              <table>
-                <thead><tr><th>Item</th><th>Invoice Value</th><th>PO-10877 Value</th><th>Variance</th></tr></thead>
-                <tbody>
-                  <tr><td><b>Total Amount</b></td><td style="color:var(--bad);font-weight:700">AED 84,200</td><td>AED 81,500</td><td style="color:var(--bad)">+AED 2,700</td></tr>
-                  <tr><td><b>Quantity</b></td><td style="color:var(--bad);font-weight:700">120 units</td><td>115 units</td><td style="color:var(--bad)">+5 units</td></tr>
-                  <tr><td><b>Supplier</b></td><td>Al Noor Supplies</td><td>Al Noor Supplies</td><td>Match</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="callout accent">
-              <div><b>noah-verify Reasoning:</b> Variance of +5 units detected. Supplier attached email correspondence confirming emergency department request on 14 Oct.</div>
-            </div>
+          <div class="mb" style="gap:12px;padding:18px">
+            ${Object.values(PEOPLE).map(p => {
+              const isActive = S.user === p.id;
+              const pendingFaCount = p.id === 'fa' ? RUNS.filter(r => r.out === 'waiting').length : 0;
+              return `
+                <div class="card ${isActive ? 'sel' : ''}" style="padding:14px;display:flex;gap:12px;align-items:center;border-color:${isActive ? 'var(--accent)' : 'var(--line)'}">
+                  <div class="me ${p.id === 'fa' ? 'gold' : p.id === 'oh' ? 'oh' : p.id === 'df' ? 'df' : ''}" style="width:42px;height:42px;font-size:13px">${p.ini}</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <b style="font-size:13.5px">${esc(p.name)}</b>
+                      <span class="tag ${p.id === 'fa' ? 'accent' : ''}">${p.badge}</span>
+                      ${pendingFaCount ? `<span class="pill wait" style="font-size:10px">${pendingFaCount} Pending Gate Approvals</span>` : ''}
+                    </div>
+                    <div class="xs muted" style="margin-top:2px">${esc(p.role)}</div>
+                    <div class="xs" style="color:var(--subtle);margin-top:4px">${esc(p.desc)}</div>
+                  </div>
+                  <div>
+                    ${isActive ? `
+                      <span class="pill live"><i></i>Active Login</span>
+                    ` : `
+                      <button class="btn s ${p.id === 'fa' ? 'ok' : 'p'}" data-a="switch-user" data-u="${p.id}">
+                        Login as ${p.name.split(' ')[0]}
+                      </button>
+                    `}
+                  </div>
+                </div>
+              `;
+            }).join('')}
           </div>
-          <div class="mf">
-            <button class="btn ok" data-a="decision-approve">Approve & Post to SAP</button>
-            <button class="btn danger" data-a="decision-reject">Reject & Halt</button>
-            <button class="btn" data-a="close-modal">Ask Clarifying Question</button>
+          <div class="mf" style="padding:12px 18px">
+            <button type="button" class="btn" data-a="close-modal">Close</button>
           </div>
         </div>
       </div>
     `;
+    return;
+  }
+
+  if (S.modal === 'approval') {
+    const isFatima = S.user === 'fa';
+    const runNum = (S.modalData && S.modalData.run) ? S.modalData.run : (S.simulating ? 216 : 215);
+    const runData = runNum === 215 ? {
+      inv: 'INV-2293',
+      sup: 'Gulf Office Supplies',
+      amt: 'AED 12,400',
+      poAmt: 'AED 12,000',
+      diff: '+AED 400 (Shipping Surcharge)',
+      note: 'Matches PO-10911 line items, but includes an unauthorized shipping surcharge of AED 400 not listed on the PO.',
+      reasoning: 'Under procurement threshold rules, unapproved surcharges require authorized sign-off from Fatima Al Mansoori before SAP General Ledger posting.'
+    } : {
+      inv: 'INV-2291',
+      sup: 'Al Noor Supplies',
+      amt: 'AED 84,200',
+      poAmt: 'AED 81,500',
+      diff: '+AED 2,700 (+5 units)',
+      note: 'Invoice amount of AED 84,200 exceeds the AED 50,000 human sign-off threshold.',
+      reasoning: 'Variance of +5 units detected. Supplier attached emergency department correspondence on 14 Oct. Staged for Fatima Al Mansoori sign-off.'
+    };
+
+    root.innerHTML = `
+      <div class="overlay">
+        <div class="modal wide">
+          <div class="mh">
+            <div style="display:flex;align-items:center;gap:8px">
+              ${IC.shield}
+              <b>Fatima Al Mansoori · Human Approval Gate (PRD 5.2)</b>
+            </div>
+            <button class="ib" data-a="close-modal">${IC.x}</button>
+          </div>
+          <div class="mb" style="gap:12px">
+            <div class="callout ${isFatima ? 'ok' : 'wait'}">
+              <div>
+                ${isFatima ? `
+                  <b>👑 Logged in as Fatima Al Mansoori:</b> You hold authorized signatory authority (PRD 5.2). Your approval applies a SHA-256 cryptographic seal and executes the ledger posting in SAP S/4HANA.
+                ` : `
+                  <b>Golden Rule Active (PRD 5.2):</b> You are logged in as <b>${PEOPLE[S.user].name}</b>. Zero automated ledger writes occur without authorized signatory sign-off from Fatima Al Mansoori.
+                `}
+              </div>
+            </div>
+
+            <h3>Invoice ${runData.inv} Review (${runData.sup})</h3>
+            <div class="table">
+              <table>
+                <thead><tr><th>Parameter</th><th>Invoice Value</th><th>PO Baseline</th><th>Variance / Flag</th></tr></thead>
+                <tbody>
+                  <tr><td><b>Total Amount</b></td><td style="color:var(--bad);font-weight:700">${runData.amt}</td><td>${runData.poAmt}</td><td style="color:var(--bad)">${runData.diff}</td></tr>
+                  <tr><td><b>Supplier</b></td><td>${runData.sup}</td><td>${runData.sup}</td><td>Match (Registered)</td></tr>
+                  <tr><td><b>Condition</b></td><td colspan="3">${runData.note}</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="callout accent">
+              <div><b>noah-verify Reasoning:</b> ${runData.reasoning}</div>
+            </div>
+          </div>
+
+          <div class="mf" style="padding:12px 18px;justify-content:space-between">
+            ${isFatima ? `
+              <button class="btn danger" data-a="decision-reject" data-run="${runNum}">Reject & Halt Transaction</button>
+              <div style="display:flex;gap:8px">
+                <button class="btn" data-a="close-modal">Request More Info</button>
+                <button class="btn ok" data-a="decision-approve" data-run="${runNum}">Approve & Cryptographically Sign to SAP</button>
+              </div>
+            ` : `
+              <button class="btn" data-a="close-modal">Wait for Fatima's Review</button>
+              <button class="btn ok" data-a="switch-to-fatima-and-open" data-run="${runNum}">Switch to Fatima & Sign Off</button>
+            `}
+          </div>
+        </div>
+      </div>
+    `;
+    return;
   }
 }
 
@@ -2796,6 +3070,50 @@ document.addEventListener('click', e => {
   const a = el.dataset.a;
 
   if (a === 'view') { S.view = el.dataset.v; render(); }
+  else if (a === 'open-user-switcher') {
+    S.modal = 'user-switcher';
+    render();
+  }
+  else if (a === 'switch-user') {
+    const uid = el.dataset.u;
+    if (PEOPLE[uid]) {
+      S.user = uid;
+      S.modal = null;
+      render();
+      toast('Logged in as ' + PEOPLE[uid].name + ' (' + PEOPLE[uid].badge + ')');
+    }
+  }
+  else if (a === 'open-approval-modal') {
+    const runNum = parseInt(el.dataset.run, 10) || 215;
+    S.modal = 'approval';
+    S.modalData = { run: runNum };
+    render();
+  }
+  else if (a === 'switch-to-fatima-and-open') {
+    S.user = 'fa';
+    const runNum = parseInt(el.dataset.run, 10) || 215;
+    S.modal = 'approval';
+    S.modalData = { run: runNum };
+    render();
+    toast('Switched login to Fatima Al Mansoori (Director of Finance)');
+  }
+  else if (a === 'fatima-approve-agent') {
+    const aid = el.dataset.id;
+    const ag = AGENTS[aid];
+    if (ag) {
+      ag.status = 'live';
+      ag.reviewed = true;
+      ag.version = (ag.version || 1) + 1;
+      ag.versions.unshift({
+        v: ag.version,
+        at: 'Today ' + now(),
+        by: 'Fatima Al Mansoori',
+        note: 'Approved for production by Fatima Al Mansoori (Director of Finance)'
+      });
+      render();
+      toast('Agent "' + ag.spec.name + '" approved and promoted to Live by Fatima Al Mansoori!');
+    }
+  }
   else if (a === 'edit-agent-btn') {
     S.view = 'agent';
     S.ab.agentId = el.dataset.id;
@@ -2978,26 +3296,38 @@ document.addEventListener('click', e => {
   else if (a === 'simulate-scenario') { triggerSimulation(); }
   else if (a === 'stop-sim') { S.simulating = false; render(); toast('Simulation stopped'); }
   else if (a === 'decision-approve') {
+    const runNum = parseInt(el.dataset.run, 10) || (S.simulating ? 216 : 215);
     S.modal = null;
-    S.simStep = 5;
-    RUNS.unshift({
-      n: 216,
-      wf: 'inv',
-      inv: 'INV-2291',
-      sup: 'Al Noor Supplies',
-      amt: 84200,
-      trig: 'Simulation Replay',
-      out: 'approved',
-      by: 'Fatima Al Mansoori',
-      when: 'Just now',
-      took: '45 s',
-      cost: 1.4,
-      ver: 3,
-      note: 'Approved by Fatima. Posted to SAP General Ledger (Ref #FP-77109).'
-    });
-    render();
-    toast('Approved by Fatima! Posted to SAP GL (Ref #FP-77109). Signed audit seal recorded.');
-    setTimeout(() => { S.simulating = false; render(); }, 1200);
+    if (runNum === 215) {
+      const r215 = RUNS.find(r => r.n === 215);
+      if (r215) {
+        r215.out = 'approved';
+        r215.by = 'Fatima Al Mansoori';
+        r215.note = 'Approved by Fatima Al Mansoori. Shipping surcharge AED 400 authorized. Cryptographic seal hash: #FP-99042.';
+      }
+      render();
+      toast('Approved by Fatima! Run #215 posted to SAP General Ledger with signed audit seal.');
+    } else {
+      S.simStep = 5;
+      RUNS.unshift({
+        n: 216,
+        wf: 'inv',
+        inv: 'INV-2291',
+        sup: 'Al Noor Supplies',
+        amt: 84200,
+        trig: 'Simulation Replay',
+        out: 'approved',
+        by: 'Fatima Al Mansoori',
+        when: 'Just now',
+        took: '45 s',
+        cost: 1.4,
+        ver: 3,
+        note: 'Approved by Fatima. Posted to SAP General Ledger (Ref #FP-77109).'
+      });
+      render();
+      toast('Approved by Fatima! Posted to SAP GL (Ref #FP-77109). Signed audit seal recorded.');
+      setTimeout(() => { S.simulating = false; render(); }, 1200);
+    }
   }
   else if (a === 'decision-reject') {
     S.modal = null;
@@ -3072,7 +3402,17 @@ document.addEventListener('click', e => {
     toast('Agent submitted to Fatima Al Mansoori for formal review');
   }
   else if (a === 'submit-wf-approval') {
-    toast('Workflow submitted to Fatima Al Mansoori for sign-off');
+    if (S.user === 'fa') {
+      const curWf = WORKFLOWS[S.wf];
+      if (curWf) {
+        curWf.status = 'live';
+        curWf.version = (parseFloat(curWf.version) + 0.1).toFixed(1);
+        render();
+        toast('Workflow "' + curWf.name + '" approved and promoted to Live by Fatima Al Mansoori!');
+      }
+    } else {
+      toast('Workflow submitted to Fatima Al Mansoori for sign-off');
+    }
   }
   else if (a === 'create-blank-agent') {
     const newId = uid('ag');
