@@ -1180,6 +1180,37 @@ const COUNCILS = {
     name: 'Procurement Council',
     goal: 'Advise on suppliers, high-value invoices and contracts',
     members: ['ic', 'cr', 'pq', 'sr'],
+    strategy: 'consensus',
+    approver: 'fa',
+    version: 2,
+    versions: [
+      {
+        v: 2,
+        at: '2 Oct',
+        by: 'Fatima Al Mansoori',
+        note: 'Added Supplier Risk and Contract Review agents with consensus synthesis',
+        config: {
+          name: 'Procurement Council',
+          goal: 'Advise on suppliers, high-value invoices and contracts',
+          members: ['ic', 'cr', 'pq', 'sr'],
+          strategy: 'consensus',
+          approver: 'fa'
+        }
+      },
+      {
+        v: 1,
+        at: '11 Sep',
+        by: 'Fatima Al Mansoori',
+        note: 'First version approved · Initial procurement deliberation council with Invoice Checker and Policy Q&A',
+        config: {
+          name: 'Procurement Council',
+          goal: 'Advise on high-value invoices and compliance',
+          members: ['ic', 'pq'],
+          strategy: 'consensus',
+          approver: 'fa'
+        }
+      }
+    ],
     people: ['fa', 'mk']
   },
   hr: {
@@ -1187,6 +1218,24 @@ const COUNCILS = {
     name: 'HR Questions Council',
     goal: 'Advise on leave and HR policy exceptions',
     members: ['lr', 'pq'],
+    strategy: 'consensus',
+    approver: 'fa',
+    version: 1,
+    versions: [
+      {
+        v: 1,
+        at: '15 Sep',
+        by: 'Fatima Al Mansoori',
+        note: 'First version approved for HR policy & leave exception deliberation',
+        config: {
+          name: 'HR Questions Council',
+          goal: 'Advise on leave and HR policy exceptions',
+          members: ['lr', 'pq'],
+          strategy: 'consensus',
+          approver: 'fa'
+        }
+      }
+    ],
     people: ['mk']
   }
 };
@@ -1197,7 +1246,9 @@ const QC = {
   pq: { pct: 94, passed: 47, total: 50, note: 'Tested against Procurement Policy v4.' },
   sr: { pct: 95, passed: 19, total: 20, note: 'Tested against official UAE trade license register.' },
   lr: { pct: 92, passed: 23, total: 25, note: 'Tested against HR leave policy rules.' },
-  so: { pct: 90, passed: 18, total: 20, note: 'Tested against supplier onboarding checklists.' }
+  so: { pct: 90, passed: 18, total: 20, note: 'Tested against supplier onboarding checklists.' },
+  proc: { pct: 98, passed: 49, total: 50, note: 'Tested against 50 high-value supplier scenarios. Noah-decide achieved consensus in 49/50 test cases.' },
+  hr: { pct: 96, passed: 24, total: 25, note: 'Tested against 25 UAE federal leave exception benchmarks.' }
 };
 
 const CH = {
@@ -1684,10 +1735,13 @@ const S = {
   run: null,
   rf: 'All',
   ab: {
+    entityType: 'agent', // 'agent' | 'council'
     tab: 'card', // 'card' | 'test' | 'quality' | 'versions' | 'use'
     agentId: 'so',
+    councilId: 'proc',
     flash: null
   },
+  councilTab: 'config', // 'config' | 'versions'
   wfSay: [
     { who: 'e', text: 'Ephrem Workflow Copilot ready. Say what you want on the canvas (e.g. "before Finance Posting, ask the Procurement council" or "if Fatima rejects, stop").' }
   ],
@@ -1885,7 +1939,7 @@ function renderChatsView() {
             </div>
             <div class="sub">
               ${isCouncil ? 
-                `Members: ${currentCouncil.members.map(m => (AGENTS[m] && AGENTS[m].spec) ? AGENTS[m].spec.name : m).join(', ')} · Approver: Fatima Al Mansoori · Model: noah-decide` : 
+                `Members: ${currentCouncil.members.map(m => (AGENTS[m] && AGENTS[m].spec) ? AGENTS[m].spec.name : m).join(', ')} · Approver: ${(currentCouncil.approver && PEOPLE[currentCouncil.approver]) ? PEOPLE[currentCouncil.approver].name : 'Fatima Al Mansoori'} · Model: noah-decide` : 
                 `Approver: ${PEOPLE[currentAgent.spec.approver] ? PEOPLE[currentAgent.spec.approver].name : 'Fatima Al Mansoori'} · Model: ${currentAgent.spec.model || 'noah-verify'} · Autonomy: Level ${currentAgent.spec.autonomy || 2}`
               }
             </div>
@@ -1895,6 +1949,8 @@ function renderChatsView() {
           ${isCouncil ? `
             <button class="btn s" data-a="simulate-deliberation" data-id="${currentCouncil.id}">Simulate Deliberation</button>
             <button class="btn s p" data-a="use-council-in-workflow" data-id="${currentCouncil.id}">Use in Workflow</button>
+            <button class="btn s" data-a="open-council-versions" data-id="${currentCouncil.id}" title="Version History & Rollback (PRD 7.13)">Versions (v${currentCouncil.version || 1})</button>
+            <button class="btn s" data-a="open-council-in-studio" data-id="${currentCouncil.id}" title="Edit Council in Studio">Council Studio</button>
             <button class="btn s" data-a="edit-council-modal" data-id="${currentCouncil.id}" title="Edit Council members and strategy">Edit Council</button>
             <button class="btn s danger" data-a="delete-council-btn" data-id="${currentCouncil.id}" title="Delete this Council">Delete</button>
           ` : `
@@ -2026,31 +2082,47 @@ function renderChatBubble(m, activeChatKey) {
    VIEW 2: AGENT BUILDER (PRD SECTION 4: PROMPT-TO-AGENT)
    ===================================================================== */
 function renderAgentBuilderView() {
-  const agent = AGENTS[S.ab.agentId] || AGENTS.so || AGENTS.ic;
-  const spec = agent.spec;
-  const qc = QC[agent.id] || { pct: 94, passed: 47, total: 50, note: 'Default evaluation pass' };
-  const thread = BT[agent.id] || [
+  const isCouncil = S.ab.entityType === 'council';
+  const council = isCouncil ? (COUNCILS[S.ab.councilId] || COUNCILS.proc) : null;
+  const agent = !isCouncil ? (AGENTS[S.ab.agentId] || AGENTS.so || AGENTS.ic) : null;
+  const spec = agent ? agent.spec : null;
+  const qc = isCouncil ? (QC[council.id] || { pct: 98, passed: 49, total: 50, note: 'Tested against 50 high-value supplier scenarios. Noah-decide achieved consensus in 49/50 test cases.' }) : (QC[agent.id] || { pct: 94, passed: 47, total: 50, note: 'Default evaluation pass' });
+  const thread = isCouncil ? (CH['council:' + council.id] || [
+    { who: 'sys', text: `Multi-Agent Council "${council.name}" configuration session started.` },
+    { who: 'council', text: `Council **${council.name}** active. Mandate: ${council.goal}.\n• Member Agents: ${council.members.map(m => (AGENTS[m] && AGENTS[m].spec) ? AGENTS[m].spec.name : m).join(', ')}\n• Deliberation Strategy: ${council.strategy === 'debate' ? 'Debate & Cross-Examination' : council.strategy === 'voting' ? 'Quorum Voting' : 'Consensus & Synthesis (Default)'}\n• Human Gatekeeper: ${PEOPLE[council.approver] ? PEOPLE[council.approver].name : 'Fatima Al Mansoori'}` }
+  ]) : (BT[agent.id] || [
     { who: 'sys', text: 'Agent Builder session started. Say what you want the agent to do.' },
     { who: 'e', text: `I've configured **${spec.name}**. You can refine its role, switch models to **noah-decide**, connect tools, or adjust rules by chatting on the left or editing the card on the right.` }
-  ];
+  ]);
 
   return `
     <aside class="pane">
       <div class="pane-head">
         <h1>
-          <span>Agent Studio</span>
+          <span>Agent & Council Studio</span>
           <button class="btn s p" data-a="create-blank-agent">+ Create</button>
         </h1>
-        <div class="box"><input placeholder="Filter agents..."></div>
+        <div class="box"><input id="studio-search-in" placeholder="Filter agents & councils..." value="${esc(S.studioFilter || '')}" oninput="S.studioFilter=this.value;render()"></div>
       </div>
       <div class="pane-body">
         <div class="grp">Active Agent Drafts</div>
-        ${Object.values(AGENTS).map(a => `
-          <button class="item ${S.ab.agentId === a.id ? 'on' : ''}" data-a="select-builder-agent" data-id="${a.id}">
-            <div class="av sm ${a.status}">${a.spec.ini}<span class="dot ${a.status}"></span></div>
+        ${Object.values(AGENTS).filter(a => !S.studioFilter || (a.spec && a.spec.name.toLowerCase().includes(S.studioFilter.toLowerCase()))).map(a => `
+          <button class="item ${(!isCouncil && S.ab.agentId === a.id) ? 'on' : ''}" data-a="select-builder-agent" data-id="${a.id}">
+            <div class="av sm ${a.status}">${a.spec ? a.spec.ini : 'AG'}<span class="dot ${a.status}"></span></div>
             <div class="t">
-              <div class="n"><b>${esc(a.spec.name)}</b>${pill(a.status)}</div>
-              <div class="s">${esc(a.spec.role)}</div>
+              <div class="n"><b>${esc(a.spec ? a.spec.name : a.id)}</b>${pill(a.status)}</div>
+              <div class="s">${esc(a.spec ? a.spec.role : '')}</div>
+            </div>
+          </button>
+        `).join('')}
+
+        <div class="grp" style="margin-top:16px">Multi-Agent Councils (PRD 7.9)</div>
+        ${Object.values(COUNCILS).filter(c => !S.studioFilter || c.name.toLowerCase().includes(S.studioFilter.toLowerCase())).map(c => `
+          <button class="item ${(isCouncil && council && council.id === c.id) ? 'on' : ''}" data-a="select-builder-council" data-id="${c.id}">
+            <div class="av sm accent round">CC<span class="dot live"></span></div>
+            <div class="t">
+              <div class="n"><b>${esc(c.name)}</b><span class="tag accent">v${c.version || 1}</span></div>
+              <div class="s">${c.members.length} governed agents · ${c.strategy || 'consensus'}</div>
             </div>
           </button>
         `).join('')}
@@ -2060,23 +2132,114 @@ function renderAgentBuilderView() {
     <main class="main">
       ${renderGatekeeperBanner()}
       <div class="stepper">
-        <div class="step done"><div class="n">1</div><div class="l">Describe<small>Natural Language</small></div></div>
-        <div class="step done"><div class="n">2</div><div class="l">Draft Card<small>Auto-generated</small></div></div>
-        <div class="step cur"><div class="n">3</div><div class="l">Review & Edit<small>Chat or Form</small></div></div>
-        <div class="step"><div class="n">4</div><div class="l">Test in Chat<small>Safe Sandbox</small></div></div>
-        <div class="step"><div class="n">5</div><div class="l">Approve<small>Fatima Sign-off</small></div></div>
-        <div class="step"><div class="n">6</div><div class="l">Go Live<small>Canvas & Councils</small></div></div>
+        ${isCouncil ? `
+          <div class="step done"><div class="n">1</div><div class="l">Assemble<small>Select Agents</small></div></div>
+          <div class="step done"><div class="n">2</div><div class="l">Charter<small>Set Mandate</small></div></div>
+          <div class="step cur"><div class="n">3</div><div class="l">Deliberate<small>Strategy & Rules</small></div></div>
+          <div class="step"><div class="n">4</div><div class="l">Simulate<small>Safe Sandbox</small></div></div>
+          <div class="step"><div class="n">5</div><div class="l">Sign-Off<small>Human Gatekeeper</small></div></div>
+          <div class="step"><div class="n">6</div><div class="l">Active<small>Canvas Ready</small></div></div>
+        ` : `
+          <div class="step done"><div class="n">1</div><div class="l">Describe<small>Natural Language</small></div></div>
+          <div class="step done"><div class="n">2</div><div class="l">Draft Card<small>Auto-generated</small></div></div>
+          <div class="step cur"><div class="n">3</div><div class="l">Review & Edit<small>Chat or Form</small></div></div>
+          <div class="step"><div class="n">4</div><div class="l">Test in Chat<small>Safe Sandbox</small></div></div>
+          <div class="step"><div class="n">5</div><div class="l">Approve<small>Fatima Sign-off</small></div></div>
+          <div class="step"><div class="n">6</div><div class="l">Go Live<small>Canvas & Councils</small></div></div>
+        `}
       </div>
 
       <div class="tabs">
-        <button class="${S.ab.tab === 'card' ? 'on' : ''}" data-a="ab-tab" data-t="card">Agent Card</button>
-        <button class="${S.ab.tab === 'test' ? 'on' : ''}" data-a="ab-tab" data-t="test">Test Sandbox <span class="cnt">Safe</span></button>
-        <button class="${S.ab.tab === 'quality' ? 'on' : ''}" data-a="ab-tab" data-t="quality">Quality Check <span class="cnt">${qc.pct}%</span></button>
+        <button class="${S.ab.tab === 'card' ? 'on' : ''}" data-a="ab-tab" data-t="card">${isCouncil ? 'Council Charter' : 'Agent Card'}</button>
+        <button class="${S.ab.tab === 'test' ? 'on' : ''}" data-a="ab-tab" data-t="test">${isCouncil ? 'Deliberation Sandbox' : 'Test Sandbox'} <span class="cnt">Safe</span></button>
+        <button class="${S.ab.tab === 'quality' ? 'on' : ''}" data-a="ab-tab" data-t="quality">${isCouncil ? 'Quorum Check' : 'Quality Check'} <span class="cnt">${qc.pct}%</span></button>
         <button class="${S.ab.tab === 'versions' ? 'on' : ''}" data-a="ab-tab" data-t="versions">Versions & Diffs</button>
-        <button class="${S.ab.tab === 'use' ? 'on' : ''}" data-a="ab-tab" data-t="use">Export (MCP & Copilot)</button>
+        <button class="${S.ab.tab === 'use' ? 'on' : ''}" data-a="ab-tab" data-t="use">${isCouncil ? 'Workflow Integration' : 'Export (MCP & Copilot)'}</button>
       </div>
 
-      ${S.ab.tab === 'card' ? `
+      ${S.ab.tab === 'card' ? (
+        isCouncil ? `
+        <div class="split">
+          <div class="thread-col">
+            <div class="thread">
+              ${thread.map(m => renderChatBubble(m)).join('')}
+            </div>
+            <form class="composer" data-a="send-council-studio-prompt" data-id="${council.id}">
+              <div class="box">
+                <input id="council-prompt-in" placeholder="Refine council charter (e.g. 'use debate strategy', 'add Leave Requests')...">
+                <button type="submit" class="ib p">${IC.send}</button>
+              </div>
+              <div class="hint">Two-way synchronization: natural language modifies council settings live</div>
+            </form>
+          </div>
+
+          <div class="card-col scroll">
+            <div class="in-w">
+              <div class="sec">
+                <h3>
+                  <span>Multi-Agent Council Charter</span>
+                  <span class="tag noah">NOAH-DECIDE</span>
+                </h3>
+                <div class="field">
+                  <label>Council Name</label>
+                  <input class="in" id="c-studio-name" value="${esc(council.name)}" data-cid="${council.id}">
+                </div>
+                <div class="field">
+                  <label>Deliberation Mandate & Goal</label>
+                  <textarea class="ta" id="c-studio-goal" style="height:70px">${esc(council.goal)}</textarea>
+                </div>
+              </div>
+
+              <div class="sec">
+                <h3><span>Member Agents (${council.members.length} Governed Agents)</span></h3>
+                <div class="models" style="grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px;">
+                  ${Object.values(AGENTS).map(a => `
+                    <label class="card" style="padding:10px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;border-color:${council.members.includes(a.id) ? 'var(--accent)' : 'var(--line)'}">
+                      <input type="checkbox" name="c-studio-agents" value="${a.id}" ${council.members.includes(a.id) ? 'checked' : ''} style="margin-top:3px">
+                      <div style="flex:1;min-width:0">
+                        <div style="display:flex;align-items:center;gap:6px">
+                          <div class="av xs ${a.status}">${a.spec ? a.spec.ini : 'AG'}</div>
+                          <b style="font-size:12px">${esc(a.spec ? a.spec.name : a.id)}</b>
+                        </div>
+                        <div class="xs muted" style="margin-top:2px">${esc(a.spec ? a.spec.model : 'noah-verify')}</div>
+                      </div>
+                    </label>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="sec">
+                <h3><span>Deliberation Strategy & Governance</span></h3>
+                <div class="grid2">
+                  <div class="field">
+                    <label>Deliberation Strategy</label>
+                    <select id="c-studio-strat" class="select" style="width:100%">
+                      <option value="consensus" ${council.strategy === 'consensus' ? 'selected' : ''}>Consensus & Synthesis (Default · noah-decide)</option>
+                      <option value="debate" ${council.strategy === 'debate' ? 'selected' : ''}>Debate & Cross-Examination</option>
+                      <option value="voting" ${council.strategy === 'voting' ? 'selected' : ''}>Quorum Voting (3/4 Majority)</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Human Gatekeeper</label>
+                    <select id="c-studio-appr" class="select" style="width:100%">
+                      <option value="fa" ${council.approver === 'fa' ? 'selected' : ''}>Fatima Al Mansoori (Director of Finance)</option>
+                      <option value="oh" ${council.approver === 'oh' ? 'selected' : ''}>Omar Haddad (Head of Security)</option>
+                      <option value="df" ${council.approver === 'df' ? 'selected' : ''}>Director of Internal Audit</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-flex" style="justify-content:space-between;align-items:center;gap:10px;padding-bottom:20px">
+                <button class="btn danger" data-a="delete-council-btn" data-id="${council.id}">Delete Council</button>
+                <div style="display:flex;gap:8px">
+                  <button class="btn ok" data-a="save-council-studio" data-id="${council.id}">Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        ` : `
         <div class="split">
           <div class="thread-col">
             <div class="thread">
@@ -2174,7 +2337,37 @@ function renderAgentBuilderView() {
             </div>
           </div>
         </div>
-      ` : S.ab.tab === 'test' ? `
+        `
+      ) : S.ab.tab === 'test' ? (
+        isCouncil ? `
+        <div class="card-col scroll">
+          <div class="in-w">
+            <div class="callout wait">
+              <div><b>Safe Deliberation Sandbox:</b> Test inter-agent debate and consensus synthesis without modifying real SAP ledger or invoices.</div>
+            </div>
+            <div class="card" style="padding:16px">
+              <h3>Simulate Multi-Agent Deliberation</h3>
+              <div class="thread scroll" style="max-height:280px;margin:12px 0">
+                <div class="msg me"><div class="bub">Deliberate on Desert Logistics INV-2288 (AED 61,900) with 60-day overdue trade license.</div></div>
+                <div class="msg">
+                  <div class="av sm accent round">CC</div>
+                  <div class="bub">
+                    <b>Council Consensus (noah-decide):</b><br>
+                    • <b>Invoice Checker:</b> Line items matched PO-10911, but unit price variance +AED 4,200.<br>
+                    • <b>Contract Review:</b> Contract standard clause 14 requires active trade license at invoice presentation.<br>
+                    • <b>Supplier Risk:</b> Trade license renewal pending in Dubai Economy Dept.<br>
+                    • <b>Synthesis:</b> Block automated SAP ledger posting. Escalated to Fatima Al Mansoori with recommended conditional approval.
+                  </div>
+                </div>
+              </div>
+              <div class="box">
+                <input placeholder="Pose test scenario to council...">
+                <button class="btn s p" data-a="toast" data-t="Council simulated consensus reached with 98.4% quorum agreement">Deliberate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        ` : `
         <div class="card-col scroll">
           <div class="in-w">
             <div class="callout wait">
@@ -2198,7 +2391,26 @@ function renderAgentBuilderView() {
             </div>
           </div>
         </div>
-      ` : S.ab.tab === 'quality' ? `
+        `
+      ) : S.ab.tab === 'quality' ? (
+        isCouncil ? `
+        <div class="card-col scroll">
+          <div class="in-w">
+            <div class="sec">
+              <h3><span>Council Quorum & Deliberation Benchmark (PRD 4.5 & 7.12)</span></h3>
+              <div class="stat">
+                <div><small>Consensus Accuracy</small><b style="color:var(--ok)">${qc.pct}%</b></div>
+                <div><small>Scenarios Resolved</small><b>${qc.passed} / ${qc.total}</b></div>
+                <div><small>Synthesis Model</small><b>noah-decide</b></div>
+              </div>
+              <div class="callout ok">
+                <div>${qc.note}</div>
+              </div>
+              <button class="btn s" data-a="toast" data-t="Re-running 50 multi-agent council deliberation vectors...">Re-run Council Benchmark</button>
+            </div>
+          </div>
+        </div>
+        ` : `
         <div class="card-col scroll">
           <div class="in-w">
             <div class="sec">
@@ -2215,24 +2427,61 @@ function renderAgentBuilderView() {
             </div>
           </div>
         </div>
-      ` : S.ab.tab === 'versions' ? `
+        `
+      ) : S.ab.tab === 'versions' ? `
         <div class="card-col scroll">
           <div class="in-w">
             <div class="sec">
               <h3><span>Version History & Rollback (PRD 7.13)</span></h3>
-              ${agent.versions.map(v => `
-                <div class="card" style="padding:14px;display:flex;justify-content:space-between;align-items:center">
+              ${(isCouncil ? (council.versions || []) : agent.versions).map(v => `
+                <div class="card" style="padding:14px;display:flex;justify-content:space-between;align-items:center;border-color:${v.v === (isCouncil ? (council.version || 1) : agent.version) ? 'var(--accent)' : 'var(--line)'}">
                   <div>
-                    <b>Version ${v.v}</b> · Approved by ${v.by} (${v.at})
-                    <div class="sm muted">${v.note}</div>
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <b>Version ${v.v} · Approved by ${esc(v.by)} (${v.at})</b>
+                      ${v.v === (isCouncil ? (council.version || 1) : agent.version) ? '<span class="pill ok xs">Active</span>' : ''}
+                    </div>
+                    <div class="sm muted" style="margin-top:2px">${esc(v.note)}</div>
+                    ${isCouncil && v.config ? `
+                      <div class="xs subtle" style="margin-top:4px">
+                        • <b>Member Agents (${v.config.members.length}):</b> ${v.config.members.map(m => (AGENTS[m] && AGENTS[m].spec) ? AGENTS[m].spec.name : m).join(', ')}<br>
+                        • <b>Deliberation:</b> ${v.config.strategy === 'debate' ? 'Debate & Cross-Examination' : v.config.strategy === 'voting' ? 'Quorum Voting' : 'Consensus & Synthesis (Default)'} · <b>Approver:</b> ${PEOPLE[v.config.approver] ? PEOPLE[v.config.approver].name : 'Fatima Al Mansoori'}
+                      </div>
+                    ` : ''}
                   </div>
-                  <button class="btn s" data-a="toast" data-t="Rolled back to Version ${v.v}">Restore</button>
+                  <button class="btn s ${v.v === (isCouncil ? (council.version || 1) : agent.version) ? '' : 'ok'}" data-a="${isCouncil ? 'restore-council-version' : 'restore-agent-version'}" data-cid="${isCouncil ? council.id : ''}" data-aid="${!isCouncil ? agent.id : ''}" data-v="${v.v}">
+                    ${v.v === (isCouncil ? (council.version || 1) : agent.version) ? 'Active' : 'Restore'}
+                  </button>
                 </div>
               `).join('')}
             </div>
           </div>
         </div>
-      ` : `
+      ` : (
+        isCouncil ? `
+        <div class="card-col scroll">
+          <div class="in-w">
+            <div class="sec">
+              <h3><span>Council Interoperability & Workflow Usage (PRD 7.9 & 7.10)</span></h3>
+              <div class="callout accent">
+                <div><b>Multi-Agent Orchestration:</b> This council functions as a compound decision node in the Workflow Canvas or via MCP.</div>
+              </div>
+              <label class="lbl">Council MCP Manifest</label>
+              <textarea class="ta mono" readonly style="height:120px">{
+  "council": "${council.name}",
+  "version": "${council.version || 1}.0",
+  "members": [${council.members.map(m => `"${m}"`).join(', ')}],
+  "deliberationStrategy": "${council.strategy || 'consensus'}",
+  "humanGate": true,
+  "approver": "${PEOPLE[council.approver] ? PEOPLE[council.approver].name : 'Fatima Al Mansoori'}"
+}</textarea>
+              <div class="row-flex" style="gap:8px">
+                <button class="btn s" data-a="use-council-in-workflow" data-id="${council.id}">Insert into Active Workflow</button>
+                <button class="btn s" data-a="toast" data-t="Copied Council MCP Manifest to clipboard">Copy Council JSON</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        ` : `
         <div class="card-col scroll">
           <div class="in-w">
             <div class="sec">
@@ -2256,7 +2505,8 @@ function renderAgentBuilderView() {
             </div>
           </div>
         </div>
-      `}
+        `
+      )}
     </main>
   `;
 }
@@ -2766,6 +3016,7 @@ function renderModal() {
   if (S.modal === 'edit-council') {
     const cid = S.modalData;
     const c = COUNCILS[cid] || COUNCILS.proc;
+    const curTab = S.councilTab || 'config';
     root.innerHTML = `
       <div class="overlay">
         <div class="modal wide">
@@ -2774,63 +3025,101 @@ function renderModal() {
               <div class="av sm accent round">CC</div>
               <div>
                 <b>Edit Multi-Agent Council · ${esc(c.name)}</b>
-                <div class="xs muted">Update council name, mandate, member agents, or deliberation strategy</div>
+                <div class="xs muted">Update council name, mandate, member agents, or review version history</div>
               </div>
             </div>
             <button class="ib" data-a="close-modal">${IC.x}</button>
           </div>
-          <form class="mb" data-a="submit-edit-council" data-id="${c.id}" style="gap:14px">
-            <div>
-              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Council Name *</label>
-              <input id="nc-name" class="input" style="width:100%" value="${esc(c.name)}" required>
-            </div>
-            <div>
-              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Mandate / Deliberation Goal *</label>
-              <input id="nc-goal" class="input" style="width:100%" value="${esc(c.goal)}" required>
-            </div>
-            <div>
-              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:6px">Member Agents (Choose 2 or more governed agents) *</label>
-              <div class="models" style="grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; max-height: 200px; overflow-y: auto; padding: 4px;">
-                ${Object.values(AGENTS).map(a => `
-                  <label class="card" style="padding:10px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;border-color:var(--line)">
-                    <input type="checkbox" name="council-agents" value="${a.id}" ${c.members.includes(a.id) ? 'checked' : ''} style="margin-top:3px">
-                    <div style="flex:1;min-width:0">
-                      <div style="display:flex;align-items:center;gap:6px">
-                        <div class="av xs ${a.status}">${a.spec ? a.spec.ini : 'AG'}</div>
-                        <b style="font-size:12px">${esc(a.spec ? a.spec.name : a.id)}</b>
+          <div class="tabs" style="padding:0 18px;background:var(--subtle);border-bottom:1px solid var(--line);margin-bottom:14px">
+            <button type="button" class="${curTab === 'config' ? 'on' : ''}" data-a="switch-council-tab" data-t="config">Council Settings</button>
+            <button type="button" class="${curTab === 'versions' ? 'on' : ''}" data-a="switch-council-tab" data-t="versions">
+              Version History & Rollback (PRD 7.13) <span class="cnt">${(c.versions || []).length}</span>
+            </button>
+          </div>
+          ${curTab === 'versions' ? `
+            <div class="mb" style="gap:12px;padding:4px 18px 18px">
+              <div class="callout accent" style="margin-bottom:6px">
+                <div><b>Version History & Governance (PRD 7.13):</b> Every change to council members, mandates, or deliberation strategies creates an immutable version approved by human gatekeepers. Roll back anytime to a previously approved state.</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;max-height:360px;overflow-y:auto;padding-right:4px">
+                ${(c.versions || []).map(v => `
+                  <div class="card" style="padding:14px;display:flex;justify-content:space-between;align-items:center;border-color:${v.v === (c.version || 1) ? 'var(--accent)' : 'var(--line)'}">
+                    <div>
+                      <div style="display:flex;align-items:center;gap:8px">
+                        <b>Version ${v.v} · Approved by ${esc(v.by)} (${v.at})</b>
+                        ${v.v === (c.version || 1) ? '<span class="pill ok xs">Active</span>' : ''}
                       </div>
-                      <div class="xs muted" style="margin-top:2px">${esc(a.spec ? a.spec.model : 'noah-verify')}</div>
+                      <div class="sm muted" style="margin-top:2px">${esc(v.note)}</div>
+                      <div class="xs subtle" style="margin-top:4px">
+                        • <b>Member Agents (${v.config.members.length}):</b> ${v.config.members.map(m => (AGENTS[m] && AGENTS[m].spec) ? AGENTS[m].spec.name : m).join(', ')}<br>
+                        • <b>Strategy:</b> ${v.config.strategy === 'debate' ? 'Debate & Cross-Examination' : v.config.strategy === 'voting' ? 'Quorum Voting' : 'Consensus & Synthesis (Default)'} · <b>Gatekeeper:</b> ${PEOPLE[v.config.approver] ? PEOPLE[v.config.approver].name : 'Fatima Al Mansoori'}
+                      </div>
                     </div>
-                  </label>
+                    <button type="button" class="btn s ${v.v === (c.version || 1) ? '' : 'ok'}" data-a="restore-council-version" data-cid="${c.id}" data-v="${v.v}">
+                      ${v.v === (c.version || 1) ? 'Active' : 'Restore'}
+                    </button>
+                  </div>
                 `).join('')}
               </div>
+              <div class="mf" style="margin:10px -18px -18px;border-top:1px solid var(--line);padding:12px 18px;justify-content:space-between">
+                <button type="button" class="btn" data-a="switch-council-tab" data-t="config">← Back to Settings</button>
+                <button type="button" class="btn" data-a="close-modal">Close</button>
+              </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          ` : `
+            <form class="mb" data-a="submit-edit-council" data-id="${c.id}" style="gap:14px;padding:4px 18px 18px">
               <div>
-                <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Deliberation & Synthesis Strategy</label>
-                <select id="nc-strat" class="select" style="width:100%">
-                  <option value="consensus" ${c.strategy === 'consensus' ? 'selected' : ''}>Consensus & Synthesis (Default · noah-decide)</option>
-                  <option value="debate" ${c.strategy === 'debate' ? 'selected' : ''}>Debate & Cross-Examination (Cross-check discrepancies)</option>
-                  <option value="voting" ${c.strategy === 'voting' ? 'selected' : ''}>Quorum Voting (3/4 Majority required)</option>
-                </select>
+                <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Council Name *</label>
+                <input id="nc-name" class="input" style="width:100%" value="${esc(c.name)}" required>
               </div>
               <div>
-                <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Human Approver / Gatekeeper</label>
-                <select id="nc-appr" class="select" style="width:100%">
-                  <option value="fa" ${c.approver === 'fa' ? 'selected' : ''}>Fatima Al Mansoori (Director of Finance)</option>
-                  <option value="oh" ${c.approver === 'oh' ? 'selected' : ''}>Omar Haddad (Head of Security)</option>
-                  <option value="df" ${c.approver === 'df' ? 'selected' : ''}>Director of Internal Audit</option>
-                </select>
+                <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Mandate / Deliberation Goal *</label>
+                <input id="nc-goal" class="input" style="width:100%" value="${esc(c.goal)}" required>
               </div>
-            </div>
-            <div class="mf" style="margin:-6px -18px -18px;border-top:1px solid var(--line);padding:12px 18px;justify-content:space-between">
-              <button type="button" class="btn danger" data-a="delete-council-btn" data-id="${c.id}">Delete Council</button>
-              <div style="display:flex;gap:8px">
-                <button type="button" class="btn" data-a="close-modal">Cancel</button>
-                <button type="submit" class="btn ok">Save Changes</button>
+              <div>
+                <label style="display:block;font-size:12px;font-weight:700;margin-bottom:6px">Member Agents (Choose 2 or more governed agents) *</label>
+                <div class="models" style="grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; max-height: 200px; overflow-y: auto; padding: 4px;">
+                  ${Object.values(AGENTS).map(a => `
+                    <label class="card" style="padding:10px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;border-color:var(--line)">
+                      <input type="checkbox" name="council-agents" value="${a.id}" ${c.members.includes(a.id) ? 'checked' : ''} style="margin-top:3px">
+                      <div style="flex:1;min-width:0">
+                        <div style="display:flex;align-items:center;gap:6px">
+                          <div class="av xs ${a.status}">${a.spec ? a.spec.ini : 'AG'}</div>
+                          <b style="font-size:12px">${esc(a.spec ? a.spec.name : a.id)}</b>
+                        </div>
+                        <div class="xs muted" style="margin-top:2px">${esc(a.spec ? a.spec.model : 'noah-verify')}</div>
+                      </div>
+                    </label>
+                  `).join('')}
+                </div>
               </div>
-            </div>
-          </form>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div>
+                  <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Deliberation & Synthesis Strategy</label>
+                  <select id="nc-strat" class="select" style="width:100%">
+                    <option value="consensus" ${c.strategy === 'consensus' ? 'selected' : ''}>Consensus & Synthesis (Default · noah-decide)</option>
+                    <option value="debate" ${c.strategy === 'debate' ? 'selected' : ''}>Debate & Cross-Examination (Cross-check discrepancies)</option>
+                    <option value="voting" ${c.strategy === 'voting' ? 'selected' : ''}>Quorum Voting (3/4 Majority required)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Human Approver / Gatekeeper</label>
+                  <select id="nc-appr" class="select" style="width:100%">
+                    <option value="fa" ${c.approver === 'fa' ? 'selected' : ''}>Fatima Al Mansoori (Director of Finance)</option>
+                    <option value="oh" ${c.approver === 'oh' ? 'selected' : ''}>Omar Haddad (Head of Security)</option>
+                    <option value="df" ${c.approver === 'df' ? 'selected' : ''}>Director of Internal Audit</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mf" style="margin:-6px -18px -18px;border-top:1px solid var(--line);padding:12px 18px;justify-content:space-between">
+                <button type="button" class="btn danger" data-a="delete-council-btn" data-id="${c.id}">Delete Council</button>
+                <div style="display:flex;gap:8px">
+                  <button type="button" class="btn" data-a="close-modal">Cancel</button>
+                  <button type="submit" class="btn ok">Save Changes</button>
+                </div>
+              </div>
+            </form>
+          `}
         </div>
       </div>
     `;
@@ -3155,7 +3444,106 @@ document.addEventListener('click', e => {
   else if (a === 'edit-council-modal') {
     S.modal = 'edit-council';
     S.modalData = el.dataset.id;
+    S.councilTab = 'config';
     render();
+  }
+  else if (a === 'open-council-versions') {
+    S.modal = 'edit-council';
+    S.modalData = el.dataset.id;
+    S.councilTab = 'versions';
+    render();
+  }
+  else if (a === 'open-council-in-studio') {
+    S.view = 'agent';
+    S.ab.entityType = 'council';
+    S.ab.councilId = el.dataset.id;
+    render();
+    toast('Opened Council in Studio');
+  }
+  else if (a === 'switch-council-tab') {
+    S.councilTab = el.dataset.t;
+    render();
+  }
+  else if (a === 'restore-council-version') {
+    const cid = el.dataset.cid;
+    const vNum = parseInt(el.dataset.v, 10);
+    const c = COUNCILS[cid];
+    if (!c || !c.versions) return;
+    const ver = c.versions.find(x => x.v === vNum);
+    if (!ver || !ver.config) return;
+
+    c.name = ver.config.name;
+    c.goal = ver.config.goal;
+    c.members = [...ver.config.members];
+    c.strategy = ver.config.strategy || 'consensus';
+    c.approver = ver.config.approver || 'fa';
+    c.version = ver.v;
+
+    render();
+    toast(`Rolled back council "${c.name}" to Version ${ver.v}!`);
+  }
+  else if (a === 'restore-agent-version') {
+    const aid = el.dataset.aid;
+    const vNum = parseInt(el.dataset.v, 10);
+    const ag = AGENTS[aid];
+    if (!ag || !ag.versions) return;
+    const ver = ag.versions.find(x => x.v === vNum);
+    if (!ver) return;
+    if (ver.spec) ag.spec = clone(ver.spec);
+    ag.version = ver.v;
+
+    render();
+    toast(`Rolled back agent "${ag.spec.name}" to Version ${ver.v}!`);
+  }
+  else if (a === 'save-council-studio') {
+    const cid = el.dataset.id;
+    const c = COUNCILS[cid];
+    if (!c) return;
+    const nameIn = $('#c-studio-name');
+    const goalIn = $('#c-studio-goal');
+    const stratIn = $('#c-studio-strat');
+    const apprIn = $('#c-studio-appr');
+    const checked = $$('input[name="c-studio-agents"]:checked').map(cb => cb.value);
+
+    if (checked.length < 2) {
+      alert('Please select at least 2 member agents for the Council.');
+      return;
+    }
+
+    const newName = nameIn ? nameIn.value.trim() : c.name;
+    const newGoal = goalIn ? goalIn.value.trim() : c.goal;
+    const newStrat = stratIn ? stratIn.value : c.strategy;
+    const newAppr = apprIn ? apprIn.value : c.approver;
+
+    const changed = newName !== c.name || newGoal !== c.goal || newStrat !== c.strategy || newAppr !== c.approver || checked.join(',') !== c.members.join(',');
+
+    c.name = newName;
+    c.goal = newGoal;
+    c.strategy = newStrat;
+    c.approver = newAppr;
+    c.members = checked;
+
+    if (!c.versions) c.versions = [];
+    if (changed) {
+      const nextV = (c.version || 1) + 1;
+      c.version = nextV;
+      c.versions.unshift({
+        v: nextV,
+        at: today(),
+        by: PEOPLE[c.approver] ? PEOPLE[c.approver].name : 'Fatima Al Mansoori',
+        note: `Updated mandate, agents (${checked.length} members), or strategy in Council Studio`,
+        config: {
+          name: c.name,
+          goal: c.goal,
+          members: [...c.members],
+          strategy: c.strategy,
+          approver: c.approver
+        }
+      });
+    }
+
+    render();
+    toast(`Saved changes to council "${c.name}" (Version ${c.version || 1})`);
   }
   else if (a === 'delete-council-btn') {
     const cid = el.dataset.id;
@@ -3300,7 +3688,8 @@ document.addEventListener('click', e => {
     toast('Loaded template: ' + (nameIn ? nameIn.value : ''));
   }
   else if (a === 'open-chat') { S.chat = el.dataset.id; render(); }
-  else if (a === 'select-builder-agent') { S.ab.agentId = el.dataset.id; render(); }
+  else if (a === 'select-builder-agent') { S.ab.entityType = 'agent'; S.ab.agentId = el.dataset.id; render(); }
+  else if (a === 'select-builder-council') { S.ab.entityType = 'council'; S.ab.councilId = el.dataset.id; render(); }
   else if (a === 'select-wf') { S.wf = el.dataset.id; render(); }
   else if (a === 'select-canvas-node') { S.wfSelNode = el.dataset.id; render(); }
   else if (a === 'node-tab') { S.wfNodeTab = el.dataset.t; render(); }
@@ -3508,6 +3897,22 @@ document.addEventListener('submit', e => {
       strategy,
       model: 'noah-decide',
       approver,
+      version: 1,
+      versions: [
+        {
+          v: 1,
+          at: today(),
+          by: PEOPLE[approver] ? PEOPLE[approver].name : 'Fatima Al Mansoori',
+          note: 'Initial council assembly and mandate approved',
+          config: {
+            name,
+            goal,
+            members: [...checked],
+            strategy,
+            approver
+          }
+        }
+      ],
       people: ['fa', 'mk']
     };
 
@@ -3538,22 +3943,66 @@ document.addEventListener('submit', e => {
     const goalIn = $('#nc-goal');
     const stratIn = $('#nc-strat');
     const apprIn = $('#nc-appr');
-    const checked = $('input[name="council-agents"]:checked').map(cb => cb.value);
+    const checked = $$('input[name="council-agents"]:checked').map(cb => cb.value);
 
     if (checked.length < 2) {
       alert('Please select at least 2 member agents for the Council.');
       return;
     }
 
-    c.name = nameIn ? nameIn.value.trim() : c.name;
-    c.goal = goalIn ? goalIn.value.trim() : c.goal;
-    c.strategy = stratIn ? stratIn.value : c.strategy;
-    c.approver = apprIn ? apprIn.value : c.approver;
+    const newName = nameIn ? nameIn.value.trim() : c.name;
+    const newGoal = goalIn ? goalIn.value.trim() : c.goal;
+    const newStrat = stratIn ? stratIn.value : c.strategy;
+    const newAppr = apprIn ? apprIn.value : c.approver;
+
+    const changed = newName !== c.name || newGoal !== c.goal || newStrat !== c.strategy || newAppr !== c.approver || checked.join(',') !== c.members.join(',');
+
+    c.name = newName;
+    c.goal = newGoal;
+    c.strategy = newStrat;
+    c.approver = newAppr;
     c.members = checked;
+
+    if (!c.versions) c.versions = [];
+    if (changed) {
+      const nextV = (c.version || 1) + 1;
+      c.version = nextV;
+      c.versions.unshift({
+        v: nextV,
+        at: today(),
+        by: PEOPLE[c.approver] ? PEOPLE[c.approver].name : 'Fatima Al Mansoori',
+        note: `Updated mandate, member agents (${checked.length} agents), or deliberation strategy`,
+        config: {
+          name: c.name,
+          goal: c.goal,
+          members: [...c.members],
+          strategy: c.strategy,
+          approver: c.approver
+        }
+      });
+    }
 
     S.modal = null;
     render();
-    toast('Saved changes to council "' + c.name + '"');
+    toast(`Saved changes to council "${c.name}" (Version ${c.version || 1})`);
+  }
+  else if (a === 'send-council-studio-prompt') {
+    const inp = $('#council-prompt-in');
+    const val = inp ? inp.value.trim() : '';
+    if (!val) return;
+    inp.value = '';
+    const cid = form.dataset.id;
+    const c = COUNCILS[cid];
+    if (!c) return;
+    const thread = getThread('council:' + c.id);
+    thread.push({ who: 'you', text: val, t: now() });
+    render();
+
+    setTimeout(() => {
+      const resp = generateCouncilDeliberation(c, val);
+      thread.push({ who: 'council', t: now(), html: resp });
+      render();
+    }, 600);
   }
   else if (a === 'submit-wf-form') {
     const isEdit = form.dataset.edit === 'true';
