@@ -773,6 +773,10 @@ a { color: inherit; text-decoration: none; }
 .banner-sim { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--line2); border-radius: 999px; padding: 7px 16px; display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 12.5px; box-shadow: var(--shadow); z-index: 10; max-width: calc(100% - 24px); }
 .zoom { position: absolute; bottom: 16px; inset-inline-end: 16px; display: flex; gap: 5px; z-index: 10; }
 .zoom .btn { min-width: 36px; min-height: 30px; }
+.clickable-dial { cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 11px; font-size: 11px; font-weight: 600; transition: all .12s ease; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); user-select: none; }
+.clickable-dial:hover { background: var(--accent); color: #06141d; box-shadow: 0 0 12px var(--accent-soft); transform: translateY(-1px); }
+.clickable-dial b { font-weight: 700; }
+.clickable-dial .dial-desc { font-weight: 500; opacity: .88; font-size: 10.5px; }
 
 /* ---------- Runs & Model Registry ---------- */
 .stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
@@ -2001,10 +2005,6 @@ function renderRail() {
 
       <div class="spacer"></div>
 
-      <button class="ctrl-btn" data-a="autonomy-toggle" title="Autonomy Dial: Level ${S.autonomy} (PRD 6.3)">
-        ${IC.dial}
-      </button>
-
       <button class="ctrl-btn" data-a="kiosk-toggle" title="Kiosk Showcase Mode (PRD 7.16)">
         ${IC.kiosk}
       </button>
@@ -2742,7 +2742,11 @@ function renderWorkflowsView() {
           <span class="wf-title">${esc(wf.name)}</span>
           <span class="tag">v${wf.version}</span>
           ${pill(wf.status)}
-          <span class="pill accent" title="Autonomous routing confidence threshold"><i></i>Autonomy Dial: Level ${S.autonomy}</span>
+          <button type="button" class="clickable-dial" data-a="toggle-wf-autonomy" data-id="${wf.id}" title="Autonomy Dial (PRD 6.3) · Click to cycle level: Level 1 (Suggest) → Level 2 (Act after approval) → Level 3 (Act within limits)">
+            ${IC.dial}
+            <b>Autonomy Dial: Level ${wf.autonomy || 2}</b>
+            <span class="dial-desc">(${wf.autonomy === 1 ? 'Suggest' : wf.autonomy === 3 ? 'Act within limits' : 'Act after approval'})</span>
+          </button>
         </div>
         <div class="acts">
           <button class="btn s ok" data-a="simulate-scenario" data-scen="mismatch" title="Simulate Invoice INV-2291 through threshold and approval gate">${IC.play} Simulate Run (#216)</button>
@@ -3183,6 +3187,14 @@ function renderModal() {
                 <option value="SAP · Ledger event" ${isEdit && wf.trigger.includes('SAP') ? 'selected' : ''}>SAP S/4HANA Ledger Event / Webhook</option>
                 <option value="Schedule · Weekly" ${isEdit && wf.trigger.includes('Schedule') ? 'selected' : ''}>Scheduled Cron (e.g. Weekly on Sunday)</option>
                 <option value="When asked in chat" ${isEdit && wf.trigger.includes('chat') ? 'selected' : ''}>Interactive Chat / Slash Command</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px">Autonomy Dial (PRD 6.3)</label>
+              <select id="wf-autonomy-in" class="select" style="width:100%">
+                <option value="1" ${(isEdit ? (wf.autonomy === 1) : false) ? 'selected' : ''}>Level 1: Suggest (Prepares drafts only, human executes all writes)</option>
+                <option value="2" ${(isEdit ? (wf.autonomy === 2 || !wf.autonomy) : true) ? 'selected' : ''}>Level 2: Act after approval (Default · Human approval required)</option>
+                <option value="3" ${(isEdit ? (wf.autonomy === 3) : false) ? 'selected' : ''}>Level 3: Act within limits (Autonomous within AED 50,000 threshold)</option>
               </select>
             </div>
             <div>
@@ -3916,11 +3928,23 @@ document.addEventListener('click', e => {
   else if (a === 'close-modal') { S.modal = null; render(); }
   else if (a === 'theme-toggle') { S.theme = S.theme === 'dark' ? 'light' : 'dark'; render(); toast(`Switched to ${S.theme} mode`); }
   else if (a === 'lang-toggle') { S.lang = S.lang === 'en' ? 'ar' : 'en'; render(); toast(S.lang === 'ar' ? 'تم التبديل إلى الواجهة العربية' : 'Switched to English interface'); }
-  else if (a === 'kiosk-toggle') { S.kiosk = !S.kiosk; render(); toast(S.kiosk ? 'Kiosk Showcase Mode Activated (48px Touch Targets)' : 'Exited Kiosk Mode'); }
-  else if (a === 'autonomy-toggle') {
-    S.autonomy = (S.autonomy % 3) + 1;
-    render();
-    toast(`Autonomy Dial set to Level ${S.autonomy}: ${S.autonomy === 1 ? 'Suggest drafts only' : S.autonomy === 2 ? 'Act after approval (Default)' : 'Act within limits (< AED 5,000)'}`);
+  else if (a === 'autonomy-toggle' || a === 'toggle-wf-autonomy') {
+    const wfid = el.dataset.id || S.wf;
+    const wf = WORKFLOWS[wfid] || WORKFLOWS[S.wf];
+    if (wf) {
+      const curLevel = parseInt(wf.autonomy, 10) || 2;
+      const nextLevel = (curLevel % 3) + 1;
+      wf.autonomy = nextLevel;
+      S.autonomy = nextLevel;
+      saveWorkflows();
+      render();
+      const desc = nextLevel === 1 
+        ? 'Level 1: Suggest drafts only (Human performs all actions)' 
+        : nextLevel === 2 
+          ? 'Level 2: Act after approval (Fatima Human Gatekeeper required)' 
+          : 'Level 3: Act within limits (Autonomous straight-through under AED 50,000)';
+      toast(`"${wf.name}" Autonomy set to ${desc}`);
+    }
   }
   else if (a === 'simulate-scenario') { triggerSimulation(); }
   else if (a === 'stop-sim') { S.simulating = false; render(); toast('Simulation stopped'); }
@@ -4226,9 +4250,11 @@ document.addEventListener('submit', e => {
     const nameIn = $('#wf-name-in');
     const trigIn = $('#wf-trigger-in');
     const tplIn = $('#wf-tpl-in');
+    const autoIn = $('#wf-autonomy-in');
 
     const name = nameIn ? nameIn.value.trim() : 'New Workflow';
     const trig = trigIn ? trigIn.value : 'Incoming Email';
+    const autonomy = autoIn ? (parseInt(autoIn.value, 10) || 2) : 2;
 
     if (isEdit) {
       const wfid = form.dataset.id;
@@ -4236,6 +4262,7 @@ document.addEventListener('submit', e => {
       if (wf) {
         wf.name = name;
         wf.trigger = trig;
+        wf.autonomy = autonomy;
         saveWorkflows();
         toast('Updated workflow "' + name + '"');
       }
@@ -4265,7 +4292,7 @@ document.addEventListener('submit', e => {
         name,
         status: 'draft',
         version: 1,
-        autonomy: 2,
+        autonomy,
         approver: 'Fatima Al Mansoori',
         trigger: trig,
         runsWeek: 0,
