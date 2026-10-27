@@ -788,8 +788,185 @@ a { color: inherit; text-decoration: none; }
 .table th { text-align: start; padding: 10px 14px; font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--subtle); background: var(--card2); border-bottom: 1px solid var(--line); font-weight: 800; }
 .table td { padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 12.5px; }
 .table tr.click:hover td { background: var(--hover); cursor: pointer; }
-.table tr.sel td { background: var(--card2); }
-.drawer { position: absolute; top: 0; bottom: 0; inset-inline-end: 0; width: min(460px, 100%); background: var(--side); border-inline-start: 1px solid var(--line2); box-shadow: var(--shadow); z-index: 25; display: flex; flex-direction: column; animation: slideIn .18s ease-out; }
+/* ---------- Runs Layout & Execution Detail Drawer ---------- */
+.runs-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+.drawer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-end: 0;
+  width: min(490px, 100%);
+  background: var(--side);
+  border-inline-start: 1px solid var(--line2);
+  box-shadow: -14px 0 40px rgba(0, 0, 0, 0.5);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn .18s ease-out;
+  overflow: hidden;
+}
+.drawer .ih {
+  flex: none;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--card);
+  min-height: 56px;
+}
+.drawer .ih .ib {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r1);
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .12s ease;
+  flex-shrink: 0;
+}
+.drawer .ih .ib:hover {
+  background: var(--hover);
+  color: var(--fg);
+  border-color: var(--line2);
+}
+.drawer .ic {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--side);
+}
+.drawer-seal-box {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.drawer-seal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.drawer-seal-hash {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--muted);
+  word-break: break-all;
+  background: var(--panel);
+  padding: 8px 10px;
+  border-radius: var(--r1);
+  border: 1px solid var(--line);
+  user-select: all;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.drawer-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+.drawer-step-item {
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+  padding: 11px 13px;
+  background: var(--card);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: all .12s ease;
+}
+.drawer-step-item:hover {
+  border-color: var(--line2);
+  background: var(--card2);
+}
+.drawer-step-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+  background: var(--panel);
+  border: 1px solid var(--line2);
+  color: var(--fg);
+}
+.drawer-step-badge.ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+  border-color: var(--ok);
+}
+.drawer-step-badge.wait {
+  background: var(--wait-soft);
+  color: var(--wait);
+  border-color: var(--wait);
+}
+.drawer-step-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.drawer-step-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.drawer-step-desc {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.drawer-step-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.drawer-step-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--r1);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--subtle);
+  font-family: var(--mono);
+}
 @keyframes slideIn { from { transform: translateX(30px); opacity: 0; } to { transform: none; opacity: 1; } }
 [dir="rtl"] @keyframes slideIn { from { transform: translateX(-30px); opacity: 0; } to { transform: none; opacity: 1; } }
 .models { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
@@ -817,6 +994,59 @@ a { color: inherit; text-decoration: none; }
 .modal .mf { padding: 12px 18px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; background: var(--card); }
 .toasts { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 200; align-items: center; max-width: calc(100vw - 24px); pointer-events: none; }
 .toast { pointer-events: auto; background: var(--fg); color: var(--bg); padding: 9px 15px; border-radius: 10px; font-weight: 700; font-size: 13px; box-shadow: var(--shadow); display: flex; gap: 10px; align-items: center; animation: pop .16s ease-out; max-width: 600px; }
+
+/* ---------- Ephrem Pulse · Proactive Layer ---------- */
+.rail-btn .badge.acc { background: var(--accent); color: #06141d; }
+.pl-wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 16px 20px 32px; display: flex; flex-direction: column; gap: 14px; }
+.pl-hero { position: relative; border: 1px solid var(--line2); border-radius: var(--r3); padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; background: linear-gradient(135deg, var(--accent-soft), var(--ok-soft) 75%), var(--card); }
+.pl-hero h2 { font-size: 21px; font-weight: 800; letter-spacing: -.01em; line-height: 1.2; }
+.pl-sub { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+.pl-live { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ok); }
+.pl-live i, .pl-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); animation: plBeat 2s infinite; flex: none; }
+.pl-lines { display: flex; flex-direction: column; gap: 6px; }
+.pl-line { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--r2); border: 1px solid var(--line); background: var(--card); font-size: 13px; line-height: 1.4; }
+.pl-line .dotc { width: 8px; height: 8px; border-radius: 50%; background: var(--idle); flex: none; }
+.pl-line.bad .dotc { background: var(--bad); }
+.pl-line.wait .dotc { background: var(--wait); }
+.pl-line.ok .dotc { background: var(--ok); }
+.pl-line.accent .dotc { background: var(--accent); }
+.pl-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.pl-kpi { padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r3); background: var(--card); }
+.pl-kpi b { display: block; font-size: 24px; line-height: 1.15; letter-spacing: -.01em; }
+.pl-kpi span { font-size: 10.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.pl-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.pl-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.pl-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.pl-head h3 { font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--subtle); }
+.pl-sugg { border: 1px solid var(--line); border-inline-start: 3px solid var(--accent); border-radius: var(--r3); background: var(--card); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; animation: pop .16s ease-out; }
+.pl-sugg.bad { border-inline-start-color: var(--bad); }
+.pl-sugg.wait { border-inline-start-color: var(--wait); }
+.pl-sugg.ok { border-inline-start-color: var(--ok); }
+.pl-sugg h4 { font-size: 14px; line-height: 1.35; font-weight: 700; }
+.pl-sugg summary { cursor: pointer; font-size: 12px; font-weight: 600; color: var(--accent); list-style: none; width: fit-content; }
+.pl-sugg summary::-webkit-details-marker { display: none; }
+.pl-evid { margin: 6px 0 0; padding-inline-start: 18px; font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 3px; }
+.pl-gov { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); }
+.pl-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.pl-empty { border: 1px dashed var(--line2); border-radius: var(--r3); padding: 26px 18px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--muted); background: var(--card); }
+.pl-watch { border: 1px solid var(--line); border-radius: var(--r3); background: var(--card); padding: 12px 14px; display: flex; flex-direction: column; gap: 9px; }
+.pl-watch.off { opacity: .72; }
+.pl-sig { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: var(--card2); border: 1px solid var(--line2); color: var(--accent); flex: none; }
+.seg button.off { opacity: .4; cursor: not-allowed; }
+.pl-levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.pl-level { text-align: start; display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r2); background: var(--bg); transition: border-color .12s, background .12s; }
+.pl-level:hover { border-color: var(--line2); background: var(--hover); }
+.pl-level.on { border-color: var(--accent); background: var(--accent-soft); }
+.pl-level.lock { opacity: .55; cursor: not-allowed; }
+.pl-level b { font-size: 12.5px; }
+.pl-level span { font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+.pl-level em { font-style: normal; font-size: 10.5px; font-weight: 700; color: var(--wait); display: inline-flex; gap: 4px; align-items: center; }
+.pl-spin { display: inline-block; width: 12px; height: 12px; border: 2px solid currentColor; border-inline-end-color: transparent; border-radius: 50%; animation: plSpin .8s linear infinite; }
+@keyframes plBeat { 0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, .55); } 70% { box-shadow: 0 0 0 7px rgba(52, 211, 153, 0); } 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); } }
+@keyframes plSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .pl-live i, .pl-dot, .pl-sugg, .pl-spin { animation: none !important; } }
+@media (max-width: 1000px) { .pl-grid { grid-template-columns: 1fr; } .pl-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .pl-levels { grid-template-columns: 1fr; } .pl-wrap { padding: 12px; } }
 
 /* Responsive */
 @media (max-width: 1180px) {
@@ -1098,6 +1328,7 @@ function mkSpec(kind, over = {}) {
     owner: ME,
     approver,
     autonomy: 2,
+    proactivity: 1, // Ephrem Pulse: 1 Notify only | 2 Draft for approval | 3 Act within limits
     minConf: 85,
     trigger: { type: K.trigger, detail: TRIGGERS[K.trigger].detail },
     why: { ...K.why },
@@ -1758,6 +1989,660 @@ const OUT = {
 };
 
 /* =====================================================================
+   EPHREM PULSE · PROACTIVE LAYER
+   Watchers sense signals -> suggestions are surfaced -> a person approves
+   anything that changes the system. The Golden Rule holds at every level:
+   proactive agents never write to external systems on their own.
+   ===================================================================== */
+IC.pulse = svg('<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>', 22);
+IC.bolt = svg('<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', 15);
+IC.clock = svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', 15);
+IC.mail = svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>', 15);
+IC.gauge = svg('<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/>', 15);
+
+const PROACT = {
+  1: { label: 'Notify only', short: 'Notify', detail: 'Watches and tells you. Never prepares or changes anything.' },
+  2: { label: 'Draft for approval', short: 'Draft', detail: 'Prepares the fix or a draft flow and queues it for an approver.' },
+  3: { label: 'Act within limits', short: 'Act', detail: 'Applies safe internal changes itself, such as a draft flow, and logs it.' }
+};
+const PKINDS = {
+  automation: { label: 'Automation', tone: 'accent' },
+  renewal: { label: 'Renewal', tone: 'wait' },
+  risk: { label: 'Risk', tone: 'bad' },
+  cost: { label: 'Cost', tone: 'wait' },
+  hygiene: { label: 'Housekeeping', tone: 'ok' }
+};
+const SIGNALS = {
+  schedule: { label: 'Schedule', ic: 'clock' },
+  event: { label: 'Webhook / event', ic: 'bolt' },
+  threshold: { label: 'Threshold', ic: 'gauge' },
+  inbound: { label: 'Inbound message', ic: 'mail' }
+};
+const PSTATUS = {
+  applied: { cls: 'live', label: 'Applied' },
+  auto: { cls: 'accent', label: 'Acted within limits' },
+  dismissed: { cls: 'draft', label: 'Dismissed' },
+  snoozed: { cls: 'wait', label: 'Snoozed' },
+  declined: { cls: 'paused', label: 'Declined' },
+  ack: { cls: 'draft', label: 'Acknowledged' }
+};
+const PCLOSED = ['applied', 'auto', 'dismissed', 'snoozed', 'declined', 'ack'];
+const PRESTORABLE = ['dismissed', 'snoozed', 'declined', 'ack'];
+
+const plPill = (cls, label) => `<span class="pill ${cls}"><i></i>${esc(label)}</span>`;
+const plural = n => (n === 1 ? '' : 's');
+const firstName = id => ((PEOPLE[id] && PEOPLE[id].name) || '').replace(/^Dr\.\s*/, '').split(' ')[0] || 'there';
+const proactOf = a => { const n = parseInt(a && a.spec && a.spec.proactivity, 10); return n >= 1 && n <= 3 ? n : 1; };
+const agentHasWrite = a => !!(a && a.spec && Array.isArray(a.spec.tools) && a.spec.tools.some(t => TOOLS[t] && TOOLS[t].mode === 'write'));
+const maxProact = a => (agentHasWrite(a) ? 2 : 3);
+
+(function seedProactivity() {
+  const lv = { ic: 2, pr: 1, fp: 1, cr: 2, pq: 1, sr: 2, di: 1, lr: 1, so: 1 };
+  Object.keys(lv).forEach(id => {
+    const a = AGENTS[id];
+    if (!a || !a.spec) return;
+    a.spec.proactivity = lv[id];
+    if (a.liveSpec) a.liveSpec.proactivity = lv[id];
+  });
+})();
+
+const PULSE = {
+  seq: 4,
+  tab: 'open', // 'open' | 'pending' | 'history'
+  scanning: false,
+  briefAt: now(),
+  lastSweep: 'Today 06:00',
+  watchers: [
+    { id: 'w-inbox', name: 'Invoice Inbox Watcher', agentId: 'ic', signal: 'inbound', source: 'Outlook · Finance shared mailbox', cadence: 'On every inbound email', enabled: true, last: '4 min ago' },
+    { id: 'w-ledger', name: 'Ledger Variance Watcher', agentId: 'pr', signal: 'threshold', source: 'SAP Finance · Ledger (read only)', cadence: 'When variance exceeds 5%', enabled: true, last: '12 min ago' },
+    { id: 'w-contracts', name: 'Contract Expiry Watcher', agentId: 'cr', signal: 'schedule', source: 'Contracts Register', cadence: 'Daily at 06:00', enabled: true, last: 'Today 06:00' },
+    { id: 'w-suppliers', name: 'Supplier Risk Watcher', agentId: 'sr', signal: 'event', source: 'Supplier Register · licence and sanctions events', cadence: 'On register change (webhook)', enabled: false, last: 'Never' },
+    { id: 'w-health', name: 'Platform Health Watcher', agentId: null, level: 2, signal: 'threshold', source: 'Runs, cost and agent status', cadence: 'When cost or failures spike', enabled: true, last: 'Today 06:00' }
+  ],
+  sugg: [
+    {
+      id: 'sg-renew', watcher: 'w-contracts', agentId: 'cr', kind: 'renewal', initial: true, seq: 4, at: 'Today 06:00',
+      title: 'Start a renewal flow for the Desert Logistics contract',
+      why: 'The Contracts Register shows this framework agreement as expired, and run #212 was already rejected because of it. More invoices from this supplier are likely.',
+      evidence: ['Contract status: expired (Contracts Register)', 'Run #212 (INV-2288, AED 61,900) rejected: "Contract has expired. Hold until renewed."', 'No renewal workflow exists yet'],
+      effect: { type: 'new-flow', tpl: 'ren', safe: true }, approver: null, cta: 'Create draft flow', gov: 'Creates a draft flow only. Nothing goes live without sign-off.',
+      done: () => !!WORKFLOWS.wf_pulse_ren
+    },
+    {
+      id: 'sg-auto', watcher: 'w-inbox', agentId: 'ic', kind: 'automation', initial: true, seq: 3, at: 'Today 06:05',
+      title: 'Let Invoice Approval run straight-through at Autonomy Level 3',
+      why: 'Small invoices keep matching their purchase orders, so a person adds little at the low end. Level 3 lets Ephrem handle those itself while the human gate still applies to anything above AED 50,000 or any mismatch.',
+      evidence: ['Runs #211 and #213 (both under AED 10,000) matched their PO with no discrepancy', 'Both finished in under a minute with no person needed', 'The gate stays for amounts over AED 50,000 and any mismatch'],
+      effect: { type: 'wf-autonomy', wf: 'inv', level: 3 }, approver: 'fa', cta: 'Apply Level 3',
+      done: () => !!(WORKFLOWS.inv && parseInt(WORKFLOWS.inv.autonomy, 10) === 3)
+    },
+    {
+      id: 'sg-resume', watcher: 'w-health', agentId: 'di', kind: 'hygiene', initial: true, seq: 2, at: 'Today 06:00',
+      title: 'Document Intake has been paused since Monday. Resume it?',
+      why: 'Security paused this agent for a scanning review and expected to resume it on Thursday. Uploaded documents have no one to route them while it is paused.',
+      evidence: ['Paused by Security (Omar Haddad) on Mon 09:12', 'Stated reason: review of document-upload scanning', 'Only Security can resume it, so the request goes to Omar Haddad'],
+      effect: { type: 'resume-agent', agentId: 'di' }, approver: 'oh', cta: 'Resume agent',
+      done: () => !(AGENTS.di && AGENTS.di.status === 'paused')
+    },
+    {
+      id: 'sg-test', watcher: 'w-health', agentId: 'so', kind: 'hygiene', initial: true, seq: 1, at: 'Today 06:00',
+      title: 'Supplier Onboarding has not been tested yet',
+      why: 'This agent is still a draft with no test runs, so it cannot be submitted for approval with confidence.',
+      evidence: ['0 test runs recorded', 'Quality check not yet run', 'Draft has not been sent to Fatima Al Mansoori'],
+      effect: { type: 'navigate', view: 'agent', agentId: 'so', tab: 'test', msg: 'Opened the Test Sandbox for Supplier Onboarding' }, approver: null, cta: 'Open Test Sandbox', gov: 'Opens the sandbox. Nothing is changed.',
+      done: () => !AGENTS.so || (AGENTS.so.tests || 0) > 0 || AGENTS.so.status === 'live'
+    },
+    {
+      id: 'sg-dup', watcher: 'w-inbox', agentId: 'ic', kind: 'risk',
+      title: 'INV-2294 may duplicate INV-2291 from Al Noor Supplies',
+      why: 'A new invoice arrived with the same supplier and the same amount as one approved today. A rule on the Invoice Checker would catch repeats automatically.',
+      evidence: ['INV-2291: Al Noor Supplies, AED 84,200, approved today (run #214)', 'INV-2294: same supplier and amount, received 12 minutes ago', 'The Invoice Checker has no duplicate-detection rule today'],
+      effect: { type: 'add-rule', agentId: 'ic', rule: 'Flag any invoice with the same supplier and amount as one already approved this month.' }, approver: 'fa', cta: 'Add duplicate-check rule',
+      done: () => !!(AGENTS.ic && AGENTS.ic.spec && (AGENTS.ic.spec.rules || []).some(r => /same supplier and amount/i.test(r.text)))
+    },
+    {
+      id: 'sg-ledger', watcher: 'w-ledger', agentId: 'pr', kind: 'risk',
+      title: 'Price variances are repeating on Gulf Office Supplies invoices',
+      why: 'Run #215 shows a surcharge that is not on the purchase order, and this supplier has had two of the last six runs needing attention. A review flow would catch the pattern earlier.',
+      evidence: ['Run #215: AED 400 shipping surcharge not on PO-10911', 'Gulf Office Supplies: 2 of the last 6 runs needed attention (#215, #210)', 'A threshold flow can flag any variance above 5% before it reaches the gate'],
+      effect: { type: 'new-flow', tpl: 'var', safe: true }, approver: null, cta: 'Create draft review flow', gov: 'Creates a draft flow only. Nothing goes live without sign-off.',
+      done: () => !!WORKFLOWS.wf_pulse_var
+    },
+    {
+      id: 'sg-cost', watcher: 'w-health', agentId: 'ic', kind: 'cost',
+      title: 'Invoice Checker run cost is up 38% this week',
+      why: 'Average cost per run rose from AED 0.60 to AED 0.83. Retries on steps that fail at posting are the main driver.',
+      evidence: ['Run #210 retried 3 times before failing', 'Retries are set to 3 on every step by default', 'Lowering retries on read-only steps would cut spend without touching approvals'],
+      effect: { type: 'navigate', view: 'runs', msg: 'Opened Runs & Audit' }, approver: null, cta: 'Review runs', gov: 'Opens Runs & Audit. Nothing is changed.'
+    },
+    {
+      id: 'sg-supplier', watcher: 'w-suppliers', agentId: 'sr', kind: 'risk',
+      title: 'Al Noor Supplies: trade licence renews in 9 days',
+      why: 'The Supplier Register lists this licence as expiring soon. Contract clause 14 requires an active trade licence whenever an invoice is presented.',
+      evidence: ['Licence expiry date listed in the Supplier Register', 'Al Noor Supplies has recent invoices in runs #214 and #211', 'Clause 14 blocks posting when the licence has lapsed'],
+      effect: { type: 'navigate', view: 'chats', chat: 'agent:sr', msg: 'Opened a chat with the Supplier Risk agent' }, approver: null, cta: 'Ask Supplier Risk agent', gov: 'Opens a chat. Nothing is changed.'
+    }
+  ]
+};
+
+const pulseFind = id => PULSE.sugg.find(s => s.id === id);
+const pulseWatcher = id => PULSE.watchers.find(w => w.id === id);
+const watcherLevel = w => (w.agentId ? proactOf(AGENTS[w.agentId]) : (w.level || 2));
+function watcherState(w) {
+  if (!w.enabled) return 'off';
+  if (w.agentId) {
+    const a = AGENTS[w.agentId];
+    if (!a) return 'missing';
+    if (a.status !== 'live') return 'inactive';
+  }
+  return 'on';
+}
+function suggLevel(sg) {
+  const w = pulseWatcher(sg.watcher);
+  if (!w) return 2;
+  const lvl = watcherLevel(w);
+  return w.agentId && AGENTS[w.agentId] ? Math.min(lvl, maxProact(AGENTS[w.agentId])) : lvl;
+}
+
+function logActivity(who, text, badge) {
+  ACTIVITY.unshift({ who: who || 'ep', text, when: 'Today ' + now(), badge: badge || 'Pulse' });
+  S.unread = (S.unread || 0) + 1;
+}
+
+function pulseFlowFor(tpl) {
+  const hasA = id => !!AGENTS[id];
+  if (tpl === 'ren') {
+    const nodes = [N('trigger', 'Every Monday, 07:00', { desc: 'Scans the Contracts Register for agreements that expire within 45 days.', tool: 'Schedule' })];
+    if (hasA('cr')) nodes.push(N('agent', 'Contract Review', { agentId: 'cr', desc: 'Summarise each expiring agreement, spend to date and open invoices.' }));
+    nodes.push(N('human', 'Fatima decides', { person: 'fa', desc: 'Decide whether to renew, renegotiate or let the contract lapse.' }));
+    nodes.push(N('notify', 'Tell me & Record Audit', { desc: 'Notify the contract owner and write the decision to the signed audit log.' }));
+    return { id: 'wf_pulse_ren', name: 'Contract Renewal Follow-up', trigger: 'Schedule · Weekly', pins: hasA('cr') ? { cr: AGENTS.cr.version || 1 } : {}, nodes };
+  }
+  if (tpl === 'var') {
+    const nodes = [N('trigger', 'Variance above 5% on a supplier invoice', { desc: 'Fires when an invoice differs from its purchase order by more than 5%.', tool: 'Threshold' })];
+    if (hasA('ic')) nodes.push(N('agent', 'Invoice Checker', { agentId: 'ic', desc: 'Re-check the invoice line by line against the purchase order.' }));
+    nodes.push(N('human', 'Fatima decides', { person: 'fa', desc: 'Approve, reject or approve with conditions.' }));
+    nodes.push(N('notify', 'Tell me & Record Audit', { desc: 'Tell the requester and record the decision in the signed audit log.' }));
+    return { id: 'wf_pulse_var', name: 'Supplier Variance Review', trigger: 'Threshold · Metric alert', pins: hasA('ic') ? { ic: AGENTS.ic.version || 1 } : {}, nodes };
+  }
+  return null;
+}
+
+function createPulseFlow(tpl, quiet) {
+  const f = pulseFlowFor(tpl);
+  if (!f) return { ok: false, msg: 'That flow template is not available' };
+  if (WORKFLOWS[f.id]) {
+    if (!quiet) S.wf = f.id;
+    return { ok: true, msg: 'Flow "' + f.name + '" already exists' };
+  }
+  WORKFLOWS[f.id] = { id: f.id, name: f.name, status: 'draft', version: 1, autonomy: 1, approver: 'Fatima Al Mansoori', trigger: f.trigger, runsWeek: 0, draft: true, log: [], pins: f.pins, nodes: f.nodes };
+  if (!quiet) { S.wf = f.id; S.wfSelNode = f.nodes[0].id; }
+  saveWorkflows();
+  return { ok: true, msg: 'Created draft flow "' + f.name + '". Find it under Flows.' };
+}
+
+function applyEffect(sg, byId, quiet) {
+  const e = sg.effect || {};
+  if (e.type === 'new-flow') return createPulseFlow(e.tpl, quiet);
+  if (e.type === 'wf-autonomy') {
+    const wf = WORKFLOWS[e.wf];
+    if (!wf) return { ok: false, msg: 'That workflow no longer exists' };
+    if ((parseInt(wf.autonomy, 10) || 2) === e.level) return { ok: true, msg: '"' + wf.name + '" was already at Level ' + e.level };
+    wf.autonomy = e.level;
+    S.autonomy = e.level;
+    saveWorkflows();
+    return { ok: true, msg: '"' + wf.name + '" moved to Autonomy Level ' + e.level + ' (' + (e.level === 3 ? 'Act within limits' : e.level === 1 ? 'Suggest' : 'Act after approval') + ')' };
+  }
+  if (e.type === 'resume-agent') {
+    const ag = AGENTS[e.agentId];
+    if (!ag) return { ok: false, msg: 'That agent no longer exists' };
+    if (ag.status !== 'paused') return { ok: true, msg: ((ag.spec && ag.spec.name) || 'The agent') + ' is already running' };
+    ag.status = 'live';
+    ag.pause = null;
+    return { ok: true, msg: ((ag.spec && ag.spec.name) || 'The agent') + ' resumed and is Live again' };
+  }
+  if (e.type === 'add-rule') {
+    const ag = AGENTS[e.agentId];
+    if (!ag || !ag.spec) return { ok: false, msg: 'That agent no longer exists' };
+    if (!Array.isArray(ag.spec.rules)) ag.spec.rules = [];
+    if (ag.spec.rules.some(r => r.text === e.rule)) return { ok: true, msg: 'That rule is already on ' + ag.spec.name };
+    const rule = { id: uid('r'), text: e.rule };
+    ag.spec.rules.push(rule);
+    if (ag.liveSpec) ag.liveSpec.rules = (ag.liveSpec.rules || []).concat([{ id: rule.id, text: rule.text }]);
+    ag.version = (ag.version || 1) + 1;
+    if (!Array.isArray(ag.versions)) ag.versions = [];
+    ag.versions.unshift({ v: ag.version, at: 'Today ' + now(), by: (PEOPLE[byId] ? PEOPLE[byId].name : 'Approver') + ' via Ephrem Pulse', note: 'Added rule: ' + e.rule, spec: clone(ag.spec) });
+    return { ok: true, msg: 'Rule added to ' + ag.spec.name + ' (now v' + ag.version + ')' };
+  }
+  if (e.type === 'navigate') {
+    if (e.view) S.view = e.view;
+    if (e.agentId && AGENTS[e.agentId]) {
+      S.ab.entityType = 'agent';
+      S.ab.agentId = e.agentId;
+      if (e.tab) S.ab.tab = e.tab;
+    }
+    if (e.chat) S.chat = e.chat;
+    return { ok: true, msg: e.msg || 'Opened' };
+  }
+  return { ok: false, msg: 'Nothing to apply' };
+}
+
+function surfaceSugg(sg, init) {
+  sg.surfaced = true;
+  sg.status = 'open';
+  if (!init) { sg.seq = ++PULSE.seq; sg.at = 'Today ' + now(); }
+  const lvl = suggLevel(sg);
+  sg.mode = lvl === 1 ? 'alert' : 'draft';
+  if (typeof sg.done === 'function' && sg.done()) { sg.status = 'applied'; sg.note = 'Already in place'; return; }
+  if (!init && lvl === 3 && sg.effect && sg.effect.safe && !sg.approver) {
+    const res = applyEffect(sg, S.user, true);
+    if (res.ok) {
+      sg.mode = 'auto';
+      sg.status = 'auto';
+      sg.note = res.msg;
+      logActivity('ep', 'Pulse acted within limits: ' + sg.title + '. ' + res.msg, 'Auto-action');
+      return;
+    }
+  }
+  sg.limitNote = lvl === 3;
+}
+
+(function seedPulse() {
+  PULSE.sugg.forEach(s => { s.status = 'open'; s.surfaced = false; s.mode = 'draft'; });
+  PULSE.sugg.filter(s => s.initial).forEach(s => surfaceSugg(s, true));
+})();
+
+function pulseRefreshState() {
+  PULSE.sugg.forEach(s => {
+    if (s.surfaced && (s.status === 'open' || s.status === 'pending') && typeof s.done === 'function' && s.done()) {
+      s.status = 'applied';
+      s.note = 'Already resolved elsewhere';
+    }
+  });
+}
+
+function pulseBadgeCount() {
+  pulseRefreshState();
+  const open = PULSE.sugg.filter(s => s.surfaced && s.status === 'open').length;
+  const mine = PULSE.sugg.filter(s => s.status === 'pending' && s.approver === S.user).length;
+  return open + mine;
+}
+function pulseRailBadge() {
+  const n = pulseBadgeCount();
+  return n ? `<span class="badge acc">${n}</span>` : '';
+}
+
+function pulseResolve(sg, byId) {
+  const res = applyEffect(sg, byId, false);
+  if (res.ok) {
+    sg.status = 'applied';
+    sg.note = res.msg;
+    sg.resolvedBy = byId;
+    if (sg.effect && sg.effect.type !== 'navigate') {
+      logActivity(byId, (PEOPLE[byId] ? PEOPLE[byId].name : 'A user') + ' applied a Pulse suggestion: ' + sg.title + '. ' + res.msg, 'Pulse Action');
+    }
+  } else {
+    sg.status = 'dismissed';
+    sg.note = res.msg;
+  }
+  render();
+  toast(res.msg);
+}
+
+function pulseAccept(id) {
+  const sg = pulseFind(id);
+  if (!sg || sg.status !== 'open') { render(); return; }
+  const appr = sg.approver ? PEOPLE[sg.approver] : null;
+  if (appr && S.user !== appr.id) {
+    sg.status = 'pending';
+    sg.requestedBy = S.user;
+    sg.requestedAt = 'Today ' + now();
+    logActivity(S.user, PEOPLE[S.user].name + ' sent a Pulse proposal to ' + appr.name + ': ' + sg.title, 'Awaiting Approval');
+    render();
+    toast('Sent to ' + appr.name + ' for approval. Nothing changes until they approve.');
+    return;
+  }
+  pulseResolve(sg, S.user);
+}
+
+function runWatchers() {
+  if (PULSE.scanning) return;
+  PULSE.scanning = true;
+  render();
+  setTimeout(() => {
+    let checked = 0, found = 0, auto = 0;
+    PULSE.watchers.forEach(w => {
+      if (watcherState(w) !== 'on') return;
+      checked++;
+      w.last = 'Just now';
+      const sg = PULSE.sugg.find(s => s.watcher === w.id && !s.surfaced);
+      if (sg) {
+        surfaceSugg(sg);
+        found++;
+        if (sg.status === 'auto') auto++;
+      }
+    });
+    PULSE.scanning = false;
+    PULSE.lastSweep = 'Today ' + now();
+    if (found) PULSE.tab = 'open';
+    render();
+    if (!checked) toast('No active watchers to run. Enable a watcher first.');
+    else if (found) toast(checked + ' watcher' + plural(checked) + ' swept · ' + found + ' new finding' + plural(found) + (auto ? ' · ' + auto + ' handled within limits' : ''));
+    else toast(checked + ' watcher' + plural(checked) + ' swept · nothing new');
+  }, 900);
+}
+
+function setAgentProactivity(agentId, lvl) {
+  const ag = AGENTS[agentId];
+  if (!ag || !ag.spec || ![1, 2, 3].includes(lvl)) return;
+  if (proactOf(ag) === lvl) return;
+  if (lvl > maxProact(ag)) { toast(ag.spec.name + ' holds a write tool, so it is capped at "Draft for approval".'); return; }
+  if (lvl === 3 && !(PEOPLE[S.user] && PEOPLE[S.user].approver)) { toast('Only an approver can allow "Act within limits". Switch persona to Fatima, Omar or Faisal.'); return; }
+  ag.spec.proactivity = lvl;
+  if (ag.liveSpec) ag.liveSpec.proactivity = lvl;
+  logActivity(S.user, PEOPLE[S.user].name + ' set ' + ag.spec.name + ' proactivity to "' + PROACT[lvl].label + '"', 'Governance');
+  render();
+  toast(ag.spec.name + ' proactivity: ' + PROACT[lvl].label);
+}
+
+function handlePulseAction(a, el) {
+  const id = el.dataset.id;
+  if (a === 'pulse-tab') { PULSE.tab = el.dataset.t || 'open'; render(); }
+  else if (a === 'pulse-refresh') { PULSE.briefAt = now(); render(); toast('Briefing refreshed'); }
+  else if (a === 'pulse-run') { runWatchers(); }
+  else if (a === 'pulse-open') {
+    if (el.dataset.view) S.view = el.dataset.view;
+    if (el.dataset.run) S.run = parseInt(el.dataset.run, 10) || null;
+    render();
+  }
+  else if (a === 'pulse-toggle-watcher') {
+    const w = pulseWatcher(id);
+    if (!w) return;
+    w.enabled = !w.enabled;
+    render();
+    toast(w.name + (w.enabled ? ' enabled' : ' paused'));
+  }
+  else if (a === 'pulse-accept') { pulseAccept(id); }
+  else if (a === 'pulse-approve') {
+    const sg = pulseFind(id);
+    if (!sg || sg.status !== 'pending') { render(); return; }
+    if (S.user !== sg.approver) { toast('Only ' + (PEOPLE[sg.approver] ? PEOPLE[sg.approver].name : 'the named approver') + ' can approve this.'); return; }
+    pulseResolve(sg, S.user);
+  }
+  else if (a === 'pulse-decline') {
+    const sg = pulseFind(id);
+    if (!sg || sg.status !== 'pending') { render(); return; }
+    if (S.user !== sg.approver) { toast('Only ' + (PEOPLE[sg.approver] ? PEOPLE[sg.approver].name : 'the named approver') + ' can decline this.'); return; }
+    sg.status = 'declined';
+    sg.note = 'Declined by ' + PEOPLE[S.user].name;
+    logActivity(S.user, PEOPLE[S.user].name + ' declined a Pulse proposal: ' + sg.title, 'Pulse Action');
+    render();
+    toast('Proposal declined. No changes were made.');
+  }
+  else if (a === 'pulse-dismiss' || a === 'pulse-snooze' || a === 'pulse-ack') {
+    const sg = pulseFind(id);
+    if (!sg || sg.status !== 'open') { render(); return; }
+    sg.status = a === 'pulse-dismiss' ? 'dismissed' : a === 'pulse-snooze' ? 'snoozed' : 'ack';
+    sg.note = '';
+    render();
+    toast(a === 'pulse-dismiss' ? 'Dismissed. You can restore it from History.' : a === 'pulse-snooze' ? 'Snoozed. It is in History if you want it back.' : 'Acknowledged');
+  }
+  else if (a === 'pulse-escalate') {
+    const sg = pulseFind(id);
+    if (!sg || sg.status !== 'open') { render(); return; }
+    sg.mode = 'draft';
+    render();
+    toast('Drafted a proposed fix. Review it below.');
+  }
+  else if (a === 'pulse-restore') {
+    const sg = pulseFind(id);
+    if (!sg || PRESTORABLE.indexOf(sg.status) < 0) { render(); return; }
+    sg.status = 'open';
+    sg.note = '';
+    PULSE.tab = 'open';
+    render();
+    toast('Restored to Open');
+  }
+  else if (a === 'set-agent-proactivity') { setAgentProactivity(el.dataset.id || S.ab.agentId, parseInt(el.dataset.l, 10)); }
+}
+
+function pulseBrief() {
+  const u = PEOPLE[S.user] || PEOPLE.mk;
+  const lines = [];
+  const btn = (a, label, attrs) => ({ a, label, attrs: attrs || '' });
+  const waiting = RUNS.filter(r => r.out === 'waiting');
+  if (waiting.length) {
+    const r = waiting[0];
+    if (u.id === 'fa') lines.push({ tone: 'wait', text: '**' + waiting.length + ' invoice run' + plural(waiting.length) + ' need' + (waiting.length === 1 ? 's' : '') + ' your decision.** Run #' + r.n + ' (' + r.inv + ', ' + r.sup + ', AED ' + fmt(r.amt) + '): ' + r.note, btn: btn('open-approval-modal', 'Review', 'data-run="' + r.n + '"') });
+    else lines.push({ tone: 'wait', text: 'Run #' + r.n + ' (' + r.inv + ', AED ' + fmt(r.amt) + ') is waiting for **Fatima Al Mansoori**.', btn: btn('switch-to-fatima-and-open', 'Open as Fatima', 'data-run="' + r.n + '"') });
+  }
+  const mine = PULSE.sugg.filter(s => s.status === 'pending' && s.approver === u.id);
+  if (mine.length) lines.push({ tone: 'accent', text: '**' + mine.length + ' Pulse proposal' + plural(mine.length) + '** need your approval before anything changes.', btn: btn('pulse-tab', 'Review', 'data-t="pending"') });
+  const awaiting = Object.values(AGENTS).filter(a => a.awaiting && a.spec);
+  if (awaiting.length) {
+    const ag = awaiting[0];
+    const who = ag.approval && PEOPLE[ag.approval.to] ? PEOPLE[ag.approval.to].name : 'an approver';
+    lines.push({ tone: 'wait', text: '**' + ag.spec.name + '** is waiting for sign-off from ' + who + (awaiting.length > 1 ? ' (and ' + (awaiting.length - 1) + ' more).' : '.'), btn: btn('edit-agent-btn', 'Open', 'data-id="' + esc(ag.id) + '"') });
+  }
+  Object.values(AGENTS).filter(a => a.status === 'paused' && a.spec).forEach(ag => {
+    lines.push({ tone: 'bad', text: '**' + ag.spec.name + '** is paused' + (ag.pause && ag.pause.by ? ' by ' + ag.pause.by : '') + '.' + (ag.pause && ag.pause.reason ? ' ' + ag.pause.reason : ''), btn: btn('pulse-open', 'See agents', 'data-view="agent"') });
+  });
+  const failed = RUNS.filter(r => r.out === 'failed');
+  if (failed.length) lines.push({ tone: 'bad', text: '**Run #' + failed[0].n + ' failed at posting.** ' + failed[0].note, btn: btn('pulse-open', 'Open run', 'data-view="runs" data-run="' + failed[0].n + '"') });
+  const open = PULSE.sugg.filter(s => s.surfaced && s.status === 'open');
+  if (open.length) lines.push({ tone: 'accent', text: '**' + open.length + ' suggestion' + plural(open.length) + '** from your watchers ' + (open.length === 1 ? 'is' : 'are') + ' ready to review.', btn: btn('pulse-tab', 'Review', 'data-t="open"') });
+  const active = PULSE.watchers.filter(w => watcherState(w) === 'on').length;
+  lines.push({ tone: 'ok', text: '**' + active + ' of ' + PULSE.watchers.length + ' watchers** active. Last sweep: ' + PULSE.lastSweep + '.', btn: null });
+  return lines;
+}
+
+function renderSuggCard(sg) {
+  const k = PKINDS[sg.kind] || PKINDS.hygiene;
+  const ag = AGENTS[sg.agentId];
+  const w = pulseWatcher(sg.watcher);
+  const lvl = suggLevel(sg);
+  const appr = sg.approver ? PEOPLE[sg.approver] : null;
+  const isApprover = !!appr && S.user === appr.id;
+  const modeTag = sg.mode === 'alert' ? '<span class="tag">Notify only</span>' : sg.mode === 'auto' ? '<span class="tag accent">Auto-applied</span>' : '<span class="tag accent">Draft</span>';
+  const gov = appr ? 'Needs ' + appr.name + '’s approval before anything changes' : (sg.gov || 'Draft only. Nothing goes live.');
+  let actions = '';
+  if (sg.status === 'open') {
+    if (sg.mode === 'alert') {
+      actions = `<button type="button" class="btn s p" data-a="pulse-ack" data-id="${sg.id}">Acknowledge</button>
+        <button type="button" class="btn s" data-a="pulse-escalate" data-id="${sg.id}" title="Ask the agent to prepare a proposed fix">Draft a fix</button>
+        <button type="button" class="btn s ghost" data-a="pulse-dismiss" data-id="${sg.id}">Dismiss</button>`;
+    } else {
+      const label = appr && !isApprover ? 'Send to ' + firstName(appr.id) + ' for approval' : sg.cta;
+      actions = `<button type="button" class="btn s ok" data-a="pulse-accept" data-id="${sg.id}">${esc(label)}</button>
+        <button type="button" class="btn s" data-a="pulse-snooze" data-id="${sg.id}">Snooze</button>
+        <button type="button" class="btn s ghost" data-a="pulse-dismiss" data-id="${sg.id}">Dismiss</button>`;
+    }
+  } else if (sg.status === 'pending') {
+    if (isApprover) {
+      actions = `<button type="button" class="btn s ok" data-a="pulse-approve" data-id="${sg.id}">Approve &amp; apply</button>
+        <button type="button" class="btn s danger" data-a="pulse-decline" data-id="${sg.id}">Decline</button>`;
+    } else {
+      actions = `<span class="xs muted row-flex">${IC.clock} Waiting for ${esc(appr ? appr.name : 'an approver')}</span>`;
+    }
+  } else {
+    const st = PSTATUS[sg.status] || PSTATUS.ack;
+    actions = plPill(st.cls, st.label) + (sg.note ? ` <span class="xs muted">${esc(sg.note)}</span>` : '') +
+      (PRESTORABLE.indexOf(sg.status) >= 0 ? ` <button type="button" class="btn s ghost" data-a="pulse-restore" data-id="${sg.id}">Restore</button>` : '');
+  }
+  const pendingInfo = sg.status === 'pending' && sg.requestedBy ? `<div class="xs muted">Requested by ${esc(PEOPLE[sg.requestedBy] ? PEOPLE[sg.requestedBy].name : sg.requestedBy)} · ${esc(sg.requestedAt || '')}</div>` : '';
+  const limit = sg.limitNote && sg.status === 'open' ? `<div class="callout wait"><div>${IC.warn} This agent may act within limits, but this change is outside them, so a person decides.</div></div>` : '';
+  return `
+    <article class="pl-sugg ${k.tone}" aria-label="${esc(sg.title)}">
+      <div class="row-flex wrap" style="justify-content:space-between">
+        <div class="row-flex wrap"><span class="tag">${k.label}</span>${modeTag}</div>
+        <span class="xs subtle">${esc(sg.at || '')}</span>
+      </div>
+      <h4>${esc(sg.title)}</h4>
+      <details>
+        <summary>Why am I seeing this?</summary>
+        <div class="sm muted" style="margin-top:6px">${esc(sg.why)}</div>
+        <ul class="pl-evid">${(sg.evidence || []).map(e => `<li>${esc(e)}</li>`).join('')}</ul>
+        <div class="xs subtle" style="margin-top:6px">Source: ${esc(w ? w.name : 'Platform')} · Agent: ${esc(ag && ag.spec ? ag.spec.name : 'Platform')} · Proactivity: ${PROACT[lvl].label}</div>
+      </details>
+      <div class="pl-gov">${IC.shield} ${esc(gov)}</div>
+      ${limit}
+      ${pendingInfo}
+      <div class="pl-actions">${actions}</div>
+    </article>`;
+}
+
+function renderWatcherCard(w) {
+  const st = watcherState(w);
+  const ag = w.agentId ? AGENTS[w.agentId] : null;
+  const lvl = watcherLevel(w);
+  const sig = SIGNALS[w.signal] || SIGNALS.schedule;
+  const state = PULSE.scanning && st === 'on' ? '<span class="pill accent"><i></i>Scanning…</span>'
+    : st === 'on' ? plPill('live', 'Watching')
+    : st === 'off' ? plPill('draft', 'Paused')
+    : st === 'inactive' ? plPill('wait', 'Agent not live')
+    : plPill('bad', 'Agent removed');
+  let ctrl;
+  if (ag && ag.spec) {
+    const cap = maxProact(ag);
+    ctrl = `<div class="field"><label>Proactivity of ${esc(ag.spec.name)}</label>
+      <div class="seg">${[1, 2, 3].map(n => `<button type="button" class="${lvl === n ? 'on' : ''} ${n > cap ? 'off' : ''}" data-a="set-agent-proactivity" data-id="${esc(ag.id)}" data-l="${n}" title="${esc(PROACT[n].detail)}">${PROACT[n].short}</button>`).join('')}</div></div>`;
+  } else if (!w.agentId) {
+    ctrl = `<div class="xs muted">Platform-level watcher · ${PROACT[lvl].label}</div>`;
+  } else {
+    ctrl = '<div class="xs muted">The linked agent was removed. Link another agent in Agent Studio.</div>';
+  }
+  return `
+    <div class="pl-watch ${st === 'on' ? '' : 'off'}">
+      <div class="row-flex">
+        <span class="pl-sig" title="${esc(sig.label)}">${IC[sig.ic]}</span>
+        <div class="grow"><b style="font-size:13px">${esc(w.name)}</b><div class="xs muted">${esc(w.source)} · ${esc(w.cadence)}</div></div>
+        <button type="button" class="btn s" data-a="pulse-toggle-watcher" data-id="${w.id}">${w.enabled ? 'Pause' : 'Enable'}</button>
+      </div>
+      <div class="row-flex wrap"><span class="tag">${esc(sig.label)}</span>${state}<span class="xs subtle">Last checked ${esc(w.last)}</span></div>
+      ${ctrl}
+    </div>`;
+}
+
+function renderPulseView() {
+  pulseRefreshState();
+  const u = PEOPLE[S.user] || PEOPLE.mk;
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+  const lines = pulseBrief();
+  const open = PULSE.sugg.filter(s => s.surfaced && s.status === 'open').sort((a, b) => (b.seq || 0) - (a.seq || 0));
+  const pend = PULSE.sugg.filter(s => s.status === 'pending').sort((a, b) => (b.seq || 0) - (a.seq || 0));
+  const hist = PULSE.sugg.filter(s => PCLOSED.indexOf(s.status) >= 0).sort((a, b) => (b.seq || 0) - (a.seq || 0));
+  const autoN = PULSE.sugg.filter(s => s.status === 'auto').length;
+  const active = PULSE.watchers.filter(w => watcherState(w) === 'on').length;
+  if (['open', 'pending', 'history'].indexOf(PULSE.tab) < 0) PULSE.tab = 'open';
+  const list = PULSE.tab === 'open' ? open : PULSE.tab === 'pending' ? pend : hist;
+  const emptyMsg = PULSE.tab === 'open' ? 'Nothing needs your attention right now. Watchers will surface new suggestions here.'
+    : PULSE.tab === 'pending' ? 'No proposals are waiting for approval.'
+    : 'Nothing has been resolved yet.';
+  return `
+    <main class="main" style="grid-column: 2 / -1">
+      <div class="main-head">
+        <div class="who">
+          <div class="ttl">${IC.pulse}<span>Ephrem Pulse</span><span class="pill accent"><i></i>Proactive</span></div>
+        </div>
+        <div class="acts">
+          <button type="button" class="btn s" data-a="pulse-refresh">Refresh briefing</button>
+          <button type="button" class="btn s p" data-a="pulse-run" ${PULSE.scanning ? 'disabled' : ''}>${PULSE.scanning ? '<span class="pl-spin"></span> Scanning…' : IC.bolt + ' Run watchers now'}</button>
+        </div>
+      </div>
+      <div class="scroll">
+        <div class="pl-wrap">
+          <section class="pl-hero" aria-label="Daily briefing">
+            <div class="row-flex" style="justify-content:space-between;flex-wrap:wrap;align-items:flex-start">
+              <div>
+                <h2>${greet}, ${esc(firstName(u.id))}.</h2>
+                <div class="pl-sub">Here is what Ephrem noticed while you were away · briefing prepared at ${esc(PULSE.briefAt)}</div>
+              </div>
+              <span class="pl-live"><i></i> Watching</span>
+            </div>
+            <div class="pl-lines">
+              ${lines.map(l => `
+                <div class="pl-line ${l.tone}">
+                  <span class="dotc"></span>
+                  <div class="grow">${rich(l.text)}</div>
+                  ${l.btn ? `<button type="button" class="btn s" data-a="${l.btn.a}" ${l.btn.attrs}>${esc(l.btn.label)}</button>` : ''}
+                </div>`).join('')}
+            </div>
+          </section>
+
+          <div class="pl-kpis">
+            <div class="pl-kpi"><b>${open.length}</b><span>Open suggestions</span></div>
+            <div class="pl-kpi"><b>${pend.length}</b><span>Awaiting approval</span></div>
+            <div class="pl-kpi"><b>${active}/${PULSE.watchers.length}</b><span>Watchers active</span></div>
+            <div class="pl-kpi"><b>${autoN}</b><span>Handled within limits</span></div>
+          </div>
+
+          <div class="pl-grid">
+            <section class="pl-col" aria-label="Suggestions">
+              <div class="pl-head">
+                <h3>Suggestions from your watchers</h3>
+                <div class="seg">
+                  <button type="button" class="${PULSE.tab === 'open' ? 'on' : ''}" data-a="pulse-tab" data-t="open">Open (${open.length})</button>
+                  <button type="button" class="${PULSE.tab === 'pending' ? 'on' : ''}" data-a="pulse-tab" data-t="pending">Approval (${pend.length})</button>
+                  <button type="button" class="${PULSE.tab === 'history' ? 'on' : ''}" data-a="pulse-tab" data-t="history">History (${hist.length})</button>
+                </div>
+              </div>
+              ${list.length ? list.map(renderSuggCard).join('') : `
+                <div class="pl-empty">
+                  <div>${esc(emptyMsg)}</div>
+                  ${PULSE.tab === 'open' ? '<button type="button" class="btn s p" data-a="pulse-run">Run watchers now</button>' : ''}
+                </div>`}
+            </section>
+
+            <section class="pl-col" aria-label="Watchers">
+              <div class="pl-head">
+                <h3>Watchers</h3>
+                <span class="xs muted">${active} of ${PULSE.watchers.length} active</span>
+              </div>
+              ${PULSE.watchers.map(renderWatcherCard).join('')}
+              <div class="callout accent">
+                <div>${IC.shield} <b>Golden Rule still applies.</b> Proactive agents never write to external systems on their own. "Act within limits" only applies safe internal changes such as draft flows, and agents that hold a write tool are capped at "Draft for approval".</div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>`;
+}
+
+function renderProactivitySection(agent) {
+  if (!agent || !agent.spec) return '';
+  const cur = proactOf(agent);
+  const cap = maxProact(agent);
+  const isLive = agent.status === 'live';
+  const canAct = !!(PEOPLE[S.user] && PEOPLE[S.user].approver);
+  const ws = PULSE.watchers.filter(w => w.agentId === agent.id);
+  return `
+    <div class="sec">
+      <h3>
+        <span>Proactivity · what it does unprompted</span>
+        <span class="pill ${cur === 3 ? 'wait' : cur === 2 ? 'accent' : 'draft'}"><i></i>${PROACT[cur].label}</span>
+      </h3>
+      <div class="pl-levels">
+        ${[1, 2, 3].map(n => {
+          const locked = n > cap;
+          const needsAppr = n === 3 && !locked && !canAct;
+          return `<button type="button" class="pl-level ${cur === n ? 'on' : ''} ${locked ? 'lock' : ''}" data-a="set-agent-proactivity" data-id="${esc(agent.id)}" data-l="${n}">
+            <b>${n}. ${PROACT[n].label}</b>
+            <span>${PROACT[n].detail}</span>
+            ${locked ? `<em>${IC.lock} Capped: this agent holds a write tool</em>` : needsAppr ? `<em>${IC.lock} Needs an approver to enable</em>` : ''}
+          </button>`;
+        }).join('')}
+      </div>
+      <div class="callout accent">
+        <div>${isLive ? 'Watchers linked to this agent use this level when they find something.' : 'Takes effect once this agent is Live.'}
+        ${ws.length ? ' Linked watchers: <b>' + ws.map(w => esc(w.name)).join(', ') + '</b>.' : ' No watcher is linked to this agent yet.'}
+        External writes always stop at a human gate, at every level.</div>
+      </div>
+    </div>`;
+}
+
+/* =====================================================================
    PROMPT-TO-AGENT / WORKFLOW COMPILER (PRD 4.2 & 7.1)
    ===================================================================== */
 const AR_RE = /[\u0600-\u06FF]/;
@@ -1899,7 +2784,7 @@ function refine(a, text) {
    ===================================================================== */
 const S = {
   user: 'mk', // 'mk' (Mariam) | 'fa' (Fatima) | 'oh' (Omar) | 'df' (Faisal)
-  view: 'workflows', // 'chats' | 'agent' | 'workflows' | 'runs' | 'models' | 'activity'
+  view: 'pulse', // 'pulse' | 'chats' | 'agent' | 'workflows' | 'runs' | 'models' | 'activity'
   chat: 'agent:ic',
   chatFilter: '',
   wf: Object.keys(WORKFLOWS)[0] || 'inv',
@@ -1967,6 +2852,7 @@ function render() {
   else if (S.view === 'runs') mainContent = renderRunsView();
   else if (S.view === 'models') mainContent = renderModelsView();
   else if (S.view === 'activity') mainContent = renderActivityView();
+  else if (S.view === 'pulse') mainContent = renderPulseView();
 
   app.innerHTML = renderRail() + mainContent;
   renderModal();
@@ -1977,6 +2863,11 @@ function renderRail() {
   return `
     <nav class="rail" aria-label="Main Navigation">
       <div class="logo" title="Beinex Ephrem">E</div>
+      <button class="rail-btn ${S.view === 'pulse' ? 'on' : ''}" data-a="view" data-v="pulse" title="Ephrem Pulse · proactive briefing, suggestions and watchers">
+        ${IC.pulse}
+        <span>Pulse</span>
+        ${pulseRailBadge()}
+      </button>
       <button class="rail-btn ${S.view === 'chats' ? 'on' : ''}" data-a="view" data-v="chats" title="Chats & Councils">
         ${IC.chat}
         <span>Chats</span>
@@ -2478,6 +3369,8 @@ function renderAgentBuilderView() {
                 </div>
               </div>
 
+              ${renderProactivitySection(agent)}
+
               <div class="sec">
                 <h3><span>Safety Guardrails & Governance (PRD 7.8)</span></h3>
                 <div style="display:flex;flex-direction:column;gap:6px">
@@ -2712,7 +3605,7 @@ function renderWorkflowsView() {
 
         <div class="grp">Seven Core Bricks (Drag to Canvas)</div>
         <div class="pal-b" draggable="true" data-a="add-brick" data-pal="trigger" data-title="Trigger Event" title="Click or drag to canvas to add a Trigger">
-          ${IC.flow} <div>Trigger <small>Schedule, Email, Webhook</small></div>
+          ${IC.flow} <div>Trigger <small>Schedule, Email, Webhook, Threshold</small></div>
         </div>
         <div class="pal-b" draggable="true" data-a="add-brick" data-pal="agent" data-title="AI Agent Task" title="Click or drag to canvas to add an AI Agent">
           ${IC.agent} <div>AI Agent <small>noah-verify / decide</small></div>
@@ -2962,97 +3855,177 @@ function renderRunsView() {
         </div>
       </div>
 
-      <div class="card-col scroll">
-        <div class="stat">
-          <div><small>Throughput this week</small><b>47</b></div>
-          <div><small>Straight-Through Auto</small><b style="color:var(--ok)">41</b></div>
-          <div><small>Human Decision Required</small><b>6</b></div>
-          <div><small>Waiting for Fatima</small><b style="color:var(--wait)">1</b></div>
-        </div>
+      <div class="runs-body">
+        <div class="card-col scroll" style="flex:1;min-width:0">
+          <div class="stat">
+            <div><small>Throughput this week</small><b>47</b></div>
+            <div><small>Straight-Through Auto</small><b style="color:var(--ok)">41</b></div>
+            <div><small>Human Decision Required</small><b>6</b></div>
+            <div><small>Waiting for Fatima</small><b style="color:var(--wait)">1</b></div>
+          </div>
 
-        <div class="table">
-          <table>
-            <thead>
-              <tr>
-                <th>Run #</th>
-                <th>Subject / Invoice</th>
-                <th>Outcome Status</th>
-                <th>Decided By</th>
-                <th>When</th>
-                <th>Duration</th>
-                <th>Cost</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${filteredRuns.map(r => `
-                <tr class="click ${S.run === r.n ? 'sel' : ''}" data-a="open-run-drawer" data-n="${r.n}">
-                  <td><b>#${r.n}</b></td>
-                  <td>${r.inv} · ${r.sup} (AED ${fmt(r.amt)})</td>
-                  <td><span class="pill ${OUT[r.out] ? OUT[r.out].pill : 'draft'}"><i></i>${OUT[r.out] ? OUT[r.out].label : r.out}</span></td>
-                  <td>${r.by}</td>
-                  <td>${r.when}</td>
-                  <td>${r.took}</td>
-                  <td class="mono">AED ${r.cost.toFixed(2)}</td>
+          <div class="table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Run #</th>
+                  <th>Subject / Invoice</th>
+                  <th>Outcome Status</th>
+                  <th>Decided By</th>
+                  <th>When</th>
+                  <th>Duration</th>
+                  <th>Cost</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                ${filteredRuns.map(r => `
+                  <tr class="click ${S.run === r.n ? 'sel' : ''}" data-a="open-run-drawer" data-n="${r.n}">
+                    <td><b>#${r.n}</b></td>
+                    <td>${r.inv} · ${r.sup} (AED ${fmt(r.amt)})</td>
+                    <td><span class="pill ${OUT[r.out] ? OUT[r.out].pill : 'draft'}"><i></i>${OUT[r.out] ? OUT[r.out].label : r.out}</span></td>
+                    <td>${r.by}</td>
+                    <td>${r.when}</td>
+                    <td>${r.took}</td>
+                    <td class="mono">AED ${r.cost.toFixed(2)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
         </div>
+
+        ${selectedRun ? `
+          <div class="drawer">
+            <div class="ih">
+              <div style="min-width:0">
+                <div style="font-weight:800;font-size:14.5px;display:flex;align-items:center;gap:8px">
+                  <span>Run #${selectedRun.n} Execution Trace</span>
+                  <span class="pill ${OUT[selectedRun.out] ? OUT[selectedRun.out].pill : 'draft'}" style="font-size:11px;padding:2px 8px">
+                    <i></i>${OUT[selectedRun.out] ? OUT[selectedRun.out].label : selectedRun.out}
+                  </span>
+                </div>
+                <div class="xs muted" style="margin-top:2px">${esc(selectedRun.inv)} · ${esc(selectedRun.sup)} · ${selectedRun.when}</div>
+              </div>
+              <button class="ib" data-a="close-drawer" title="Close trace">${IC.x}</button>
+            </div>
+
+            <div class="ic scroll">
+              <div class="callout ${selectedRun.out === 'waiting' ? 'wait' : selectedRun.out === 'rejected' ? 'bad' : 'ok'}">
+                <div style="font-size:16px;line-height:1;margin-top:2px">${selectedRun.out === 'waiting' ? '⏳' : selectedRun.out === 'rejected' ? '⚠️' : '✓'}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:700;margin-bottom:3px">${OUT[selectedRun.out] ? OUT[selectedRun.out].label : selectedRun.out}</div>
+                  <div class="xs" style="color:var(--fg);opacity:.9;line-height:1.45">${selectedRun.note}</div>
+                  <div class="xs muted" style="margin-top:6px;display:flex;gap:12px;flex-wrap:wrap">
+                    <span><b>Amount:</b> AED ${fmt(selectedRun.amt)}</span>
+                    <span><b>Decided by:</b> ${selectedRun.by}</span>
+                    <span><b>Duration:</b> ${selectedRun.took}</span>
+                    <span><b>Cost:</b> AED ${selectedRun.cost.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="drawer-seal-box">
+                <div class="drawer-seal-head">
+                  <span style="display:flex;align-items:center;gap:6px">
+                    ${IC.shield}
+                    <span>SHA-256 Signed Audit Seal (PRD 5.2)</span>
+                  </span>
+                  <span class="pill ok" style="font-size:10px;padding:1px 6px">Immutable</span>
+                </div>
+                <div class="drawer-seal-hash">
+                  <span style="word-break:break-all">7f83b1657ff1fc53b92dc18148a1d65bfc2d4b1fa3d677284addd200126d9069</span>
+                  <button class="btn s" style="font-size:10px;padding:2px 7px;flex-shrink:0" data-a="toast" data-t="Copied cryptographic SHA-256 audit hash to clipboard">Copy</button>
+                </div>
+                <div class="xs muted" style="font-size:10.5px">
+                  Cryptographically signed for UAE State Audit Authority compliance. Gated writes verified against SAP S/4HANA enterprise ledger.
+                </div>
+              </div>
+
+              <div class="field" style="margin-top:2px">
+                <label style="display:flex;justify-content:space-between;align-items:center">
+                  <span>Execution Steps Trace</span>
+                  <span class="xs muted" style="font-weight:normal">4 steps · 100% verified</span>
+                </label>
+
+                <div class="drawer-steps">
+                  <div class="drawer-step-item">
+                    <div class="drawer-step-badge ok">✓</div>
+                    <div class="drawer-step-body">
+                      <div class="drawer-step-title">
+                        <span>1. Email Ingestion Trigger</span>
+                        <span class="tag ok" style="font-size:10px">Passed</span>
+                      </div>
+                      <div class="drawer-step-desc">Extracted invoice PDF from Finance Mailbox & verified DKIM / SPF transport seal.</div>
+                      <div class="drawer-step-tags">
+                        <span class="drawer-step-tag">240ms</span>
+                        <span class="drawer-step-tag">Mailbox #FIN-01</span>
+                        <span class="drawer-step-tag">PDF 1.4</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="drawer-step-item">
+                    <div class="drawer-step-badge ok">✓</div>
+                    <div class="drawer-step-body">
+                      <div class="drawer-step-title">
+                        <span>2. noah-verify Checking</span>
+                        <span class="tag ok" style="font-size:10px">Passed</span>
+                      </div>
+                      <div class="drawer-step-desc">Deterministic 3-way match: PO line items, unit rates, and Trade License validity verified.</div>
+                      <div class="drawer-step-tags">
+                        <span class="drawer-step-tag">420ms</span>
+                        <span class="drawer-step-tag">620 tokens</span>
+                        <span class="drawer-step-tag">Precision: 99.4%</span>
+                        <span class="drawer-step-tag">Temp: 0.0</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="drawer-step-item">
+                    <div class="drawer-step-badge ${selectedRun.out === 'waiting' ? 'wait' : 'ok'}">${selectedRun.out === 'waiting' ? '⏳' : '✓'}</div>
+                    <div class="drawer-step-body">
+                      <div class="drawer-step-title">
+                        <span>3. User Review Gate (PRD 5.2)</span>
+                        <span class="tag ${selectedRun.out === 'waiting' ? 'wait' : 'ok'}" style="font-size:10px">${selectedRun.out === 'waiting' ? 'Pending' : 'Approved'}</span>
+                      </div>
+                      <div class="drawer-step-desc">${selectedRun.out === 'waiting' ? 'Awaiting cryptographic approval by Fatima Al Mansoori (Director of Finance).' : 'Gated approval verified by Fatima Al Mansoori. Golden Rule compliance confirmed.'}</div>
+                      <div class="drawer-step-tags">
+                        <span class="drawer-step-tag">Signatory: Fatima</span>
+                        <span class="drawer-step-tag">Timestamp: ${selectedRun.when}</span>
+                        <span class="drawer-step-tag">Key: #FA-UAE-2026</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="drawer-step-item">
+                    <div class="drawer-step-badge ${selectedRun.out === 'waiting' ? '' : selectedRun.out === 'rejected' ? 'wait' : 'ok'}">${selectedRun.out === 'waiting' ? '4' : '✓'}</div>
+                    <div class="drawer-step-body">
+                      <div class="drawer-step-title">
+                        <span>4. SAP GL Posting</span>
+                        <span class="tag ${selectedRun.out === 'waiting' ? 'draft' : 'ok'}" style="font-size:10px">${selectedRun.out === 'waiting' ? 'Queued' : 'Posted'}</span>
+                      </div>
+                      <div class="drawer-step-desc">${selectedRun.out === 'waiting' ? 'Direct write to SAP S/4HANA Finance queued pending cryptographic sign-off.' : 'Direct write executed to SAP S/4HANA GL Account #21040. Immutable transaction logged.'}</div>
+                      <div class="drawer-step-tags">
+                        <span class="drawer-step-tag">Ref: FP-77109</span>
+                        <span class="drawer-step-tag">SAP ERP v24.2</span>
+                        <span class="drawer-step-tag">GL: #21040</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-flex" style="gap:8px;margin-top:auto;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--line)">
+                ${selectedRun.out === 'waiting' ? `
+                  <button class="btn s ok grow" data-a="open-approval-modal" data-run="${selectedRun.n}">Review Human Approval Gate (Fatima)</button>
+                ` : ''}
+                <button class="btn s grow" data-a="toast" data-t="Replaying Run #${selectedRun.n} in test sandbox with identical inputs...">Replay with same data</button>
+                <button class="btn s" data-a="toast" data-t="Exported Run #${selectedRun.n} cryptographic seal certificate (PDF)">Certificate</button>
+              </div>
+            </div>
+          </div>
+        ` : ''}
       </div>
-
-      ${selectedRun ? `
-        <div class="drawer">
-          <div class="ih">
-            <div>
-              <b>Run #${selectedRun.n} Execution Trace</b>
-              <div class="xs muted">${selectedRun.inv} · ${selectedRun.when}</div>
-            </div>
-            <button class="ib" data-a="close-drawer">${IC.x}</button>
-          </div>
-          <div class="ic scroll">
-            <div class="callout ${selectedRun.out === 'waiting' ? 'wait' : selectedRun.out === 'rejected' ? 'bad' : 'ok'}">
-              <div>
-                <b>Outcome: ${OUT[selectedRun.out] ? OUT[selectedRun.out].label : selectedRun.out}</b><br>
-                ${selectedRun.note}
-              </div>
-            </div>
-
-            <div class="field">
-              <label>SHA-256 Signed Audit Seal</label>
-              <div class="mono xs muted" style="word-break:break-all">7f83b1657ff1fc53b92dc18148a1d65bfc2d4b1fa3d677284addd200126d9069</div>
-            </div>
-
-            <div class="field">
-              <label>Execution Steps Trace</label>
-              <div style="display:flex;flex-direction:column;gap:8px">
-                <div class="card" style="padding:9px">
-                  <b>1. Email Ingestion Trigger</b>
-                  <div class="xs muted">Extracted invoice PDF from Finance Mailbox</div>
-                </div>
-                <div class="card" style="padding:9px">
-                  <b>2. noah-verify Checking</b>
-                  <div class="xs muted">Latency: 420ms · Tokens: 620 · Precision: 99.4%</div>
-                </div>
-                <div class="card" style="padding:9px">
-                  <b>3. User Review Gate</b>
-                  <div class="xs muted">Approver: Fatima Al Mansoori · Signed: ${selectedRun.when}</div>
-                </div>
-                <div class="card" style="padding:9px">
-                  <b>4. SAP GL Posting</b>
-                  <div class="xs muted">Ref: FP-77109 · Gated by Human Sign-off</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row-flex" style="gap:8px;margin-top:auto;flex-wrap:wrap">
-              ${selectedRun.out === 'waiting' ? `
-                <button class="btn s ok grow" data-a="open-approval-modal" data-run="${selectedRun.n}">Review Human Approval Gate (Fatima)</button>
-              ` : ''}
-              <button class="btn s grow" data-a="toast" data-t="Replaying Run #${selectedRun.n} with same sample data...">Replay with same data</button>
-            </div>
-          </div>
-        </div>
-      ` : ''}
     </main>
   `;
 }
@@ -3185,6 +4158,7 @@ function renderModal() {
               <select id="wf-trigger-in" class="select" style="width:100%">
                 <option value="Email · Finance mailbox" ${isEdit && wf.trigger.includes('Email') ? 'selected' : ''}>Incoming Email (Shared Finance Mailbox)</option>
                 <option value="SAP · Ledger event" ${isEdit && wf.trigger.includes('SAP') ? 'selected' : ''}>SAP S/4HANA Ledger Event / Webhook</option>
+                <option value="Threshold · Metric alert" ${isEdit && wf.trigger.includes('Threshold') ? 'selected' : ''}>Metric Threshold / Anomaly Alert (proactive)</option>
                 <option value="Schedule · Weekly" ${isEdit && wf.trigger.includes('Schedule') ? 'selected' : ''}>Scheduled Cron (e.g. Weekly on Sunday)</option>
                 <option value="When asked in chat" ${isEdit && wf.trigger.includes('chat') ? 'selected' : ''}>Interactive Chat / Slash Command</option>
               </select>
@@ -4006,6 +4980,9 @@ document.addEventListener('click', e => {
   else if (a === 'export-audit-btn') {
     toast('Exported signed audit pack for UAE State Audit Authority (PDF / CSV)');
   }
+  else if ((a && a.indexOf('pulse-') === 0) || a === 'set-agent-proactivity') {
+    handlePulseAction(a, el);
+  }
   else if (a === 'mark-all-read') {
     S.unread = 0;
     render();
@@ -4077,6 +5054,19 @@ document.addEventListener('click', e => {
   }
   else if (a === 'toast') {
     toast(el.dataset.t);
+  }
+});
+
+// Keyboard Accessibility (Escape closes active drawer or modal)
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (S.modal) {
+      S.modal = null;
+      render();
+    } else if (S.run) {
+      S.run = null;
+      render();
+    }
   }
 });
 

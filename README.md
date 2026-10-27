@@ -34,6 +34,12 @@ Based on **Beinex AI Agent Workflow Builder PRD v1.0**.
 7. **Kiosk & Showcase Mode (PRD 7.16)**:
    - Touch-optimized 48px interface tailored for Beinex HQ Executive Experience Centres with instant scenario simulation.
 
+8. **Ephrem Pulse · Governed Proactivity**:
+   - **Autonomous Watchers**: Background listeners across Schedule, Webhooks/Events, Metric Thresholds, and Inbound Mailboxes.
+   - **Morning Executive Briefing**: Synthesizes open approvals, paused systems, failed runs, and watcher findings.
+   - **Governed Suggestions & One-Click Actions**: Suggests draft workflows (e.g. contract renewal), autonomy upgrades, and rule additions while enforcing Fatima Al Mansoori / Omar Haddad human sign-offs.
+   - **Per-Agent Proactivity Levels (1: Notify, 2: Draft for approval, 3: Act within limits)**: Proactively acts while adhering strictly to the Golden Rule (agents with write tools are permanently capped at Level 2).
+
 ---
 
 ## 🚀 Running the Prototype Locally
