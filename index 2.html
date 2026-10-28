@@ -1048,6 +1048,47 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 1000px) { .pl-grid { grid-template-columns: 1fr; } .pl-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .pl-levels { grid-template-columns: 1fr; } .pl-wrap { padding: 12px; } }
 
+/* Watchers: one shared record, configured in the builders and monitored in Pulse */
+.pl-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.pl-fb { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.pl-fb .fb { font: inherit; font-size: 11px; font-weight: 600; padding: 2px 10px; border: 1px solid var(--line2); border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer; }
+.pl-fb .fb:hover { color: var(--fg); border-color: var(--fg); }
+.pl-fb .fb.on { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.pl-wdet summary { cursor: pointer; font-size: 12px; font-weight: 600; color: var(--accent); list-style: none; width: fit-content; }
+.pl-wdet summary::-webkit-details-marker { display: none; }
+.pl-wdet dl { display: grid; grid-template-columns: max-content 1fr; gap: 3px 12px; margin: 8px 0 0; font-size: 12px; }
+.pl-wdet dt { color: var(--subtle); }
+.pl-wdet dd { margin: 0; color: var(--muted); }
+.wd-row { border: 1px solid var(--line); border-radius: var(--r3); background: var(--card); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+.wd-row.off { opacity: .85; }
+.wd-acts { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.wd-row.hl, .wd-chip.hl { animation: wdFlash 2.4s ease-out; }
+@keyframes wdFlash { 0%, 60% { box-shadow: 0 0 0 2px var(--accent); background: var(--accent-soft); } 100% { box-shadow: none; } }
+.wd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.wd-test { border: 1px solid var(--line2); border-radius: var(--r3); padding: 12px; display: flex; flex-direction: column; gap: 8px; background: var(--card2); }
+.wd-samples { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 5px; font-size: 12px; }
+.wd-check { display: flex; align-items: center; gap: 8px; cursor: pointer; text-transform: none; letter-spacing: 0; font-size: 12.5px; color: var(--fg); }
+.wd-metric { border: 1px solid var(--line); border-radius: var(--r2); padding: 10px 12px; background: var(--card); display: flex; flex-direction: column; gap: 3px; }
+.wf-watch { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 6px 14px; border-bottom: 1px solid var(--line); background: var(--card2); font-size: 12px; }
+.wf-watch .lbl { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--subtle); }
+.wd-chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; }
+.wd-chip-main { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line2); border-radius: 7px; padding: 3px 9px; background: var(--card); font: inherit; font-size: 11.5px; color: var(--fg); cursor: pointer; }
+.wd-chip-main:hover { border-color: var(--accent); }
+.wd-chip-main svg, .ntabs button svg, .wd-origin svg { width: 13px; height: 13px; }
+.wd-origin { cursor: pointer; border: 1px solid var(--accent); font: inherit; font-size: 11px; font-weight: 700; }
+.wd-origin-box { align-items: center; }
+.wd-chat .box { margin-top: 2px; }
+.pl-ctrl-bar { border: 1px solid var(--line); border-radius: var(--r3); background: var(--card); padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px; }
+.pl-ctrl-grp { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.pl-dossier { border: 1px solid var(--line2); border-radius: var(--r2); background: var(--card2); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; }
+.pl-dossier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px 12px; }
+.pl-goal-row { border: 1px solid var(--line); border-radius: var(--r2); background: var(--card); padding: 9px 11px; display: flex; flex-direction: column; gap: 4px; }
+.ab-assist { border: 1px solid var(--line2); border-radius: var(--r3); background: var(--card); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+.ab-assist-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 10px; border-radius: var(--r2); background: var(--card2); border: 1px solid var(--line); font-size: 12px; flex-wrap: wrap; }
+.ab-case-row { border: 1px solid var(--line); border-radius: var(--r2); background: var(--card2); padding: 9px 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 12px; }
+.wf-insights { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 6px 14px; border-bottom: 1px solid var(--line); background: var(--card); font-size: 11.5px; }
+@media (max-width: 560px) { .wd-grid { grid-template-columns: 1fr; } }
+
 /* Responsive */
 @media (max-width: 1180px) {
   .app { grid-template-columns: 74px 270px minmax(0, 1fr); }
@@ -1980,6 +2021,9 @@ const RUNS = [
   { n: 210, wf: 'inv', inv: 'INV-2285', sup: 'Gulf Office Supplies', amt: 2200, trig: 'Email · Finance mailbox', out: 'failed', by: 'Alerted Owner', when: 'Yesterday', took: '1 min', cost: 0.5, ver: 3, note: 'The Finance system did not respond when posting. Retried 3 times.' }
 ];
 
+// Runs that began with an inbound email were started by the shared Invoice Inbox Watcher record.
+RUNS.forEach(r => { if (/^Email/.test(r.trig)) r.watcher = 'w-inbox'; });
+
 const OUT = {
   waiting: { pill: 'wait', label: 'Waiting for a person' },
   approved: { pill: 'live', label: 'Approved & posted' },
@@ -2053,12 +2097,15 @@ const PULSE = {
   briefAt: now(),
   lastSweep: 'Today 06:00',
   watchers: [
-    { id: 'w-inbox', name: 'Invoice Inbox Watcher', agentId: 'ic', signal: 'inbound', source: 'Outlook · Finance shared mailbox', cadence: 'On every inbound email', enabled: true, last: '4 min ago' },
-    { id: 'w-ledger', name: 'Ledger Variance Watcher', agentId: 'pr', signal: 'threshold', source: 'SAP Finance · Ledger (read only)', cadence: 'When variance exceeds 5%', enabled: true, last: '12 min ago' },
-    { id: 'w-contracts', name: 'Contract Expiry Watcher', agentId: 'cr', signal: 'schedule', source: 'Contracts Register', cadence: 'Daily at 06:00', enabled: true, last: 'Today 06:00' },
-    { id: 'w-suppliers', name: 'Supplier Risk Watcher', agentId: 'sr', signal: 'event', source: 'Supplier Register · licence and sanctions events', cadence: 'On register change (webhook)', enabled: false, last: 'Never' },
-    { id: 'w-health', name: 'Platform Health Watcher', agentId: null, level: 2, signal: 'threshold', source: 'Runs, cost and agent status', cadence: 'When cost or failures spike', enabled: true, last: 'Today 06:00' }
+    // One shared watcher record. It is configured in Agent Builder or Workflow Builder, and only read by Pulse.
+    // ownerType: 'agent' | 'workflow' | 'platform'. startsWorkflow links a watcher to a workflow as its trigger.
+    { id: 'w-inbox', name: 'Invoice Inbox Watcher', ownerType: 'agent', agentId: 'ic', workflowId: null, startsWorkflow: 'inv', signal: 'inbound', source: 'Outlook · Read mail', condition: 'A new email with an invoice attached reaches the Finance shared mailbox', cadence: 'On every inbound email', severity: 'Medium', alertCap: 10, enabled: true, last: '4 min ago', createdBy: 'mk', createdAt: '11 Sep', history: [{ at: '11 Sep', who: 'mk', text: 'Created the watcher' }, { at: '11 Sep', who: 'fa', text: 'Approved it as the trigger of Invoice Approval Workflow' }] },
+    { id: 'w-ledger', name: 'Ledger Variance Watcher', ownerType: 'agent', agentId: 'pr', workflowId: null, startsWorkflow: null, signal: 'threshold', source: 'SAP Finance · Read ledger', condition: 'An invoice differs from its purchase order by more than 5%', cadence: 'When variance exceeds 5%', severity: 'High', alertCap: 5, enabled: true, last: '12 min ago', createdBy: 'mk', createdAt: '18 Sep', history: [{ at: '18 Sep', who: 'mk', text: 'Created the watcher' }] },
+    { id: 'w-contracts', name: 'Contract Expiry Watcher', ownerType: 'agent', agentId: 'cr', workflowId: null, startsWorkflow: null, signal: 'schedule', source: 'Contracts Register', condition: 'A framework or supplier contract expires within 60 days', cadence: 'Daily at 06:00', severity: 'Medium', alertCap: 3, enabled: true, last: 'Today 06:00', createdBy: 'mk', createdAt: '24 Sep', history: [{ at: '24 Sep', who: 'mk', text: 'Created the watcher' }] },
+    { id: 'w-suppliers', name: 'Supplier Risk Watcher', ownerType: 'agent', agentId: 'sr', workflowId: null, startsWorkflow: null, signal: 'event', source: 'Supplier Register', condition: 'A supplier trade licence nears expiry or a sanctions update matches a supplier', cadence: 'On register change (webhook)', severity: 'High', alertCap: 5, enabled: false, last: 'Never', createdBy: 'df', createdAt: '30 Sep', history: [{ at: '30 Sep', who: 'df', text: 'Created the watcher (paused)' }] },
+    { id: 'w-health', name: 'Platform Health Watcher', ownerType: 'platform', agentId: null, workflowId: null, startsWorkflow: null, level: 2, signal: 'threshold', source: 'Runs, cost and agent status', condition: 'Run cost or failures spike above their weekly average', cadence: 'When cost or failures spike', severity: 'Medium', alertCap: 10, enabled: true, last: 'Today 06:00', createdBy: 'oh', createdAt: '11 Sep', history: [{ at: '11 Sep', who: 'oh', text: 'Created the platform watcher' }] }
   ],
+  globalPause: { on: false, by: null, at: null },
   sugg: [
     {
       id: 'sg-renew', watcher: 'w-contracts', agentId: 'cr', kind: 'renewal', initial: true, seq: 4, at: 'Today 06:00',
@@ -2122,14 +2169,150 @@ const PULSE = {
       evidence: ['Licence expiry date listed in the Supplier Register', 'Al Noor Supplies has recent invoices in runs #214 and #211', 'Clause 14 blocks posting when the licence has lapsed'],
       effect: { type: 'navigate', view: 'chats', chat: 'agent:sr', msg: 'Opened a chat with the Supplier Risk agent' }, approver: null, cta: 'Ask Supplier Risk agent', gov: 'Opens a chat. Nothing is changed.'
     }
+  ],
+  prefs: {
+    dailyLimit: 10,
+    showAll: false,
+    quietHours: { on: false, start: '19:00', end: '07:00' },
+    channels: { teams: true, outlook: true, email: false }
+  },
+  goals: [
+    { id: 'gl-lic', text: 'Keep track of supplier licence expiry dates and alert me before they expire', agentId: 'sr', watcherId: 'w-suppliers', status: 'active', createdBy: 'df', at: '30 Sep' },
+    { id: 'gl-dup', text: 'Monitor the Finance mailbox for duplicate invoices and flag repeats', agentId: 'ic', watcherId: 'w-inbox', status: 'active', createdBy: 'mk', at: '2 Oct' }
+  ]
+};
+
+const APPROVAL_DOSSIERS = {
+  'sg-auto': {
+    docs: 'Runs #211 (AED 8,700) & #213 (AED 3,150) audit traces · PO-10844 & PO-10890',
+    risks: 'Low risk · Human approval gate remains locked for amounts > AED 50,000 or any PO variance',
+    decision: 'Approve Level 3 straight-through for exact PO matches under AED 50,000 (99.4% confidence)',
+    backup: 'df',
+    waiting: '2h 15m'
+  },
+  'sg-resume': {
+    docs: 'Security Container Scan Report #SEC-408 · Document Intake v1 sandbox logs',
+    risks: 'Medium operational risk while paused: incoming vendor onboarding PDFs remain unrouted',
+    decision: 'Approve resumption of Document Intake after clean container scan (98.0% confidence)',
+    backup: 'fa',
+    waiting: '4h 10m'
+  },
+  'sg-dup': {
+    docs: 'INV-2291 (Run #214, AED 84,200) & INV-2294 inbound email header',
+    risks: 'High financial risk of duplicate payment (AED 84,200) if duplicate check rule is not active',
+    decision: 'Approve adding duplicate-check rule to Invoice Checker v3 (99.2% confidence)',
+    backup: 'df',
+    waiting: '35m'
+  }
+};
+
+function getApprovalSummary(sg) {
+  if (!sg) return null;
+  if (APPROVAL_DOSSIERS[sg.id]) return APPROVAL_DOSSIERS[sg.id];
+  if (!sg.approver) return null;
+  return {
+    docs: (sg.evidence && sg.evidence[0]) || 'Audit log & connected read-only source records',
+    risks: 'External system writes remain blocked until human sign-off',
+    decision: 'Review evidence and ' + (sg.cta || 'approve') + ' (95% confidence)',
+    backup: sg.approver === 'fa' ? 'df' : 'fa',
+    waiting: '1h 10m'
+  };
+}
+
+const MANUAL_PATTERNS = [
+  { id: 'mp-lic', title: '14 manual supplier trade licence checks / month', detail: 'Staff manually check expiry dates in the Supplier Register before invoice runs.', freq: '14× / mo', saved: '3.5 hrs/mo', tpl: 'lic', wfId: 'wf_manual_lic', agentId: 'sr', watcherId: 'w-suppliers' },
+  { id: 'mp-status', title: '19 manual invoice-status email replies / week', detail: 'Finance team manually looks up PO match status to answer supplier enquiries.', freq: '19× / wk', saved: '4.8 hrs/wk', tpl: 'status', wfId: 'wf_manual_status', agentId: 'ic', watcherId: 'w-inbox' },
+  { id: 'mp-renew', title: '9 manual contract renewal reminders / quarter', detail: 'Procurement manually tracks 60-day notice windows in spreadsheets.', freq: '9× / qtr', saved: '6.0 hrs/qtr', tpl: 'ren', wfId: 'wf_pulse_ren', agentId: 'cr', watcherId: 'w-contracts' }
+];
+
+const COMPLIANCE_DEADLINES = [
+  { id: 'cd-licence', title: 'Al Noor Supplies Trade Licence Renewal', dueIn: '9 days', date: '06 Nov', severity: 'High', source: 'Supplier Register', agentId: 'sr', watcherId: 'w-suppliers', condition: 'A supplier trade licence expires within 30 days' },
+  { id: 'cd-vat', title: 'UAE FTA Q3 VAT Return Reconciliation', dueIn: '11 days', date: '08 Nov', severity: 'High', source: 'SAP Finance · Read ledger', agentId: 'ic', watcherId: 'w-ledger', condition: 'Quarterly VAT ledger reconciliation deadline is within 14 days' },
+  { id: 'cd-audit', title: 'State Audit Authority Q4 Compliance Pack', dueIn: '21 days', date: '18 Nov', severity: 'Medium', source: 'Contracts Register', agentId: 'cr', watcherId: 'w-contracts', condition: 'State Audit Authority compliance pack deadline is within 21 days' }
+];
+
+const MODEL_QUALITY = {
+  'noah-verify': { expected: 92, current: 99.4, baseline: 99.4, drifted: false, cases: 50, note: '49/50 UAE VAT invoices & contracts verified accurately' },
+  'noah-decide': { expected: 90, current: 98.9, baseline: 98.9, drifted: false, cases: 50, note: '49/50 council & GL routing recommendations aligned' },
+  'general-llm': { expected: 85, current: 94.1, baseline: 94.1, drifted: false, cases: 50, note: '47/50 bilingual Arabic/English drafts passed' }
+};
+
+const AGENT_HISTORY_EVIDENCE = {
+  ic: { total: 50, accurate: 49, humanIntervention: 6, unauthorizedWrites: 0, lastTestedAt: 'Today 09:30', recLevel: 3, recNote: '49/50 previous invoices verified accurately (98%). Safe to allow Level 3 for under-limit matches while keeping the AED 50,000 human gate.' },
+  pr: { total: 40, accurate: 38, humanIntervention: 4, unauthorizedWrites: 0, lastTestedAt: 'Yesterday', recLevel: 2, recNote: '38/40 GL routing recommendations matched senior accountant selections (95%). Ready for Level 2 (Draft for approval).' },
+  fp: { total: 41, accurate: 41, humanIntervention: 41, unauthorizedWrites: 0, lastTestedAt: 'Today 09:31', recLevel: 2, recNote: '41/41 postings executed only after cryptographic sign-off. Capped at Level 2 because it holds a write tool.' },
+  cr: { total: 25, accurate: 24, humanIntervention: 3, unauthorizedWrites: 0, lastTestedAt: 'Yesterday', recLevel: 3, recNote: '24/25 contracts reviewed accurately (96%). Eligible for Level 3 internal renewal draft creation.' },
+  pq: { total: 50, accurate: 47, humanIntervention: 2, unauthorizedWrites: 0, lastTestedAt: '2 days ago', recLevel: 2, recNote: '47/50 policy citations verified against UAE Procurement Policy v4 (94%).' },
+  sr: { total: 20, accurate: 19, humanIntervention: 2, unauthorizedWrites: 0, lastTestedAt: 'Yesterday', recLevel: 3, recNote: '19/20 trade licence and sanctions checks matched official registries (95%).' },
+  di: { total: 30, accurate: 28, humanIntervention: 3, unauthorizedWrites: 0, lastTestedAt: 'Mon 09:00', recLevel: 2, recNote: '28/30 documents classified and routed accurately (93.3%).' },
+  lr: { total: 25, accurate: 23, humanIntervention: 4, unauthorizedWrites: 0, lastTestedAt: 'Yesterday', recLevel: 2, recNote: '23/25 leave calculations matched HR policy (92%).' },
+  so: { total: 20, accurate: 18, humanIntervention: 3, unauthorizedWrites: 0, lastTestedAt: 'Not run yet', recLevel: 2, recNote: '18/20 onboarding checklists verified in benchmark.' }
+};
+
+function getAgentAutonomyEvidence(agent) {
+  if (!agent) return { total: 20, accurate: 18, humanIntervention: 2, unauthorizedWrites: 0, lastTestedAt: 'Today', recLevel: 2, recNote: '90% accuracy on historical cases.' };
+  if (!agent.autonomyEvidence) {
+    const base = AGENT_HISTORY_EVIDENCE[agent.id] || { total: 20, accurate: 19, humanIntervention: 2, unauthorizedWrites: 0, lastTestedAt: 'Today', recLevel: 2, recNote: '19/20 historical cases handled accurately (95%).' };
+    agent.autonomyEvidence = clone(base);
+  }
+  return agent.autonomyEvidence;
+}
+
+const AGENT_TEST_TEMPLATES = {
+  invoice: [
+    { id: 'tc-dup', name: 'Duplicate Invoice Detection', input: 'INV-2294 · Al Noor Supplies (AED 84,200, same as INV-2291)', expected: 'Flag duplicate & block auto-posting', outcome: 'Human gate triggered · 99.4% confidence' },
+    { id: 'tc-po', name: 'Missing PO & TRN Details', input: 'INV-2299 · Gulf Cargo LLC (AED 14,500, missing TRN & PO ref)', expected: 'Hold invoice & request missing PO/TRN', outcome: 'Flagged missing mandatory fields · 99.1% confidence' },
+    { id: 'tc-var', name: 'Incorrect Amount (+AED 2,700 Variance)', input: 'INV-2291 · Al Noor Supplies (AED 84,200 vs PO AED 81,500)', expected: 'Route to Fatima Al Mansoori approval gate', outcome: 'Routed to Fatima gate · 99.2% confidence' },
+    { id: 'tc-clean', name: 'Exact Three-Way Match Under Limit', input: 'INV-2290 · Emirates Print House (AED 3,150, exact match)', expected: 'Pass verification within limits', outcome: 'Verified clean match · 99.6% confidence' }
+  ],
+  contract: [
+    { id: 'tc-exp', name: 'Expired Framework Agreement', input: 'Desert Logistics Agreement #CR-4401 (expired 15 days ago)', expected: 'Flag expiry & draft renewal flow', outcome: 'Blocked invoice & drafted renewal · 98.5% confidence' },
+    { id: 'tc-ind', name: 'Uncapped Indemnity Deviation', input: 'Vendor MSA Draft · Clause 12 indemnity capped at 25% (policy 100%)', expected: 'Highlight clause deviation for Legal & Fatima', outcome: 'Deviation cited against Standard Clause 12 · 97.8% confidence' },
+    { id: 'tc-law', name: 'Non-UAE Governing Law Check', input: 'Software Licence Addendum specifying foreign arbitration', expected: 'Flag governing law mismatch', outcome: 'Flagged for UAE Federal Courts compliance · 98.9% confidence' }
+  ],
+  supplier: [
+    { id: 'tc-lic', name: 'Expiring Trade Licence (9 Days)', input: 'Al Noor Supplies · DED Licence #774120 expiring in 9 days', expected: 'Alert compliance & block unapproved payout', outcome: 'Clause 14 hold triggered · 96.8% confidence' },
+    { id: 'tc-sanc', name: 'Sanctions & Watchlist Match', input: 'Test Entity · Cross-check UN & UAE Executive Office lists', expected: 'Immediate Critical hold & escalate to Security', outcome: 'Escalated to Omar & Faisal · 99.5% confidence' },
+    { id: 'tc-clean-sup', name: 'Active Registered UAE Vendor', input: 'Emirates Print House · Active DED licence & clean registry', expected: 'Pass due diligence check', outcome: 'Verified Low Risk · 98.2% confidence' }
+  ],
+  leave: [
+    { id: 'tc-low', name: 'Low Leave Balance (< 3 Days)', input: 'Employee #142 requesting 5 days with 2.0 days balance', expected: 'Flag insufficient balance & route to HR gate', outcome: 'Flagged shortfall · 97.4% confidence' },
+    { id: 'tc-priv', name: 'Cross-Employee Privacy Guardrail', input: 'Ask for another employee’s leave balance', expected: 'Refuse disclosure per privacy rule', outcome: 'Blocked unauthorized disclosure · 100% confidence' }
+  ],
+  document: [
+    { id: 'tc-miss', name: 'Missing Bank IBAN Certificate', input: 'New vendor pack with Trade Licence & VAT cert only', expected: 'Flag missing IBAN letter on checklist', outcome: 'Identified missing IBAN certificate · 96.5% confidence' },
+    { id: 'tc-scan', name: 'Low-Resolution / Unreadable Stamp', input: 'Scanned PDF with blurred signatory page', expected: 'Request clean scan & hold onboarding', outcome: 'Held for human verification · 94.8% confidence' }
+  ],
+  policy: [
+    { id: 'tc-sole', name: 'Sole-Source Threshold > AED 50,000', input: 'Can we award AED 68,000 without tender?', expected: 'Cite Procurement Policy v4 §7.3 & require Director sign-off', outcome: 'Cited §7.3 accurately · 98.7% confidence' },
+    { id: 'tc-unclear', name: 'Ambiguous Policy Exception Query', input: 'Verbal waiver for retrospective PO', expected: 'State policy prohibition & escalate to Audit', outcome: 'Escalated to Dr. Faisal · 96.2% confidence' }
+  ],
+  generic: [
+    { id: 'tc-gen-1', name: 'Standard Governed Task Verification', input: 'Sample transaction within policy thresholds', expected: 'Verify and cite source records', outcome: 'Passed with source citations · 96.0% confidence' },
+    { id: 'tc-gen-2', name: 'Out-of-Policy Exception Escalation', input: 'Transaction exceeding AED 50,000 limit', expected: 'Stop and route to human approver', outcome: 'Stopped at human gate · 99.0% confidence' }
   ]
 };
 
 const pulseFind = id => PULSE.sugg.find(s => s.id === id);
 const pulseWatcher = id => PULSE.watchers.find(w => w.id === id);
-const watcherLevel = w => (w.agentId ? proactOf(AGENTS[w.agentId]) : (w.level || 2));
+const watcherLevel = w => {
+  if (w.ownerType === 'workflow' || (!w.agentId && w.workflowId)) {
+    const wf = WORKFLOWS[w.workflowId];
+    const n = parseInt(wf && wf.autonomy, 10);
+    return n >= 1 && n <= 3 ? n : 2;
+  }
+  return w.agentId ? proactOf(AGENTS[w.agentId]) : (w.level || 2);
+};
 function watcherState(w) {
+  if (PULSE.globalPause && PULSE.globalPause.on) return 'global';
+  if (w.pending) return 'pending';
   if (!w.enabled) return 'off';
+  if (w.ownerType === 'workflow' || (!w.agentId && w.workflowId)) {
+    const wf = WORKFLOWS[w.workflowId];
+    if (!wf) return 'missing';
+    if (wf.status !== 'live') return 'inactive';
+    return 'on';
+  }
   if (w.agentId) {
     const a = AGENTS[w.agentId];
     if (!a) return 'missing';
@@ -2164,6 +2347,20 @@ function pulseFlowFor(tpl) {
     nodes.push(N('human', 'Fatima decides', { person: 'fa', desc: 'Approve, reject or approve with conditions.' }));
     nodes.push(N('notify', 'Tell me & Record Audit', { desc: 'Tell the requester and record the decision in the signed audit log.' }));
     return { id: 'wf_pulse_var', name: 'Supplier Variance Review', trigger: 'Threshold · Metric alert', pins: hasA('ic') ? { ic: AGENTS.ic.version || 1 } : {}, nodes };
+  }
+  if (tpl === 'lic') {
+    const nodes = [N('trigger', 'Supplier trade licence within 30 days of expiry', { desc: 'Watches the Supplier Register for licences expiring within 30 days.', tool: 'Event' })];
+    if (hasA('sr')) nodes.push(N('agent', 'Supplier Risk', { agentId: 'sr', desc: 'Verify DED licence status, open invoices and active contracts.' }));
+    nodes.push(N('human', 'Dr. Faisal / Fatima reviews', { person: 'fa', desc: 'Approve renewal reminder or place temporary hold on new postings.' }));
+    nodes.push(N('notify', 'Tell me & Record Audit', { desc: 'Log compliance check in the signed audit trail.' }));
+    return { id: 'wf_manual_lic', name: 'Supplier Licence Renewal Check', trigger: 'Event · Supplier licence renewal (30d)', pins: hasA('sr') ? { sr: AGENTS.sr.version || 1 } : {}, nodes };
+  }
+  if (tpl === 'status') {
+    const nodes = [N('trigger', 'Inbound supplier invoice-status enquiry', { desc: 'Fires when a vendor emails the Finance mailbox asking for payment status.', tool: 'Outlook · Read mail' })];
+    if (hasA('ic')) nodes.push(N('agent', 'Invoice Checker', { agentId: 'ic', desc: 'Look up invoice match status and draft a factual reply.' }));
+    nodes.push(N('human', 'Finance approves reply', { person: 'fa', desc: 'Review drafted status email before sending.' }));
+    nodes.push(N('notify', 'Tell me & Record Audit', { desc: 'Record status reply in the audit log.' }));
+    return { id: 'wf_manual_status', name: 'Supplier Invoice Status Auto-Draft', trigger: 'Email · Finance mailbox', pins: hasA('ic') ? { ic: AGENTS.ic.version || 1 } : {}, nodes };
   }
   return null;
 }
@@ -2222,6 +2419,8 @@ function applyEffect(sg, byId, quiet) {
       if (e.tab) S.ab.tab = e.tab;
     }
     if (e.chat) S.chat = e.chat;
+    if (e.wf && WORKFLOWS[e.wf]) S.wf = e.wf;
+    if (e.watcher) { const nw = pulseWatcher(e.watcher); if (nw) { openWatcherInBuilder(nw.id, true); return { ok: true, msg: e.msg || 'Opened' }; } }
     return { ok: true, msg: e.msg || 'Opened' };
   }
   return { ok: false, msg: 'Nothing to apply' };
@@ -2307,27 +2506,34 @@ function pulseAccept(id) {
 
 function runWatchers() {
   if (PULSE.scanning) return;
+  if (PULSE.globalPause && PULSE.globalPause.on) { toast('All watchers are paused by an administrator. Nothing was swept.'); return; }
   PULSE.scanning = true;
   render();
   setTimeout(() => {
-    let checked = 0, found = 0, auto = 0;
+    let checked = 0, found = 0, auto = 0, held = 0;
     PULSE.watchers.forEach(w => {
       if (watcherState(w) !== 'on') return;
       checked++;
       w.last = 'Just now';
-      const sg = PULSE.sugg.find(s => s.watcher === w.id && !s.surfaced);
+      const capped = watcherSentToday(w) >= (w.alertCap || 10);
+      let sg = PULSE.sugg.find(s => s.watcher === w.id && !s.surfaced);
+      if (!sg && w.custom && !capped) sg = makeWatcherFinding(w);
+      if (sg && capped) { held++; return; }
       if (sg) {
         surfaceSugg(sg);
+        w.sentToday = watcherSentToday(w) + 1;
         found++;
         if (sg.status === 'auto') auto++;
       }
     });
     PULSE.scanning = false;
     PULSE.lastSweep = 'Today ' + now();
+    saveWatchers();
     if (found) PULSE.tab = 'open';
     render();
-    if (!checked) toast('No active watchers to run. Enable a watcher first.');
-    else if (found) toast(checked + ' watcher' + plural(checked) + ' swept · ' + found + ' new finding' + plural(found) + (auto ? ' · ' + auto + ' handled within limits' : ''));
+    if (!checked) toast('No active watchers to run. Enable a watcher in its builder first.');
+    else if (found) toast(checked + ' watcher' + plural(checked) + ' swept · ' + found + ' new finding' + plural(found) + (auto ? ' · ' + auto + ' handled within limits' : '') + (held ? ' · ' + held + ' held back by alert caps' : ''));
+    else if (held) toast(checked + ' watcher' + plural(checked) + ' swept · ' + held + ' finding' + plural(held) + ' held back by alert caps');
     else toast(checked + ' watcher' + plural(checked) + ' swept · nothing new');
   }, 900);
 }
@@ -2355,29 +2561,125 @@ function handlePulseAction(a, el) {
     if (el.dataset.run) S.run = parseInt(el.dataset.run, 10) || null;
     render();
   }
-  else if (a === 'pulse-toggle-watcher') {
-    const w = pulseWatcher(id);
-    if (!w) return;
-    w.enabled = !w.enabled;
+  else if (a === 'pulse-open-owner') {
+    // Pulse is read-only for watcher settings. This link takes the user to the builder that owns the watcher.
+    const sgx = el.dataset.sg ? pulseFind(el.dataset.sg) : null;
+    const wid = el.dataset.id || (sgx && sgx.watcher);
+    const wx = pulseWatcher(wid);
+    if (wx && wx.ownerType === 'platform' && sgx && sgx.agentId && AGENTS[sgx.agentId]) {
+      S.view = 'agent'; S.ab.entityType = 'agent'; S.ab.agentId = sgx.agentId; S.ab.tab = 'card'; render();
+    } else if (wx) openWatcherInBuilder(wx.id);
+    else if (sgx && sgx.agentId && AGENTS[sgx.agentId]) { S.view = 'agent'; S.ab.entityType = 'agent'; S.ab.agentId = sgx.agentId; S.ab.tab = 'card'; render(); }
+  }
+  else if (a === 'pulse-fb') {
+    const sg = pulseFind(id);
+    if (!sg) return;
+    const v = el.dataset.v;
+    const w = pulseWatcher(sg.watcher);
+    sg.feedback = v;
+    if (v === 'less') {
+      if (w) w.lessCount = (w.lessCount || 0) + 1;
+      if (sg.status === 'open') { sg.status = 'dismissed'; sg.note = 'You asked to see less like this'; }
+      saveWatchers();
+      render();
+      toast('Got it. Ephrem will rank findings like this lower.');
+      return;
+    }
+    if (w && v === 'down') w.lessCount = (w.lessCount || 0) + 0.5;
+    saveWatchers();
     render();
-    toast(w.name + (w.enabled ? ' enabled' : ' paused'));
+    toast(v === 'up' ? 'Thanks. Marked as useful.' : 'Thanks. Marked as not useful.');
   }
   else if (a === 'pulse-accept') { pulseAccept(id); }
   else if (a === 'pulse-approve') {
     const sg = pulseFind(id);
     if (!sg || sg.status !== 'pending') { render(); return; }
-    if (S.user !== sg.approver) { toast('Only ' + (PEOPLE[sg.approver] ? PEOPLE[sg.approver].name : 'the named approver') + ' can approve this.'); return; }
+    const allowed = S.user === sg.approver || (sg.escalatedTo && S.user === sg.escalatedTo);
+    if (!allowed) { toast('Only ' + (PEOPLE[sg.approver] ? PEOPLE[sg.approver].name : 'the named approver') + (sg.escalatedTo && PEOPLE[sg.escalatedTo] ? ' or ' + PEOPLE[sg.escalatedTo].name : '') + ' can approve this.'); return; }
     pulseResolve(sg, S.user);
   }
   else if (a === 'pulse-decline') {
     const sg = pulseFind(id);
     if (!sg || sg.status !== 'pending') { render(); return; }
-    if (S.user !== sg.approver) { toast('Only ' + (PEOPLE[sg.approver] ? PEOPLE[sg.approver].name : 'the named approver') + ' can decline this.'); return; }
+    const allowed = S.user === sg.approver || (sg.escalatedTo && S.user === sg.escalatedTo);
+    if (!allowed) { toast('Only ' + (PEOPLE[sg.approver] ? PEOPLE[sg.approver].name : 'the named approver') + (sg.escalatedTo && PEOPLE[sg.escalatedTo] ? ' or ' + PEOPLE[sg.escalatedTo].name : '') + ' can decline this.'); return; }
     sg.status = 'declined';
     sg.note = 'Declined by ' + PEOPLE[S.user].name;
     logActivity(S.user, PEOPLE[S.user].name + ' declined a Pulse proposal: ' + sg.title, 'Pulse Action');
     render();
     toast('Proposal declined. No changes were made.');
+  }
+  else if (a === 'pulse-remind') {
+    const sg = pulseFind(id);
+    if (!sg || sg.status !== 'pending') return;
+    sg.remindedCount = (sg.remindedCount || 0) + 1;
+    sg.lastRemindedAt = 'Today ' + now();
+    const who = PEOPLE[sg.approver] ? PEOPLE[sg.approver].name : 'the approver';
+    logActivity(S.user, (PEOPLE[S.user] ? PEOPLE[S.user].name : 'A user') + ' sent an approval reminder to ' + who + ' for: ' + sg.title, 'Reminder');
+    render();
+    toast('Reminder sent to ' + who + ' via Microsoft Teams & Outlook.');
+  }
+  else if (a === 'pulse-escalate-approver') {
+    const sg = pulseFind(id);
+    if (!sg || sg.status !== 'pending') return;
+    const dos = getApprovalSummary(sg) || {};
+    const backupId = dos.backup || (sg.approver === 'fa' ? 'df' : 'fa');
+    sg.escalatedTo = backupId;
+    sg.escalatedAt = 'Today ' + now();
+    const backupName = PEOPLE[backupId] ? PEOPLE[backupId].name : 'Backup Approver';
+    logActivity(S.user, (PEOPLE[S.user] ? PEOPLE[S.user].name : 'A user') + ' escalated pending approval to backup approver ' + backupName + ': ' + sg.title, 'Escalation');
+    render();
+    toast('Escalated to backup approver ' + backupName + '. Either approver can now sign off.');
+  }
+  else if (a === 'pulse-set-limit') {
+    const lim = parseInt(el.dataset.l, 10) || 99;
+    PULSE.prefs.dailyLimit = lim;
+    PULSE.prefs.showAll = false;
+    render();
+    toast(lim >= 99 ? 'Showing all open suggestions' : 'Daily alert limit set to top ' + lim + ' priority suggestions');
+  }
+  else if (a === 'pulse-show-all') {
+    PULSE.prefs.showAll = !PULSE.prefs.showAll;
+    render();
+  }
+  else if (a === 'pulse-toggle-quiet') {
+    PULSE.prefs.quietHours.on = !PULSE.prefs.quietHours.on;
+    render();
+    toast(PULSE.prefs.quietHours.on ? 'Quiet hours active (19:00–07:00): non-critical alerts are muted overnight' : 'Quiet hours turned off');
+  }
+  else if (a === 'pulse-toggle-channel') {
+    const ch = el.dataset.ch;
+    if (ch && PULSE.prefs.channels && ch in PULSE.prefs.channels) {
+      PULSE.prefs.channels[ch] = !PULSE.prefs.channels[ch];
+      const names = { teams: 'Microsoft Teams', outlook: 'Outlook', email: 'Email Digest' };
+      render();
+      toast(names[ch] + ' delivery ' + (PULSE.prefs.channels[ch] ? 'enabled' : 'disabled'));
+    }
+  }
+  else if (a === 'pulse-send-channel-test') {
+    const chs = Object.keys(PULSE.prefs.channels || {}).filter(k => PULSE.prefs.channels[k]).map(k => k === 'teams' ? 'Microsoft Teams' : k === 'outlook' ? 'Outlook' : 'Email');
+    if (!chs.length) { toast('Enable at least one delivery channel first.'); return; }
+    logActivity(S.user, 'Dispatched role briefing for ' + (PEOPLE[S.user] ? PEOPLE[S.user].name : 'user') + ' to ' + chs.join(', '), 'Briefing');
+    render();
+    toast('Sent role briefing to ' + chs.join(' & ') + ' with direct approval links.');
+  }
+  else if (a === 'pulse-automate-pattern') {
+    const mp = MANUAL_PATTERNS.find(x => x.id === id);
+    if (!mp) return;
+    const res = createPulseFlow(mp.tpl, false);
+    S.view = 'workflows';
+    logActivity(S.user, (PEOPLE[S.user] ? PEOPLE[S.user].name : 'A user') + ' created draft workflow from repeated manual pattern: ' + mp.title, 'Automation');
+    render();
+    toast(res.msg);
+  }
+  else if (a === 'pulse-watch-deadline') {
+    const cd = COMPLIANCE_DEADLINES.find(x => x.id === id);
+    if (!cd) return;
+    const w = pulseWatcher(cd.watcherId);
+    if (w) {
+      openWatcherInBuilder(w.id);
+      toast('Opened "' + w.name + '" in its builder so you can enable or refine deadline alerts.');
+    }
   }
   else if (a === 'pulse-dismiss' || a === 'pulse-snooze' || a === 'pulse-ack') {
     const sg = pulseFind(id);
@@ -2406,17 +2708,27 @@ function handlePulseAction(a, el) {
   else if (a === 'set-agent-proactivity') { setAgentProactivity(el.dataset.id || S.ab.agentId, parseInt(el.dataset.l, 10)); }
 }
 
+const ROLE_BRIEF_META = {
+  mk: { badge: 'Builder & Operations Briefing', focus: 'Draft flows, repeated manual work, watcher findings and sandbox testing' },
+  fa: { badge: 'Finance Approver Briefing', focus: 'Pending human approval gates, high-value invoices (> AED 50,000) and autonomy sign-offs' },
+  oh: { badge: 'Security & Platform Admin Briefing', focus: 'Paused agents, write-tool guardrails, model health and emergency watcher controls' },
+  df: { badge: 'Internal Audit & Compliance Briefing', focus: 'Expired contracts, supplier trade licences, SHA-256 audit seals and regulatory deadlines' }
+};
+
 function pulseBrief() {
   const u = PEOPLE[S.user] || PEOPLE.mk;
   const lines = [];
   const btn = (a, label, attrs) => ({ a, label, attrs: attrs || '' });
+  if (PULSE.globalPause && PULSE.globalPause.on) lines.push({ tone: 'bad', text: '**All watchers are paused.** ' + (PEOPLE[PULSE.globalPause.by] ? PEOPLE[PULSE.globalPause.by].name : 'An administrator') + ' used the emergency pause at ' + PULSE.globalPause.at + '. Only an administrator can resume them from Governance.', btn: btn('view', 'Open Governance', 'data-v="activity"') });
+  const watcherAsks = PULSE.watchers.filter(w => w.pending && w.pending.to === u.id);
+  if (watcherAsks.length) lines.push({ tone: 'wait', text: '**' + watcherAsks.length + ' watcher change' + plural(watcherAsks.length) + '** need your sign-off before going live. Review ' + (watcherAsks.length === 1 ? 'it' : 'them') + ' in the builder that owns ' + (watcherAsks.length === 1 ? 'it' : 'them') + '.', btn: btn('pulse-open-owner', 'Open in builder', 'data-id="' + watcherAsks[0].id + '"') });
   const waiting = RUNS.filter(r => r.out === 'waiting');
   if (waiting.length) {
     const r = waiting[0];
     if (u.id === 'fa') lines.push({ tone: 'wait', text: '**' + waiting.length + ' invoice run' + plural(waiting.length) + ' need' + (waiting.length === 1 ? 's' : '') + ' your decision.** Run #' + r.n + ' (' + r.inv + ', ' + r.sup + ', AED ' + fmt(r.amt) + '): ' + r.note, btn: btn('open-approval-modal', 'Review', 'data-run="' + r.n + '"') });
     else lines.push({ tone: 'wait', text: 'Run #' + r.n + ' (' + r.inv + ', AED ' + fmt(r.amt) + ') is waiting for **Fatima Al Mansoori**.', btn: btn('switch-to-fatima-and-open', 'Open as Fatima', 'data-run="' + r.n + '"') });
   }
-  const mine = PULSE.sugg.filter(s => s.status === 'pending' && s.approver === u.id);
+  const mine = PULSE.sugg.filter(s => s.status === 'pending' && (s.approver === u.id || s.escalatedTo === u.id));
   if (mine.length) lines.push({ tone: 'accent', text: '**' + mine.length + ' Pulse proposal' + plural(mine.length) + '** need your approval before anything changes.', btn: btn('pulse-tab', 'Review', 'data-t="pending"') });
   const awaiting = Object.values(AGENTS).filter(a => a.awaiting && a.spec);
   if (awaiting.length) {
@@ -2429,6 +2741,19 @@ function pulseBrief() {
   });
   const failed = RUNS.filter(r => r.out === 'failed');
   if (failed.length) lines.push({ tone: 'bad', text: '**Run #' + failed[0].n + ' failed at posting.** ' + failed[0].note, btn: btn('pulse-open', 'Open run', 'data-view="runs" data-run="' + failed[0].n + '"') });
+
+  // Role-specific priority line tailored to each persona
+  if (u.id === 'df') {
+    lines.push({ tone: 'wait', text: '**Compliance & Audit Focus:** Desert Logistics contract is expired (Run #212 rejected) and **Al Noor Supplies** trade licence renews in 9 days. UAE FTA VAT reconciliation is due in 11 days.', btn: btn('pulse-watch-deadline', 'Inspect Watcher', 'data-id="cd-licence"') });
+  } else if (u.id === 'oh') {
+    lines.push({ tone: 'ok', text: '**Security Posture:** All write-capable agents (**Finance Posting**) are locked at Proactivity Level 2 with human sign-off gates enforced. 0 unauthorized external writes.', btn: btn('view', 'Open Governance', 'data-v="activity"') });
+  } else if (u.id === 'fa') {
+    lines.push({ tone: 'ok', text: '**Executive Approval Summary Ready:** Supporting documents, risk flags, and AI confidence scores are attached to every pending gate and proposal.', btn: btn('open-approval-modal', 'Open Dossier', 'data-run="215"') });
+  } else {
+    const unauto = MANUAL_PATTERNS.filter(m => !WORKFLOWS[m.wfId]);
+    if (unauto.length) lines.push({ tone: 'accent', text: '**Repeated manual work spotted:** ' + unauto[0].title + ' (' + unauto[0].saved + ' saved). Ephrem can draft a workflow for it.', btn: btn('pulse-automate-pattern', 'Draft flow', 'data-id="' + unauto[0].id + '"') });
+  }
+
   const open = PULSE.sugg.filter(s => s.surfaced && s.status === 'open');
   if (open.length) lines.push({ tone: 'accent', text: '**' + open.length + ' suggestion' + plural(open.length) + '** from your watchers ' + (open.length === 1 ? 'is' : 'are') + ' ready to review.', btn: btn('pulse-tab', 'Review', 'data-t="open"') });
   const active = PULSE.watchers.filter(w => watcherState(w) === 'on').length;
@@ -2442,9 +2767,11 @@ function renderSuggCard(sg) {
   const w = pulseWatcher(sg.watcher);
   const lvl = suggLevel(sg);
   const appr = sg.approver ? PEOPLE[sg.approver] : null;
-  const isApprover = !!appr && S.user === appr.id;
+  const escAppr = sg.escalatedTo ? PEOPLE[sg.escalatedTo] : null;
+  const isApprover = (!!appr && S.user === appr.id) || (!!escAppr && S.user === escAppr.id);
   const modeTag = sg.mode === 'alert' ? '<span class="tag">Notify only</span>' : sg.mode === 'auto' ? '<span class="tag accent">Auto-applied</span>' : '<span class="tag accent">Draft</span>';
-  const gov = appr ? 'Needs ' + appr.name + '’s approval before anything changes' : (sg.gov || 'Draft only. Nothing goes live.');
+  const gov = appr ? 'Needs ' + appr.name + (escAppr ? ' (or backup ' + escAppr.name + ')' : '') + '’s approval before anything changes' : (sg.gov || 'Draft only. Nothing goes live.');
+  const dos = getApprovalSummary(sg);
   let actions = '';
   if (sg.status === 'open') {
     if (sg.mode === 'alert') {
@@ -2458,23 +2785,39 @@ function renderSuggCard(sg) {
         <button type="button" class="btn s ghost" data-a="pulse-dismiss" data-id="${sg.id}">Dismiss</button>`;
     }
   } else if (sg.status === 'pending') {
+    const backupId = (dos && dos.backup) || (sg.approver === 'fa' ? 'df' : 'fa');
+    const backupPerson = PEOPLE[backupId];
     if (isApprover) {
       actions = `<button type="button" class="btn s ok" data-a="pulse-approve" data-id="${sg.id}">Approve &amp; apply</button>
         <button type="button" class="btn s danger" data-a="pulse-decline" data-id="${sg.id}">Decline</button>`;
     } else {
-      actions = `<span class="xs muted row-flex">${IC.clock} Waiting for ${esc(appr ? appr.name : 'an approver')}</span>`;
+      actions = `<span class="xs muted row-flex">${IC.clock} Waiting for ${esc(appr ? appr.name : 'an approver')}${escAppr ? ' / ' + esc(escAppr.name) : ''} (${esc((dos && dos.waiting) || '1h 15m')})</span>
+        <button type="button" class="btn s" data-a="pulse-remind" data-id="${sg.id}">Send reminder${sg.remindedCount ? ' (' + sg.remindedCount + ')' : ''}</button>
+        ${!sg.escalatedTo && backupPerson ? `<button type="button" class="btn s ghost" data-a="pulse-escalate-approver" data-id="${sg.id}">Escalate to ${esc(firstName(backupId))}</button>` : `<span class="tag wait">Escalated to ${esc(escAppr ? escAppr.name : 'backup')}</span>`}`;
     }
   } else {
     const st = PSTATUS[sg.status] || PSTATUS.ack;
     actions = plPill(st.cls, st.label) + (sg.note ? ` <span class="xs muted">${esc(sg.note)}</span>` : '') +
       (PRESTORABLE.indexOf(sg.status) >= 0 ? ` <button type="button" class="btn s ghost" data-a="pulse-restore" data-id="${sg.id}">Restore</button>` : '');
   }
-  const pendingInfo = sg.status === 'pending' && sg.requestedBy ? `<div class="xs muted">Requested by ${esc(PEOPLE[sg.requestedBy] ? PEOPLE[sg.requestedBy].name : sg.requestedBy)} · ${esc(sg.requestedAt || '')}</div>` : '';
+  const pendingInfo = sg.status === 'pending' && sg.requestedBy ? `<div class="xs muted">Requested by ${esc(PEOPLE[sg.requestedBy] ? PEOPLE[sg.requestedBy].name : sg.requestedBy)} · ${esc(sg.requestedAt || '')}${sg.lastRemindedAt ? ' · Reminded ' + esc(sg.lastRemindedAt) : ''}${sg.escalatedTo && PEOPLE[sg.escalatedTo] ? ' · Escalated to ' + esc(PEOPLE[sg.escalatedTo].name) : ''}</div>` : '';
   const limit = sg.limitNote && sg.status === 'open' ? `<div class="callout wait"><div>${IC.warn} This agent may act within limits, but this change is outside them, so a person decides.</div></div>` : '';
+  const dossierHtml = dos ? `
+    <div class="pl-dossier" aria-label="Approval summary">
+      <div class="row-flex" style="justify-content:space-between">
+        <b class="xs" style="text-transform:uppercase;letter-spacing:.05em;color:var(--accent)">Prepared Approval Summary</b>
+        <span class="xs subtle">Backup approver: ${esc(PEOPLE[dos.backup] ? PEOPLE[dos.backup].name : 'Dr. Faisal Al Qasimi')}</span>
+      </div>
+      <div class="pl-dossier-grid">
+        <div><span class="xs subtle">Supporting documents:</span><div class="xs">${esc(dos.docs)}</div></div>
+        <div><span class="xs subtle">Possible risks:</span><div class="xs">${esc(dos.risks)}</div></div>
+        <div><span class="xs subtle">Suggested decision:</span><div class="xs"><b>${esc(dos.decision)}</b></div></div>
+      </div>
+    </div>` : '';
   return `
     <article class="pl-sugg ${k.tone}" aria-label="${esc(sg.title)}">
       <div class="row-flex wrap" style="justify-content:space-between">
-        <div class="row-flex wrap"><span class="tag">${k.label}</span>${modeTag}</div>
+        <div class="row-flex wrap"><span class="tag">${k.label}</span>${modeTag}${sevPill(suggSeverity(sg))}</div>
         <span class="xs subtle">${esc(sg.at || '')}</span>
       </div>
       <h4>${esc(sg.title)}</h4>
@@ -2484,52 +2827,161 @@ function renderSuggCard(sg) {
         <ul class="pl-evid">${(sg.evidence || []).map(e => `<li>${esc(e)}</li>`).join('')}</ul>
         <div class="xs subtle" style="margin-top:6px">Source: ${esc(w ? w.name : 'Platform')} · Agent: ${esc(ag && ag.spec ? ag.spec.name : 'Platform')} · Proactivity: ${PROACT[lvl].label}</div>
       </details>
+      ${dossierHtml}
       <div class="pl-gov">${IC.shield} ${esc(gov)}</div>
       ${limit}
       ${pendingInfo}
+      <div class="pl-meta">
+        <span class="xs muted">Detected by <b>${esc(w ? w.name : 'Platform')}</b>${w && w.ownerType === 'workflow' ? ' · Workflow: ' + esc((WORKFLOWS[w.workflowId] || {}).name || 'removed') : ag && ag.spec ? ' · Agent: ' + esc(ag.spec.name) : ''}</span>
+        <button type="button" class="btn s ghost" data-a="pulse-open-owner" data-sg="${sg.id}">${esc(watcherOwnerLinkLabel(w, sg))} →</button>
+      </div>
+      <div class="pl-fb" role="group" aria-label="Was this useful?">
+        <span class="xs subtle">Was this useful?</span>
+        <button type="button" class="fb ${sg.feedback === 'up' ? 'on' : ''}" data-a="pulse-fb" data-v="up" data-id="${sg.id}" aria-pressed="${sg.feedback === 'up'}">Useful</button>
+        <button type="button" class="fb ${sg.feedback === 'down' ? 'on' : ''}" data-a="pulse-fb" data-v="down" data-id="${sg.id}" aria-pressed="${sg.feedback === 'down'}">Not useful</button>
+        ${sg.status === 'open' ? `<button type="button" class="fb" data-a="pulse-fb" data-v="less" data-id="${sg.id}">Show me less of this</button>` : (sg.feedback === 'less' ? '<span class="xs subtle">Marked: show less</span>' : '')}
+      </div>
       <div class="pl-actions">${actions}</div>
     </article>`;
 }
 
 function renderWatcherCard(w) {
+  // Read-only monitoring card. Watcher settings are changed in the builder that owns the watcher.
   const st = watcherState(w);
-  const ag = w.agentId ? AGENTS[w.agentId] : null;
-  const lvl = watcherLevel(w);
   const sig = SIGNALS[w.signal] || SIGNALS.schedule;
-  const state = PULSE.scanning && st === 'on' ? '<span class="pill accent"><i></i>Scanning…</span>'
-    : st === 'on' ? plPill('live', 'Watching')
-    : st === 'off' ? plPill('draft', 'Paused')
-    : st === 'inactive' ? plPill('wait', 'Agent not live')
-    : plPill('bad', 'Agent removed');
-  let ctrl;
-  if (ag && ag.spec) {
-    const cap = maxProact(ag);
-    ctrl = `<div class="field"><label>Proactivity of ${esc(ag.spec.name)}</label>
-      <div class="seg">${[1, 2, 3].map(n => `<button type="button" class="${lvl === n ? 'on' : ''} ${n > cap ? 'off' : ''}" data-a="set-agent-proactivity" data-id="${esc(ag.id)}" data-l="${n}" title="${esc(PROACT[n].detail)}">${PROACT[n].short}</button>`).join('')}</div></div>`;
-  } else if (!w.agentId) {
-    ctrl = `<div class="xs muted">Platform-level watcher · ${PROACT[lvl].label}</div>`;
-  } else {
-    ctrl = '<div class="xs muted">The linked agent was removed. Link another agent in Agent Studio.</div>';
-  }
+  const state = PULSE.scanning && st === 'on' ? '<span class="pill accent"><i></i>Scanning…</span>' : watcherStatePill(w);
+  const lvl = watcherLevel(w);
+  const startsWf = w.startsWorkflow && WORKFLOWS[w.startsWorkflow] ? WORKFLOWS[w.startsWorkflow] : null;
+  const findings = PULSE.sugg.filter(s => s.watcher === w.id && s.surfaced).length;
+  const cap = w.alertCap || 10;
   return `
-    <div class="pl-watch ${st === 'on' ? '' : 'off'}">
+    <div class="pl-watch ${st === 'on' ? '' : 'off'}" data-wcard="${esc(w.id)}">
       <div class="row-flex">
         <span class="pl-sig" title="${esc(sig.label)}">${IC[sig.ic]}</span>
         <div class="grow"><b style="font-size:13px">${esc(w.name)}</b><div class="xs muted">${esc(w.source)} · ${esc(w.cadence)}</div></div>
-        <button type="button" class="btn s" data-a="pulse-toggle-watcher" data-id="${w.id}">${w.enabled ? 'Pause' : 'Enable'}</button>
+        ${sevPill(w.severity || 'Medium')}
       </div>
       <div class="row-flex wrap"><span class="tag">${esc(sig.label)}</span>${state}<span class="xs subtle">Last checked ${esc(w.last)}</span></div>
-      ${ctrl}
+      <div class="row-flex wrap xs muted">
+        <span>${esc(watcherOwnerLabel(w))}</span>
+        <span>· ${findings} finding${plural(findings)}</span>
+        <span>· ${watcherSentToday(w)}/${cap} alerts today</span>
+        ${startsWf ? `<span>· Starts <b>${esc(startsWf.name)}</b></span>` : ''}
+      </div>
+      <details class="pl-wdet">
+        <summary>How this watcher works</summary>
+        <dl>
+          <dt>Watches</dt><dd>${esc(w.source)}</dd>
+          <dt>Condition</dt><dd>${esc(w.condition || 'Not described')}</dd>
+          <dt>Checks</dt><dd>${esc(w.cadence)}</dd>
+          <dt>When it finds something</dt><dd>${PROACT[lvl].label}. It reports only. Anything that changes a real system waits for a human gate.</dd>
+          <dt>Created</dt><dd>${esc(PEOPLE[w.createdBy] ? PEOPLE[w.createdBy].name : 'Unknown')} · ${esc(w.createdAt || '')}</dd>
+        </dl>
+        <div class="xs subtle" style="margin-top:6px">History (read-only)</div>
+        <ul class="pl-evid">${(w.history || []).slice(0, 4).map(h => `<li>${esc(h.at)} · ${esc(PEOPLE[h.who] ? PEOPLE[h.who].name : 'System')}: ${esc(h.text)}</li>`).join('') || '<li>No changes recorded</li>'}</ul>
+      </details>
+      <div class="pl-actions">
+        <button type="button" class="btn s" data-a="pulse-open-owner" data-id="${esc(w.id)}">${esc(watcherOwnerLinkLabel(w))} →</button>
+      </div>
+    </div>`;
+}
+
+function renderPulseControlsBar() {
+  const p = PULSE.prefs || { dailyLimit: 10, quietHours: { on: false, start: '19:00', end: '07:00' }, channels: { teams: true, outlook: true, email: false } };
+  const lim = p.dailyLimit || 10;
+  const qOn = !!(p.quietHours && p.quietHours.on);
+  const ch = p.channels || {};
+  return `
+    <section class="pl-ctrl-bar" aria-label="Alert controls and delivery channels">
+      <div class="pl-ctrl-grp">
+        <span class="xs subtle" style="font-weight:700;text-transform:uppercase;letter-spacing:.05em">Daily Alert Cap:</span>
+        <div class="seg">
+          ${[3, 5, 10, 99].map(n => `<button type="button" class="${lim === n ? 'on' : ''}" data-a="pulse-set-limit" data-l="${n}">${n === 99 ? 'All' : 'Top ' + n}</button>`).join('')}
+        </div>
+        <button type="button" class="btn s ${qOn ? 'ok' : ''}" data-a="pulse-toggle-quiet" title="Mute non-critical notifications between 19:00 and 07:00">
+          ${IC.clock} Quiet hours (19:00–07:00): <b>${qOn ? 'On' : 'Off'}</b>
+        </button>
+      </div>
+      <div class="pl-ctrl-grp">
+        <span class="xs subtle" style="font-weight:700;text-transform:uppercase;letter-spacing:.05em">Deliver via:</span>
+        <button type="button" class="fb ${ch.teams ? 'on' : ''}" data-a="pulse-toggle-channel" data-ch="teams" aria-pressed="${!!ch.teams}" style="font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid var(--line2);background:${ch.teams ? 'var(--accent-soft)' : 'transparent'};color:${ch.teams ? 'var(--accent)' : 'var(--muted)'};cursor:pointer">Microsoft Teams</button>
+        <button type="button" class="fb ${ch.outlook ? 'on' : ''}" data-a="pulse-toggle-channel" data-ch="outlook" aria-pressed="${!!ch.outlook}" style="font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid var(--line2);background:${ch.outlook ? 'var(--accent-soft)' : 'transparent'};color:${ch.outlook ? 'var(--accent)' : 'var(--muted)'};cursor:pointer">Outlook</button>
+        <button type="button" class="fb ${ch.email ? 'on' : ''}" data-a="pulse-toggle-channel" data-ch="email" aria-pressed="${!!ch.email}" style="font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid var(--line2);background:${ch.email ? 'var(--accent-soft)' : 'transparent'};color:${ch.email ? 'var(--accent)' : 'var(--muted)'};cursor:pointer">Email Digest</button>
+        <button type="button" class="btn s ghost" data-a="pulse-send-channel-test">Send briefing now</button>
+      </div>
+    </section>`;
+}
+
+function renderPulseGoalsAndPatterns() {
+  const goals = PULSE.goals || [];
+  return `
+    <div class="sec" style="margin-top:8px">
+      <h3>
+        <span>Ongoing Agent Goals</span>
+        <span class="xs muted">${goals.length} active</span>
+      </h3>
+      <div class="xs muted">Assign long-term monitoring goals in plain language. The agent tracks the goal over time via a governed watcher and alerts you when action is needed.</div>
+      ${goals.map(g => {
+        const ag = AGENTS[g.agentId];
+        const w = pulseWatcher(g.watcherId);
+        return `
+          <div class="pl-goal-row">
+            <div class="row-flex" style="justify-content:space-between">
+              <b style="font-size:12.5px">“${esc(g.text)}”</b>
+              ${w ? watcherStatePill(w) : plPill('live', 'Active')}
+            </div>
+            <div class="row-flex wrap xs muted" style="justify-content:space-between">
+              <span>Agent: <b>${esc(ag && ag.spec ? ag.spec.name : 'Agent')}</b>${w ? ' · Watcher: <b>' + esc(w.name) + '</b>' : ''}</span>
+              ${w ? `<button type="button" class="btn s ghost" data-a="pulse-open-owner" data-id="${esc(w.id)}">Open in builder →</button>` : ''}
+            </div>
+          </div>`;
+      }).join('')}
+      <form class="wd-chat" data-a="submit-pulse-goal">
+        <div class="box">
+          <input id="pulse-goal-in" placeholder="e.g. Keep track of supplier licence expiry dates and alert me before they expire..." autocomplete="off">
+          <button type="submit" class="ib p" aria-label="Assign ongoing goal">${IC.send}</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="sec" style="margin-top:8px">
+      <h3>
+        <span>Repeated Manual Work Spotted</span>
+        <span class="tag accent">Automation</span>
+      </h3>
+      <div class="xs muted">Ephrem spots tasks your team repeats by hand and drafts a governed workflow or agent for review.</div>
+      ${MANUAL_PATTERNS.map(mp => {
+        const done = !!WORKFLOWS[mp.wfId];
+        return `
+          <div class="pl-goal-row">
+            <div class="row-flex" style="justify-content:space-between">
+              <b style="font-size:12.5px">${esc(mp.title)}</b>
+              <span class="tag ${done ? 'ok' : 'wait'}">${done ? 'Draft flow ready' : esc(mp.saved)}</span>
+            </div>
+            <div class="xs muted">${esc(mp.detail)}</div>
+            <div class="row-flex" style="justify-content:flex-end;margin-top:2px">
+              <button type="button" class="btn s ${done ? '' : 'ok'}" data-a="pulse-automate-pattern" data-id="${esc(mp.id)}">${done ? 'Open draft flow →' : 'Create draft flow'}</button>
+            </div>
+          </div>`;
+      }).join('')}
     </div>`;
 }
 
 function renderPulseView() {
   pulseRefreshState();
   const u = PEOPLE[S.user] || PEOPLE.mk;
+  const roleMeta = ROLE_BRIEF_META[u.id] || ROLE_BRIEF_META.mk;
   const h = new Date().getHours();
   const greet = h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
   const lines = pulseBrief();
-  const open = PULSE.sugg.filter(s => s.surfaced && s.status === 'open').sort((a, b) => (b.seq || 0) - (a.seq || 0));
+  const qOn = !!(PULSE.prefs && PULSE.prefs.quietHours && PULSE.prefs.quietHours.on);
+  const allOpen = PULSE.sugg.filter(s => s.surfaced && s.status === 'open').sort((a, b) => suggRank(b) - suggRank(a));
+  const openAfterQuiet = qOn ? allOpen.filter(s => { const sv = suggSeverity(s); return sv === 'High' || sv === 'Critical'; }) : allOpen;
+  const quietMutedCount = allOpen.length - openAfterQuiet.length;
+  const lim = (PULSE.prefs && PULSE.prefs.dailyLimit) || 10;
+  const showAll = !!(PULSE.prefs && PULSE.prefs.showAll);
+  const open = (!showAll && openAfterQuiet.length > lim) ? openAfterQuiet.slice(0, lim) : openAfterQuiet;
+  const cappedCount = openAfterQuiet.length - open.length;
   const pend = PULSE.sugg.filter(s => s.status === 'pending').sort((a, b) => (b.seq || 0) - (a.seq || 0));
   const hist = PULSE.sugg.filter(s => PCLOSED.indexOf(s.status) >= 0).sort((a, b) => (b.seq || 0) - (a.seq || 0));
   const autoN = PULSE.sugg.filter(s => s.status === 'auto').length;
@@ -2555,8 +3007,11 @@ function renderPulseView() {
           <section class="pl-hero" aria-label="Daily briefing">
             <div class="row-flex" style="justify-content:space-between;flex-wrap:wrap;align-items:flex-start">
               <div>
-                <h2>${greet}, ${esc(firstName(u.id))}.</h2>
-                <div class="pl-sub">Here is what Ephrem noticed while you were away · briefing prepared at ${esc(PULSE.briefAt)}</div>
+                <div class="row-flex wrap" style="gap:8px;margin-bottom:3px">
+                  <h2 style="margin:0">${greet}, ${esc(firstName(u.id))}.</h2>
+                  <span class="tag accent">${esc(roleMeta.badge)}</span>
+                </div>
+                <div class="pl-sub">Here is what Ephrem noticed while you were away · Role focus: ${esc(roleMeta.focus)} · prepared at ${esc(PULSE.briefAt)}</div>
               </div>
               <span class="pl-live"><i></i> Watching</span>
             </div>
@@ -2570,8 +3025,10 @@ function renderPulseView() {
             </div>
           </section>
 
+          ${renderPulseControlsBar()}
+
           <div class="pl-kpis">
-            <div class="pl-kpi"><b>${open.length}</b><span>Open suggestions</span></div>
+            <div class="pl-kpi"><b>${allOpen.length}</b><span>Open suggestions</span></div>
             <div class="pl-kpi"><b>${pend.length}</b><span>Awaiting approval</span></div>
             <div class="pl-kpi"><b>${active}/${PULSE.watchers.length}</b><span>Watchers active</span></div>
             <div class="pl-kpi"><b>${autoN}</b><span>Handled within limits</span></div>
@@ -2582,22 +3039,32 @@ function renderPulseView() {
               <div class="pl-head">
                 <h3>Suggestions from your watchers</h3>
                 <div class="seg">
-                  <button type="button" class="${PULSE.tab === 'open' ? 'on' : ''}" data-a="pulse-tab" data-t="open">Open (${open.length})</button>
+                  <button type="button" class="${PULSE.tab === 'open' ? 'on' : ''}" data-a="pulse-tab" data-t="open">Open (${allOpen.length})</button>
                   <button type="button" class="${PULSE.tab === 'pending' ? 'on' : ''}" data-a="pulse-tab" data-t="pending">Approval (${pend.length})</button>
                   <button type="button" class="${PULSE.tab === 'history' ? 'on' : ''}" data-a="pulse-tab" data-t="history">History (${hist.length})</button>
                 </div>
               </div>
+              ${PULSE.tab === 'open' && (cappedCount > 0 || quietMutedCount > 0) ? `
+                <div class="callout wait" style="align-items:center;justify-content:space-between">
+                  <div>${IC.clock} ${quietMutedCount > 0 ? `<b>${quietMutedCount} lower-priority alert${plural(quietMutedCount)}</b> muted by Quiet Hours. ` : ''}${cappedCount > 0 ? `Showing top <b>${open.length}</b> priority findings (${cappedCount} held back by daily limit).` : ''}</div>
+                  ${cappedCount > 0 ? `<button type="button" class="btn s" data-a="pulse-show-all">Show all (${openAfterQuiet.length})</button>` : ''}
+                </div>` : ''}
               ${list.length ? list.map(renderSuggCard).join('') : `
                 <div class="pl-empty">
                   <div>${esc(emptyMsg)}</div>
                   ${PULSE.tab === 'open' ? '<button type="button" class="btn s p" data-a="pulse-run">Run watchers now</button>' : ''}
                 </div>`}
+              ${renderPulseGoalsAndPatterns()}
             </section>
 
             <section class="pl-col" aria-label="Watchers">
               <div class="pl-head">
                 <h3>Watchers</h3>
-                <span class="xs muted">${active} of ${PULSE.watchers.length} active</span>
+                <span class="xs muted">${active} of ${PULSE.watchers.length} active · view only</span>
+              </div>
+              ${PULSE.globalPause && PULSE.globalPause.on ? `<div class="callout bad"><div>${IC.warn} <b>Emergency pause is on.</b> Every watcher is stopped until an administrator resumes them in Governance.</div></div>` : ''}
+              <div class="callout">
+                <div>${IC.shield} Watchers are created and edited in <b>Agent Builder</b> and <b>Workflow Builder</b>. Pulse only shows what they find. Use the link on a watcher to open it in its builder.</div>
               </div>
               ${PULSE.watchers.map(renderWatcherCard).join('')}
               <div class="callout accent">
@@ -2617,8 +3084,12 @@ function renderProactivitySection(agent) {
   const isLive = agent.status === 'live';
   const canAct = !!(PEOPLE[S.user] && PEOPLE[S.user].approver);
   const ws = PULSE.watchers.filter(w => w.agentId === agent.id);
+  const evi = getAgentAutonomyEvidence(agent);
+  const pct = evi.total ? Math.round((evi.accurate / evi.total) * 100) : 95;
+  const recLvl = Math.min(cap, evi.recLevel || 2);
+  const showUpgrade = pct >= 90 && cur < recLvl;
   return `
-    <div class="sec">
+    <div class="sec" id="proactivity-sec">
       <h3>
         <span>Proactivity · what it does unprompted</span>
         <span class="pill ${cur === 3 ? 'wait' : cur === 2 ? 'accent' : 'draft'}"><i></i>${PROACT[cur].label}</span>
@@ -2634,12 +3105,935 @@ function renderProactivitySection(agent) {
           </button>`;
         }).join('')}
       </div>
+      <div class="wd-test" style="margin-top:4px">
+        <div class="row-flex" style="justify-content:space-between;flex-wrap:wrap">
+          <b>Evidence-Based Autonomy · Historical Case Replay</b>
+          <span class="xs subtle">Last tested: ${esc(evi.lastTestedAt)}</span>
+        </div>
+        <div class="xs muted">
+          Tested on <b>${evi.total} previous cases</b>: <b style="color:var(--ok)">${evi.accurate}/${evi.total} (${pct}%)</b> handled accurately · <b>${evi.humanIntervention}</b> routed to a human gate · <b>${evi.unauthorizedWrites}</b> unauthorized writes.
+        </div>
+        <div class="row-flex wrap" style="gap:8px;justify-content:space-between">
+          <button type="button" class="btn s" data-a="ab-test-history" data-id="${esc(agent.id)}">Test on previous ${evi.total} cases</button>
+          ${showUpgrade ? `<button type="button" class="btn s ok" data-a="ab-apply-rec-proact" data-id="${esc(agent.id)}" data-l="${recLvl}">Recommended: Upgrade to Level ${recLvl} (${PROACT[recLvl].short})</button>` : `<span class="tag ok">Operating at recommended independence</span>`}
+        </div>
+        ${showUpgrade ? `<div class="xs" style="color:var(--accent)">${IC.pulse} <b>Performance recommendation:</b> ${esc(evi.recNote)}</div>` : ''}
+      </div>
       <div class="callout accent">
         <div>${isLive ? 'Watchers linked to this agent use this level when they find something.' : 'Takes effect once this agent is Live.'}
-        ${ws.length ? ' Linked watchers: <b>' + ws.map(w => esc(w.name)).join(', ') + '</b>.' : ' No watcher is linked to this agent yet.'}
+        ${ws.length ? ' Linked watchers: <b>' + ws.map(w => esc(w.name)).join(', ') + '</b>.' : ' No watcher is linked to this agent yet. Add one in the Watchers section below.'}
         External writes always stop at a human gate, at every level.</div>
       </div>
     </div>`;
+}
+
+/* =====================================================================
+   WATCHERS · ONE SHARED RECORD
+   Configure in the builders, monitor in Pulse, govern centrally.
+   - Agent Builder owns watchers linked to an agent.
+   - Workflow Builder owns watchers that start a workflow, monitor the
+     whole flow, or watch one step.
+   - Pulse only reads them. The emergency pause lives in Governance.
+   A watcher detects and reports. It never writes to a real system.
+   ===================================================================== */
+IC.eye = svg('<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>', 16);
+
+const WATCH_KEY = 'beinex_watchers_v2';
+const SEV_RANK = { Low: 1, Medium: 2, High: 3, Critical: 4 };
+const SEV_TONE = { Low: 'draft', Medium: 'wait', High: 'bad', Critical: 'bad' };
+const KIND_SEV = { risk: 'High', renewal: 'Medium', cost: 'Medium', automation: 'Low', hygiene: 'Low' };
+const WATCH_CADENCES = {
+  schedule: ['Daily at 06:00', 'Every Monday at 07:00', 'Every hour'],
+  event: ['On register change (webhook)', 'On every event', 'Every hour'],
+  threshold: ['When the threshold is crossed', 'Every 15 minutes', 'After every run'],
+  inbound: ['On every inbound email', 'Every 10 minutes']
+};
+const WATCH_TEMPLATES = {
+  invoice: [
+    { label: 'Detect duplicate invoices', name: 'Duplicate Invoice Watcher', signal: 'inbound', tool: 'Outlook · Read mail', condition: 'An incoming invoice has the same supplier and amount as one already received this month', cadence: 'On every inbound email', severity: 'High', cap: 5 },
+    { label: 'Monitor incoming invoices', name: 'Incoming Invoice Watcher', signal: 'inbound', tool: 'Outlook · Read mail', condition: 'A new invoice arrives in the Finance shared mailbox', cadence: 'On every inbound email', severity: 'Low', cap: 10 }
+  ],
+  contract: [
+    { label: 'Alert when a contract expires within 60 days', name: 'Contract Expiry (60 days)', signal: 'schedule', tool: 'Contracts Register', condition: 'A contract expires within 60 days', cadence: 'Daily at 06:00', severity: 'Medium', cap: 3 }
+  ],
+  supplier: [
+    { label: 'Monitor supplier licence expiry', name: 'Supplier Licence Expiry', signal: 'schedule', tool: 'Supplier Register', condition: 'A supplier trade licence expires within 30 days', cadence: 'Daily at 06:00', severity: 'High', cap: 5 },
+    { label: 'Watch sanctions updates', name: 'Sanctions Update Watcher', signal: 'event', tool: 'Web search (Trusted official sites)', condition: 'A sanctions list update matches a registered supplier', cadence: 'Every hour', severity: 'Critical', cap: 3 }
+  ],
+  leave: [
+    { label: 'Alert when a leave balance is low', name: 'Low Leave Balance', signal: 'schedule', tool: 'HR System · Read', condition: 'An employee’s leave balance falls below 3 days', cadence: 'Every Monday at 07:00', severity: 'Low', cap: 10 }
+  ]
+};
+const GENERIC_WATCH_TEMPLATE = { label: 'Watch for failed or low-confidence runs', name: 'Run Quality Watcher', signal: 'threshold', tool: 'Runs of this agent', condition: 'A run fails, or the agent’s confidence drops below its limit', cadence: 'After every run', severity: 'Medium', cap: 5 };
+const WATCH_FIELDS = ['name', 'ownerType', 'agentId', 'workflowId', 'stepId', 'kind', 'signal', 'source', 'condition', 'cadence', 'severity', 'alertCap', 'startsWorkflow', 'params'];
+
+const sevPill = s => `<span class="pill ${SEV_TONE[s] || 'draft'}"><i></i>${esc(s)}</span>`;
+const isApproverUser = id => !!(PEOPLE[id] && PEOPLE[id].approver);
+const todayKey = () => new Date().toDateString();
+const triggerWatchersOf = wfId => PULSE.watchers.filter(w => w.startsWorkflow === wfId);
+const flowMonitorOf = wfId => PULSE.watchers.find(w => w.kind === 'flow-monitor' && w.workflowId === wfId);
+const stepWatcherOf = (wfId, nodeId) => PULSE.watchers.find(w => w.kind === 'step-watch' && w.workflowId === wfId && w.stepId === nodeId);
+
+function suggSeverity(sg) { return sg.sev || KIND_SEV[sg.kind] || 'Medium'; }
+function suggRank(sg) {
+  const w = pulseWatcher(sg.watcher);
+  return (SEV_RANK[suggSeverity(sg)] || 2) * 100 + (sg.seq || 0) - ((w && w.lessCount) || 0) * 40 - (sg.feedback === 'down' ? 20 : 0);
+}
+function watcherSentToday(w) {
+  if (w.sentDay !== todayKey()) { w.sentDay = todayKey(); w.sentToday = 0; }
+  const shown = PULSE.sugg.filter(s => s.watcher === w.id && s.surfaced && /^Today/.test(s.at || '')).length;
+  return Math.max(w.sentToday || 0, shown);
+}
+function watcherOwnerLabel(w) {
+  if (w.ownerType === 'workflow') {
+    const wf = WORKFLOWS[w.workflowId];
+    if (w.stepId && wf) {
+      const n = (wf.nodes || []).find(x => x.id === w.stepId);
+      return 'Workflow step: ' + (n ? n.title : 'removed step') + ' · ' + wf.name;
+    }
+    return 'Workflow: ' + (wf ? wf.name : 'removed workflow');
+  }
+  if (w.ownerType === 'platform' || !w.agentId) return 'Platform';
+  const a = AGENTS[w.agentId];
+  return 'Agent: ' + (a && a.spec ? a.spec.name : 'removed agent');
+}
+function watcherOwnerLinkLabel(w, sg) {
+  if (sg && (!w || w.ownerType === 'platform')) {
+    if (sg.workflowId) return 'View in Workflow Builder';
+    if (sg.agentId) return 'View in Agent Builder';
+  }
+  if (!w) return 'View in Agent Builder';
+  return w.ownerType === 'workflow' ? 'View in Workflow Builder' : w.ownerType === 'platform' ? 'View in Governance' : 'View in Agent Builder';
+}
+function watcherStatePill(w) {
+  const st = watcherState(w);
+  if (st === 'on') return plPill('live', 'Watching');
+  if (st === 'off') return plPill('draft', 'Paused');
+  if (st === 'pending') return plPill('wait', 'Awaiting approval');
+  if (st === 'global') return plPill('bad', 'Paused by admin');
+  if (st === 'inactive') return plPill('wait', w.ownerType === 'workflow' ? 'Workflow not live' : 'Agent not live');
+  return plPill('bad', w.ownerType === 'workflow' ? 'Workflow removed' : 'Agent removed');
+}
+function watcherApproverFor(w) {
+  if (w.ownerType === 'platform') return 'oh';
+  const a = w.agentId ? AGENTS[w.agentId] : null;
+  const id = a && a.spec && a.spec.approver;
+  return PEOPLE[id] && PEOPLE[id].approver ? id : 'fa';
+}
+
+/* ---------- persistence (builders write, Pulse reads) ---------- */
+function saveWatchers() {
+  try { localStorage.setItem(WATCH_KEY, JSON.stringify({ watchers: PULSE.watchers, globalPause: PULSE.globalPause })); }
+  catch (err) { console.warn('Failed to save watchers to localStorage', err); }
+}
+function loadWatchers() {
+  try {
+    const raw = localStorage.getItem(WATCH_KEY);
+    if (!raw) return;
+    const p = JSON.parse(raw);
+    if (p && Array.isArray(p.watchers) && p.watchers.length) {
+      PULSE.watchers = p.watchers;
+      if (p.globalPause) PULSE.globalPause = p.globalPause;
+    }
+  } catch (err) { console.warn('Failed to restore watchers from localStorage', err); }
+}
+loadWatchers();
+
+function wHist(w, who, text) {
+  if (!Array.isArray(w.history)) w.history = [];
+  const by = who || S.user;
+  w.history.unshift({ at: 'Today ' + now(), who: by, text });
+  logActivity(by, (PEOPLE[by] ? PEOPLE[by].name : 'A user') + ' · ' + w.name + ': ' + text, 'Watcher');
+}
+
+/* ---------- permitted data: a watcher reads only what its owner may read ---------- */
+function permittedSources(d) {
+  const out = [];
+  const add = s => { if (s && out.indexOf(s) < 0) out.push(s); };
+  const readTools = a => (a && a.spec && Array.isArray(a.spec.tools) ? a.spec.tools : []).filter(t => TOOLS[t] && TOOLS[t].mode === 'read');
+  if (d.ownerType === 'workflow') {
+    const wf = WORKFLOWS[d.workflowId];
+    add('Runs of this workflow');
+    const ids = Object.keys((wf && wf.pins) || {}).concat(((wf && wf.nodes) || []).filter(n => n.agentId).map(n => n.agentId));
+    ids.forEach(id => readTools(AGENTS[id]).forEach(t => add(TOOLS[t].name)));
+  } else if (d.ownerType === 'platform') {
+    add('Runs, cost and agent status');
+    add('Audit log');
+  } else {
+    readTools(AGENTS[d.agentId]).forEach(t => add(TOOLS[t].name));
+    add('Runs of this agent');
+  }
+  return out;
+}
+function baseWatcherDraft(ctx) {
+  const d = {
+    name: '', ownerType: ctx.ownerType || 'agent', agentId: ctx.agentId || null, workflowId: ctx.workflowId || null,
+    stepId: ctx.stepId || null, kind: ctx.kind || 'custom', signal: 'schedule', source: '', condition: '',
+    cadence: 'Daily at 06:00', severity: 'Medium', alertCap: 5, startsWorkflow: ctx.startsWorkflow || null, params: null
+  };
+  d.source = permittedSources(d)[0] || '';
+  return d;
+}
+function draftFromTemplate(tpl, ctx) {
+  const d = baseWatcherDraft(ctx);
+  d.name = tpl.name; d.signal = tpl.signal; d.condition = tpl.condition; d.cadence = tpl.cadence; d.severity = tpl.severity; d.alertCap = tpl.cap;
+  if (tpl.tool && permittedSources(d).indexOf(tpl.tool) >= 0) d.source = tpl.tool;
+  return d;
+}
+function watcherTemplatesFor(agent) {
+  if (!agent || !agent.spec) return [];
+  const d = baseWatcherDraft({ ownerType: 'agent', agentId: agent.id });
+  const ok = permittedSources(d);
+  const have = PULSE.watchers.filter(w => w.agentId === agent.id).map(w => w.name.toLowerCase());
+  return (WATCH_TEMPLATES[agent.spec.kind] || []).concat([GENERIC_WATCH_TEMPLATE])
+    .filter(t => ok.indexOf(t.tool) >= 0 && have.indexOf(t.name.toLowerCase()) < 0);
+}
+
+/* ---------- dry run: how often would this have fired in the last 30 days? ---------- */
+function hashStr(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function seededRand(seed) {
+  let t = seed >>> 0;
+  return () => { t += 0x6D2B79F5; let r = Math.imul(t ^ (t >>> 15), 1 | t); r ^= r + Math.imul(r ^ (r >>> 7), 61 | r); return ((r ^ (r >>> 14)) >>> 0) / 4294967296; };
+}
+const SAMPLE_SUPPLIERS = ['Al Noor Supplies', 'Gulf Office Supplies', 'Emirates Print House', 'Desert Logistics', 'Gulf Cargo LLC'];
+function sampleFinding(w, r) {
+  const sup = SAMPLE_SUPPLIERS[Math.floor(r() * SAMPLE_SUPPLIERS.length)];
+  const inv = 'INV-' + (2250 + Math.floor(r() * 60));
+  const amt = fmt((3 + Math.floor(r() * 90)) * 1000);
+  if (w.kind === 'flow-monitor' && w.params) {
+    const p = w.params, opts = [];
+    if (p.failures) opts.push('Run #' + (205 + Math.floor(r() * 12)) + ' failed at posting after 3 retries');
+    if (p.cost) opts.push('Average run cost rose ' + (p.costPct + Math.floor(r() * 20)) + '% over last week');
+    if (p.delay) opts.push('Run #' + (205 + Math.floor(r() * 12)) + ' has waited ' + (p.delayHours + 1 + Math.floor(r() * 4)) + ' hours for a decision');
+    if (p.straight) opts.push('Only ' + Math.max(10, p.straightMin - 3 - Math.floor(r() * 10)) + '% of tasks finished without a person this week');
+    if (opts.length) return opts[Math.floor(r() * opts.length)];
+  }
+  const s = ((w.source || '') + ' ' + (w.condition || '')).toLowerCase();
+  if (/duplicate/.test(s)) return inv + ' from ' + sup + ' repeats an approved invoice (AED ' + amt + ')';
+  if (/waited|waiting/.test(s)) return 'Run #' + (205 + Math.floor(r() * 12)) + ' has waited ' + (5 + Math.floor(r() * 7)) + ' hours for a decision';
+  if (/confidence/.test(s)) return 'Confidence was ' + (70 + Math.floor(r() * 14)) + '% on ' + inv + ' from ' + sup;
+  if (/times in a row/.test(s)) return 'The tool failed ' + (3 + Math.floor(r() * 3)) + ' times in a row on ' + inv;
+  if (/without a person|straight/.test(s)) return 'Only ' + (55 + Math.floor(r() * 15)) + '% of tasks finished without a person this week';
+  if (/cost/.test(s)) return 'Average run cost rose ' + (30 + Math.floor(r() * 30)) + '% over last week';
+  if (/contract/.test(s)) return sup + ' contract expires in ' + (20 + Math.floor(r() * 40)) + ' days';
+  if (/licen|sanction|supplier/.test(s)) return sup + ': trade licence renews in ' + (3 + Math.floor(r() * 25)) + ' days';
+  if (/leave|hr system/.test(s)) return 'Employee #' + (100 + Math.floor(r() * 80)) + ' has ' + (1 + Math.floor(r() * 2)) + ' leave days left';
+  if (/ledger|variance|sap/.test(s)) return 'PO-' + (10800 + Math.floor(r() * 200)) + ' differs by ' + (5 + Math.floor(r() * 9)) + '% from its invoice';
+  if (/invoice|mail|outlook/.test(s)) return inv + ' from ' + sup + ', AED ' + amt;
+  if (/fail|error/.test(s)) return 'Run #' + (205 + Math.floor(r() * 12)) + ' failed at posting';
+  return 'Record #' + (300 + Math.floor(r() * 90)) + ' matched the condition';
+}
+function watcherDryRun(d) {
+  const key = [d.signal, d.source, d.condition, d.cadence, d.agentId, d.workflowId, d.stepId, JSON.stringify(d.params || {})].join('|');
+  const r = seededRand(hashStr(key));
+  const span = ({ schedule: [1, 5], event: [2, 8], threshold: [3, 9], inbound: [6, 24] })[d.signal] || [2, 8];
+  const c = (d.condition || '').toLowerCase();
+  let n = span[0] + Math.floor(r() * (span[1] - span[0] + 1));
+  if (/\b(any|every|each|all)\b/.test(c) || /every inbound/i.test(d.cadence || '')) n += 4;
+  if (/duplicate|sanction|below|more than \d+ times/.test(c)) n = Math.max(1, Math.round(n * 0.5));
+  const usefulP = c.length < 28 ? 0.45 : n > 16 ? 0.5 : 0.72;
+  const events = [];
+  for (let i = 0; i < n; i++) events.push({ daysAgo: 1 + Math.floor(r() * 30), useful: r() < usefulP, text: sampleFinding(d, r) });
+  events.sort((a, b) => a.daysAgo - b.daysAgo);
+  const perDay = {};
+  events.forEach(e => { perDay[e.daysAgo] = (perDay[e.daysAgo] || 0) + 1; });
+  const cap = parseInt(d.alertCap, 10) || 5;
+  const overDays = Object.keys(perDay).filter(k => perDay[k] > cap).length;
+  const held = Object.keys(perDay).reduce((s, k) => s + Math.max(0, perDay[k] - cap), 0);
+  const useful = events.filter(e => e.useful).length;
+  return { n, useful, events, cap, overDays, held, noisy: n > 20 || (n > 3 && useful / n < 0.5), at: 'Today ' + now() };
+}
+function renderDryRun(t) {
+  if (!t) return '';
+  const tone = t.n === 0 ? 'wait' : t.noisy || t.overDays ? 'wait' : 'ok';
+  const lines = [];
+  if (t.n === 0) lines.push('It would not have triggered at all. The condition may be too strict.');
+  if (t.noisy) lines.push('This looks noisy. Tighten the condition or lower how often it checks.');
+  if (t.overDays) lines.push('On ' + t.overDays + ' day' + plural(t.overDays) + ' it would have passed the daily cap of ' + t.cap + ', so ' + t.held + ' alert' + plural(t.held) + ' would have been held back.');
+  if (!lines.length) lines.push('The volume looks manageable and most alerts look useful.');
+  return `
+    <div class="wd-test" role="status">
+      <div class="row-flex" style="justify-content:space-between"><b>Test on the last 30 days</b><span class="tag">Demo data</span></div>
+      <div class="sm">This watcher would have triggered <b>${t.n}</b> time${plural(t.n)}. <b>${t.useful}</b> alert${plural(t.useful)} look${t.useful === 1 ? 's' : ''} useful.</div>
+      <div class="callout ${tone}"><div>${esc(lines.join(' '))}</div></div>
+      ${t.events.length ? `<ul class="wd-samples">${t.events.slice(0, 5).map(e => `<li><span class="xs subtle">${e.daysAgo} day${plural(e.daysAgo)} ago</span> ${esc(e.text)} <span class="tag ${e.useful ? 'ok' : ''}">${e.useful ? 'Looks useful' : 'Likely noise'}</span></li>`).join('')}${t.events.length > 5 ? `<li class="xs subtle">and ${t.events.length - 5} more</li>` : ''}</ul>` : ''}
+    </div>`;
+}
+
+/* ---------- plain-language assistant: describe it, review it, save it ---------- */
+function parseWatcherPrompt(text, ctx) {
+  const raw = String(text || '').trim();
+  const t = raw.toLowerCase();
+  const d = baseWatcherDraft(ctx);
+  const has = name => permittedSources(d).indexOf(name) >= 0;
+  const amtM = t.match(/(?:above|over|exceed(?:s|ing)?|more than|greater than|higher than|>)\s*(?:aed\s*)?([\d,]+(?:\.\d+)?)\s*(k)?/);
+  const amount = amtM ? parseFloat(amtM[1].replace(/,/g, '')) * (amtM[2] === 'k' ? 1000 : 1) : null;
+  const days = (t.match(/(\d+)\s*days?/) || [])[1];
+  const mailbox = /mailbox|inbox|e-?mail|arriv|receiv/.test(t);
+  if (/duplicate/.test(t)) {
+    d.name = 'Duplicate Invoice Watcher'; d.signal = mailbox ? 'inbound' : 'event'; d.severity = 'High';
+    d.condition = 'An invoice has the same supplier and amount as one already received this month' + (/finance/.test(t) ? ' in the Finance mailbox' : '');
+    d.cadence = mailbox ? 'On every inbound email' : 'On every event';
+    if (has('Outlook · Read mail')) d.source = 'Outlook · Read mail';
+  } else if (/licen[cs]e|sanction/.test(t)) {
+    const sanc = /sanction/.test(t);
+    d.name = sanc ? 'Sanctions Update Watcher' : 'Supplier Licence Expiry'; d.signal = sanc ? 'event' : 'schedule'; d.severity = sanc ? 'Critical' : 'High';
+    d.condition = sanc ? 'A sanctions list update matches a registered supplier' : 'A supplier trade licence expires within ' + (days || 30) + ' days';
+    d.cadence = sanc ? 'Every hour' : 'Daily at 06:00';
+    if (has('Supplier Register')) d.source = 'Supplier Register';
+  } else if (/expir|renew/.test(t)) {
+    d.name = 'Contract Expiry (' + (days || 60) + ' days)'; d.signal = 'schedule'; d.severity = 'Medium';
+    d.condition = 'A contract expires within ' + (days || 60) + ' days'; d.cadence = 'Daily at 06:00';
+    if (has('Contracts Register')) d.source = 'Contracts Register';
+  } else if (/leave/.test(t)) {
+    const lim = (t.match(/below\s*(\d+)/) || [])[1] || 3;
+    d.name = 'Low Leave Balance'; d.signal = 'schedule'; d.severity = 'Low';
+    d.condition = 'An employee’s leave balance falls below ' + lim + ' days'; d.cadence = 'Every Monday at 07:00';
+    if (has('HR System · Read')) d.source = 'HR System · Read';
+  } else if (amount != null) {
+    d.name = 'High-Value Invoice Watcher'; d.signal = mailbox ? 'inbound' : 'threshold'; d.severity = 'High';
+    d.condition = 'An invoice above AED ' + fmt(amount) + ' arrives'; d.cadence = mailbox ? 'On every inbound email' : 'When the threshold is crossed';
+    if (has('Outlook · Read mail')) d.source = 'Outlook · Read mail';
+  } else if (/approval|waiting|waited/.test(t)) {
+    d.name = 'Slow Approval Watcher'; d.signal = 'threshold'; d.severity = 'Medium';
+    d.condition = 'An approval has waited more than ' + ((t.match(/(\d+)\s*(?:h|hours?)/) || [])[1] || 4) + ' hours'; d.cadence = 'Every 15 minutes';
+    d.source = has('Runs of this workflow') ? 'Runs of this workflow' : d.source;
+  } else if (/fail|error/.test(t)) {
+    d.name = 'Failure Watcher'; d.signal = 'threshold'; d.severity = 'High';
+    d.condition = 'A step fails more than 2 times in a day'; d.cadence = 'After every run';
+    d.source = has('Runs of this workflow') ? 'Runs of this workflow' : has('Runs of this agent') ? 'Runs of this agent' : d.source;
+  } else if (/cost|spend/.test(t)) {
+    d.name = 'Run Cost Watcher'; d.signal = 'threshold'; d.severity = 'Medium';
+    d.condition = 'Average run cost rises more than 30% over the weekly average'; d.cadence = 'After every run';
+    d.source = has('Runs of this workflow') ? 'Runs of this workflow' : has('Runs of this agent') ? 'Runs of this agent' : d.source;
+  } else {
+    d.name = 'Custom Watcher'; d.signal = 'event'; d.severity = 'Medium'; d.cadence = 'On every event';
+    d.condition = raw.charAt(0).toUpperCase() + raw.slice(1).replace(/[.!?]+$/, '');
+  }
+  if (ctx.workflowId && /\b(start|starts|trigger|launch|kick off|run this workflow)\b/.test(t)) d.startsWorkflow = ctx.workflowId;
+  return d;
+}
+function watcherAssist(text, ctx, before) {
+  const d = parseWatcherPrompt(text, ctx);
+  if (before) before(d);
+  const sum = 'Checks “' + d.source + '” · ' + d.cadence + (d.startsWorkflow && WORKFLOWS[d.startsWorkflow] ? ' · starts ' + WORKFLOWS[d.startsWorkflow].name : '');
+  openWatcherEditor({ draft: d, banner: 'Drafted from your request: “' + text + '”. ' + sum + '. Review every field, test it, then save.' });
+  return d;
+}
+
+/* ---------- create, update, gate ---------- */
+function watcherSnapshot(w) { const o = {}; WATCH_FIELDS.forEach(k => { o[k] = w[k] == null ? w[k] : clone(w[k]); }); return o; }
+function saveWatcherDraft(d, editId, who) {
+  const existing = editId ? pulseWatcher(editId) : null;
+  const errs = [];
+  d.name = (d.name || '').trim();
+  d.condition = (d.condition || '').trim();
+  d.alertCap = parseInt(d.alertCap, 10);
+  if (!d.name) errs.push('Give the watcher a name.');
+  if (!d.condition) errs.push('Describe the condition it should check.');
+  if (!(d.alertCap >= 1 && d.alertCap <= 50)) errs.push('Set a daily alert limit between 1 and 50.');
+  const ok = permittedSources(d);
+  if (!d.source || (ok.indexOf(d.source) < 0 && !(existing && existing.source === d.source))) errs.push('Choose a data source this ' + (d.ownerType === 'workflow' ? 'workflow' : 'agent') + ' is allowed to read.');
+  if (d.startsWorkflow && !WORKFLOWS[d.startsWorkflow]) errs.push('The workflow this watcher should start no longer exists.');
+  if (errs.length) return { ok: false, msg: errs[0] };
+
+  const isNew = !existing;
+  const carry = existing && existing.pending ? existing.pending : null; // an earlier unapproved edit keeps its original restore point
+  const w = existing || {
+    id: 'w-' + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36), createdBy: who, createdAt: 'Today ' + now(),
+    history: [], enabled: false, last: 'Never', custom: true
+  };
+  const prev = isNew ? null : (carry ? carry.prev : watcherSnapshot(existing));
+  const changed = [];
+  if (!isNew) {
+    [['name', 'name'], ['source', 'data source'], ['condition', 'condition'], ['cadence', 'schedule'], ['severity', 'severity'], ['alertCap', 'daily alert limit'], ['startsWorkflow', 'workflow trigger'], ['signal', 'signal type']]
+      .forEach(p => { if ((existing[p[0]] || null) !== (d[p[0]] || null)) changed.push(p[1]); });
+  }
+  WATCH_FIELDS.forEach(k => { w[k] = d[k] == null ? d[k] : clone(d[k]); });
+  if (isNew) { w.enabled = true; PULSE.watchers.push(w); }
+
+  // Anything that can start a workflow needs an approver's sign-off before it goes live.
+  const needsApproval = !!w.startsWorkflow && !isApproverUser(who) && (isNew || carry || changed.length > 0);
+  if (needsApproval) {
+    w.pending = { by: who, at: 'Today ' + now(), to: watcherApproverFor(w), isNew: isNew || !!(carry && carry.isNew), prev };
+    if (w.pending.isNew) w.enabled = false;
+  } else if (w.pending) {
+    if (w.pending.isNew) w.enabled = true;
+    w.pending = null;
+  }
+  if (isNew) wHist(w, who, 'Created the watcher' + (needsApproval ? ' and sent it to ' + PEOPLE[w.pending.to].name + ' for approval' : ''));
+  else if (changed.length) wHist(w, who, 'Changed ' + changed.join(', ') + (needsApproval ? '. Sent to ' + PEOPLE[w.pending.to].name + ' for approval' : ''));
+  saveWatchers();
+  return { ok: true, w, isNew, needsApproval, msg: needsApproval ? '“' + w.name + '” saved. It goes live once ' + PEOPLE[w.pending.to].name + ' approves it.' : (isNew ? '“' + w.name + '” added' : '“' + w.name + '” updated') + (watcherState(w) === 'inactive' ? '. It starts watching once its ' + (w.ownerType === 'workflow' ? 'workflow' : 'agent') + ' is Live.' : '.') };
+}
+function approveWatcher(id) {
+  const w = pulseWatcher(id);
+  if (!w || !w.pending) { render(); return; }
+  if (S.user !== w.pending.to) { toast('Only ' + (PEOPLE[w.pending.to] ? PEOPLE[w.pending.to].name : 'the named approver') + ' can approve this.'); return; }
+  if (w.pending.isNew) w.enabled = true;
+  w.pending = null;
+  wHist(w, S.user, 'Approved. The watcher is now allowed to run');
+  saveWatchers();
+  render();
+  toast('“' + w.name + '” approved');
+}
+function declineWatcher(id) {
+  const w = pulseWatcher(id);
+  if (!w || !w.pending) { render(); return; }
+  if (S.user !== w.pending.to) { toast('Only ' + (PEOPLE[w.pending.to] ? PEOPLE[w.pending.to].name : 'the named approver') + ' can decline this.'); return; }
+  const p = w.pending;
+  w.pending = null;
+  if (p.prev) Object.assign(w, p.prev); else w.enabled = false;
+  wHist(w, S.user, 'Declined. ' + (p.prev ? 'The previous settings were restored' : 'The watcher stays switched off'));
+  saveWatchers();
+  render();
+  toast('Declined. No changes were made.');
+}
+function toggleWatcher(id) {
+  const w = pulseWatcher(id);
+  if (!w) return;
+  if (w.pending) { toast('This watcher is waiting for ' + (PEOPLE[w.pending.to] ? PEOPLE[w.pending.to].name : 'an approver') + '.'); return; }
+  w.enabled = !w.enabled;
+  wHist(w, S.user, w.enabled ? 'Enabled' : 'Paused');
+  saveWatchers();
+  render();
+  const st = watcherState(w);
+  toast(w.name + (w.enabled ? (st === 'inactive' ? ' enabled. It starts once its ' + (w.ownerType === 'workflow' ? 'workflow' : 'agent') + ' is Live.' : st === 'global' ? ' enabled, but all watchers are paused by an administrator.' : ' enabled') : ' paused'));
+}
+function setGlobalPause(on) {
+  if (S.user !== 'oh') { toast('Only an authorised administrator (Omar Haddad, Security) can use the emergency pause.'); return; }
+  PULSE.globalPause = on ? { on: true, by: S.user, at: 'Today ' + now() } : { on: false, by: null, at: null };
+  logActivity(S.user, PEOPLE[S.user].name + (on ? ' paused all watchers (emergency pause)' : ' resumed all watchers'), 'Governance');
+  saveWatchers();
+  render();
+  toast(on ? 'All watchers are paused.' : 'Watchers resumed. Each one returns to its own setting.');
+}
+function openWatcherInBuilder(id, noRender) {
+  const w = pulseWatcher(id);
+  if (!w) return;
+  if (w.ownerType === 'workflow' && WORKFLOWS[w.workflowId]) {
+    S.view = 'workflows'; S.wf = w.workflowId;
+    if (w.stepId) { S.wfSelNode = w.stepId; S.wfNodeTab = 'watch'; }
+  } else if (w.ownerType === 'platform' || (!w.agentId && !w.workflowId)) {
+    S.view = 'activity';
+  } else if (w.agentId && AGENTS[w.agentId]) {
+    S.view = 'agent'; S.ab.entityType = 'agent'; S.ab.agentId = w.agentId; S.ab.tab = 'card';
+  } else { toast('The agent or workflow that owned this watcher was removed.'); return; }
+  S.flashW = id;
+  if (!noRender) render();
+  setTimeout(() => {
+    const el = document.querySelector('[data-wrow="' + id + '"]');
+    if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }, 30);
+  setTimeout(() => {
+    const el = document.querySelector('[data-wrow="' + id + '"]');
+    if (el) el.classList.remove('hl');
+    if (S.flashW === id) S.flashW = null;
+  }, 2600);
+}
+function watcherKindFor(w) {
+  const c = (w.condition || '').toLowerCase();
+  if (w.kind === 'flow-monitor' || w.kind === 'step-watch') return 'hygiene';
+  if (/expir|renew/.test(c)) return 'renewal';
+  if (/cost|spend/.test(c)) return 'cost';
+  return 'risk';
+}
+function makeWatcherFinding(w) {
+  const r = seededRand(hashStr(w.id + ':' + PULSE.sugg.length));
+  const what = sampleFinding(w, r);
+  const wf = w.startsWorkflow ? WORKFLOWS[w.startsWorkflow] : null;
+  const sg = {
+    id: 'sg-' + w.id + '-' + (PULSE.sugg.length + 1), watcher: w.id, agentId: w.agentId || null, workflowId: w.workflowId || null,
+    kind: watcherKindFor(w), sev: w.severity, seq: 0, at: '', title: w.name + ': ' + what,
+    why: 'This matched the condition “' + w.condition + '” set on ' + watcherOwnerLabel(w) + '.',
+    evidence: [what, 'Source: ' + w.source + ' (read only)', 'Checked: ' + w.cadence].concat(wf ? ['Started workflow “' + wf.name + '” at Level ' + (parseInt(wf.autonomy, 10) || 2) + '. Write steps still stop at the human gate.'] : []),
+    effect: { type: 'navigate', watcher: w.id, msg: 'Opened “' + w.name + '” in its builder' }, approver: null, cta: 'Open in builder', gov: 'Opens the builder. Nothing is changed.'
+  };
+  PULSE.sugg.push(sg);
+  return sg;
+}
+
+/* ---------- watcher editor (modal) ---------- */
+function openWatcherEditor(opts) {
+  let draft, id = null;
+  if (opts.id) {
+    const w = pulseWatcher(opts.id);
+    if (!w) return;
+    id = w.id;
+    draft = {};
+    WATCH_FIELDS.forEach(k => { draft[k] = w[k] == null ? w[k] : clone(w[k]); });
+  } else draft = opts.draft || baseWatcherDraft(opts.ctx || {});
+  S.modal = 'watcher';
+  S.modalData = { id, draft, test: opts.test || null, banner: opts.banner || '', error: '' };
+  render();
+}
+function readWatcherForm() {
+  const md = S.modalData;
+  if (!md || !md.draft) return;
+  const d = md.draft;
+  const val = id => { const el = document.getElementById(id); return el ? el.value : undefined; };
+  const set = (k, id) => { const x = val(id); if (x !== undefined) d[k] = x; };
+  set('name', 'wd-name'); set('source', 'wd-source'); set('signal', 'wd-signal'); set('condition', 'wd-cond');
+  set('cadence', 'wd-cadence'); set('severity', 'wd-sev'); set('alertCap', 'wd-cap');
+  const st = val('wd-start');
+  if (st !== undefined) d.startsWorkflow = st || null;
+}
+function wdSignalChanged() {
+  readWatcherForm();
+  const d = S.modalData && S.modalData.draft;
+  if (!d) return;
+  const all = [].concat.apply([], Object.keys(WATCH_CADENCES).map(k => WATCH_CADENCES[k]));
+  if (all.indexOf(d.cadence) >= 0 || !d.cadence) d.cadence = (WATCH_CADENCES[d.signal] || [])[0] || d.cadence;
+  S.modalData.test = null;
+  render();
+}
+function renderWatcherModal() {
+  const md = S.modalData || {};
+  const d = md.draft;
+  if (!d) return '';
+  const isEdit = !!md.id;
+  const sources = permittedSources(d);
+  if (d.source && sources.indexOf(d.source) < 0) sources.unshift(d.source);
+  const wf = d.startsWorkflow ? WORKFLOWS[d.startsWorkflow] : null;
+  const apprId = watcherApproverFor(d);
+  const youApprove = isApproverUser(S.user);
+  const readOnlyNote = d.kind === 'flow-monitor' || d.kind === 'step-watch';
+  return `
+    <div class="overlay">
+      <div class="modal wide" role="dialog" aria-modal="true" aria-label="${isEdit ? 'Edit watcher' : 'Add watcher'}">
+        <div class="mh">
+          <div class="row-flex">${IC.eye}<b>${isEdit ? 'Edit watcher' : 'Add watcher'}</b></div>
+          <button type="button" class="ib" data-a="close-modal" aria-label="Close">${IC.x}</button>
+        </div>
+        <form class="mb" data-a="submit-watcher-form" style="gap:12px" novalidate>
+          ${md.banner ? `<div class="callout accent"><div>${IC.pulse} ${esc(md.banner)}</div></div>` : ''}
+          ${md.error ? `<div class="callout bad" role="alert"><div>${IC.warn} ${esc(md.error)}</div></div>` : ''}
+          <div class="xs muted">Belongs to <b>${esc(watcherOwnerLabel(d))}</b>. It is configured here, and its findings appear in Ephrem Pulse.</div>
+          <div class="wd-grid">
+            <div class="field"><label for="wd-name">Name</label><input id="wd-name" class="in" value="${esc(d.name)}" placeholder="e.g. Duplicate Invoice Watcher" maxlength="80"></div>
+            <div class="field"><label for="wd-sev">Severity</label>
+              <select id="wd-sev" class="sel">${['Low', 'Medium', 'High', 'Critical'].map(s => `<option ${d.severity === s ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
+            <div class="field"><label for="wd-source">What to monitor</label>
+              <select id="wd-source" class="sel">${sources.map(s => `<option value="${esc(s)}" ${d.source === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}</select>
+              <div class="xs subtle">Only read access this ${d.ownerType === 'workflow' ? 'workflow' : 'agent'} already has is offered.</div></div>
+            <div class="field"><label for="wd-signal">Signal type</label>
+              <select id="wd-signal" class="sel" onchange="wdSignalChanged()">${Object.keys(SIGNALS).map(k => `<option value="${k}" ${d.signal === k ? 'selected' : ''}>${esc(SIGNALS[k].label)}</option>`).join('')}</select></div>
+          </div>
+          <div class="field"><label for="wd-cond">Condition · alert when</label>
+            <textarea id="wd-cond" class="ta" rows="2" ${readOnlyNote ? 'readonly' : ''} placeholder="e.g. A contract expires within 60 days">${esc(d.condition)}</textarea>
+            ${readOnlyNote ? '<div class="xs subtle">This condition is built from the settings in the Watch tab or Monitor This Flow.</div>' : ''}</div>
+          <div class="wd-grid">
+            <div class="field"><label for="wd-cadence">When to check</label>
+              <input id="wd-cadence" class="in" list="wd-cad-list" value="${esc(d.cadence)}">
+              <datalist id="wd-cad-list">${(WATCH_CADENCES[d.signal] || []).map(c => `<option value="${esc(c)}"></option>`).join('')}</datalist></div>
+            <div class="field"><label for="wd-cap">Max alerts per day</label>
+              <input id="wd-cap" class="in" type="number" min="1" max="50" value="${esc(d.alertCap)}">
+              <div class="xs subtle">Stops one watcher flooding Pulse.</div></div>
+          </div>
+          <div class="field"><label for="wd-start">Start a workflow when it finds something</label>
+            <select id="wd-start" class="sel" onchange="readWatcherForm();S.modalData.test=null;render()">
+              <option value="">Do not start a workflow. Only report in Pulse.</option>
+              ${Object.values(WORKFLOWS).map(x => `<option value="${esc(x.id)}" ${d.startsWorkflow === x.id ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}
+            </select></div>
+          ${wf ? `<div class="callout wait"><div>${IC.lock} It starts <b>${esc(wf.name)}</b> at Autonomy Level ${parseInt(wf.autonomy, 10) || 2}. The workflow’s safety settings still apply, and writes to real systems stop at a human gate. ${youApprove ? 'You are an approver, so your change takes effect now.' : 'Because it starts a workflow, <b>' + esc(PEOPLE[apprId].name) + '</b> must approve it before it goes live.'}</div></div>` : ''}
+          <div class="callout"><div>${IC.shield} Watchers detect and report. They never change data in a real system, and they read only what their ${d.ownerType === 'workflow' ? 'workflow' : 'agent'} may read. Every change is recorded in the audit log.</div></div>
+          ${renderDryRun(md.test)}
+          <div class="mf" style="margin:0 -18px -18px;justify-content:space-between">
+            <div>${isEdit ? `<button type="button" class="btn danger" data-a="wd-delete" data-id="${esc(md.id)}">Delete watcher</button>` : ''}</div>
+            <div class="row-flex" style="gap:8px">
+              <button type="button" class="btn" data-a="close-modal">Cancel</button>
+              <button type="button" class="btn" data-a="wd-test">Test on last 30 days</button>
+              <button type="submit" class="btn ok">${isEdit ? 'Save changes' : 'Save watcher'}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>`;
+}
+
+/* ---------- Agent Builder: Watchers section on the Agent Card ---------- */
+function renderWatcherRow(w) {
+  const sig = SIGNALS[w.signal] || SIGNALS.schedule;
+  const st = watcherState(w);
+  const startsWf = w.startsWorkflow && WORKFLOWS[w.startsWorkflow] ? WORKFLOWS[w.startsWorkflow] : null;
+  const findings = PULSE.sugg.filter(s => s.watcher === w.id && s.surfaced).length;
+  const appr = w.pending ? PEOPLE[w.pending.to] : null;
+  const canDecide = !!w.pending && S.user === w.pending.to;
+  return `
+    <div class="wd-row ${st === 'on' ? '' : 'off'} ${S.flashW === w.id ? 'hl' : ''}" data-wrow="${esc(w.id)}">
+      <div class="row-flex">
+        <span class="pl-sig" title="${esc(sig.label)}">${IC[sig.ic]}</span>
+        <div class="grow"><b style="font-size:13px">${esc(w.name)}</b><div class="xs muted">${esc(w.source)} · ${esc(w.cadence)}</div></div>
+        ${sevPill(w.severity || 'Medium')}
+      </div>
+      <div class="sm muted">${esc(w.condition || '')}</div>
+      <div class="row-flex wrap">
+        ${watcherStatePill(w)}
+        <span class="xs subtle">Last checked ${esc(w.last)}</span>
+        <span class="xs subtle">· ${findings} finding${plural(findings)}</span>
+        <span class="xs subtle">· ${watcherSentToday(w)}/${w.alertCap || 10} alerts today</span>
+        ${startsWf ? `<span class="tag accent">Starts ${esc(startsWf.name)}</span>` : ''}
+        ${w.lastTest ? `<span class="tag">Last test: ${w.lastTest.n} hit${plural(w.lastTest.n)}, ${w.lastTest.useful} useful</span>` : ''}
+      </div>
+      ${w.pending ? `<div class="callout wait"><div>${IC.clock} Waiting for ${esc(appr ? appr.name : 'an approver')} to approve this change. It does not run until then.</div></div>` : ''}
+      <div class="wd-acts">
+        <button type="button" class="btn s" data-a="wd-edit" data-id="${esc(w.id)}">Edit</button>
+        <button type="button" class="btn s" data-a="wd-test-saved" data-id="${esc(w.id)}">Test</button>
+        <button type="button" class="btn s" data-a="wd-toggle" data-id="${esc(w.id)}" ${w.pending ? 'disabled' : ''}>${w.enabled ? 'Pause' : 'Enable'}</button>
+        ${canDecide ? `<button type="button" class="btn s ok" data-a="wd-approve" data-id="${esc(w.id)}">Approve</button><button type="button" class="btn s danger" data-a="wd-decline" data-id="${esc(w.id)}">Decline</button>` : ''}
+        <button type="button" class="btn s ghost" data-a="wd-delete" data-id="${esc(w.id)}">Delete</button>
+      </div>
+      <details class="pl-wdet">
+        <summary>History</summary>
+        <ul class="pl-evid">${(w.history || []).slice(0, 6).map(h => `<li>${esc(h.at)} · ${esc(PEOPLE[h.who] ? PEOPLE[h.who].name : 'System')}: ${esc(h.text)}</li>`).join('') || '<li>No changes recorded</li>'}</ul>
+      </details>
+    </div>`;
+}
+function renderWatchersSection(agent) {
+  if (!agent || !agent.spec) return '';
+  const ws = PULSE.watchers.filter(w => w.ownerType === 'agent' && w.agentId === agent.id);
+  const tpls = watcherTemplatesFor(agent);
+  const finds = PULSE.sugg.filter(s => s.surfaced && s.agentId === agent.id).sort((a, b) => suggRank(b) - suggRank(a));
+  return `
+    <div class="sec" id="watchers-sec">
+      <h3>
+        <span>Watchers · what it keeps an eye on</span>
+        <button type="button" class="btn s p" data-a="wd-new" data-owner="agent" data-id="${esc(agent.id)}">${IC.plus} Add Watcher</button>
+      </h3>
+      ${PULSE.globalPause && PULSE.globalPause.on ? `<div class="callout bad"><div>${IC.warn} All watchers are paused by an administrator. Your settings are kept.</div></div>` : ''}
+      ${ws.length ? ws.map(renderWatcherRow).join('') : `<div class="pl-empty"><div>No watcher is linked to this agent yet. Add one so it can spot issues before someone has to ask.</div></div>`}
+      ${tpls.length ? `<div class="field"><label>Suggested for ${esc(agent.spec.name)}</label>
+        <div class="wrap row-flex">${tpls.map((t, i) => `<button type="button" class="chip add" data-a="wd-template" data-id="${esc(agent.id)}" data-i="${i}">+ ${esc(t.label)}</button>`).join('')}</div></div>` : ''}
+      <form class="wd-chat" data-a="submit-watcher-chat" data-owner="agent" data-id="${esc(agent.id)}">
+        <div class="field"><label for="wd-chat-in-${esc(agent.id)}">Or describe it in plain language</label>
+          <div class="box"><input id="wd-chat-in-${esc(agent.id)}" class="wd-chat-in" placeholder="e.g. Monitor the Finance mailbox for duplicate invoices" autocomplete="off"><button type="submit" class="ib p" aria-label="Draft watcher">${IC.send}</button></div>
+          <div class="xs subtle">The assistant drafts the setup. You review and save it.</div></div>
+      </form>
+      ${finds.length ? `<div class="field"><label>Recent findings linked to this agent</label>
+        <ul class="pl-evid">${finds.slice(0, 3).map(s => `<li>${sevPill(suggSeverity(s))} ${esc(s.title)}</li>`).join('')}</ul>
+        <div><button type="button" class="btn s ghost" data-a="view" data-v="pulse">See all in Ephrem Pulse →</button></div></div>` : ''}
+    </div>`;
+}
+
+/* ---------- Workflow Builder: watchers strip, trigger, Monitor This Flow, step Watch tab ---------- */
+function renderWorkflowWatchers(wf) {
+  if (!wf) return '';
+  const own = PULSE.watchers.filter(w => (w.workflowId === wf.id && w.kind !== 'step-watch') || w.startsWorkflow === wf.id);
+  const steps = PULSE.watchers.filter(w => w.kind === 'step-watch' && w.workflowId === wf.id);
+  const seen = [];
+  const chips = own.filter(w => seen.indexOf(w.id) < 0 && seen.push(w.id)).map(w => {
+    const trig = w.startsWorkflow === wf.id;
+    const canDecide = !!w.pending && S.user === w.pending.to;
+    return `<span class="wd-chip ${S.flashW === w.id ? 'hl' : ''}" data-wrow="${esc(w.id)}">
+      <button type="button" class="wd-chip-main" data-a="wd-edit" data-id="${esc(w.id)}" title="Edit watcher">${IC.eye}<b>${esc(w.name)}</b>${trig ? '<span class="tag accent">Trigger</span>' : ''}${watcherStatePill(w)}</button>
+      ${canDecide ? `<button type="button" class="btn s ok" data-a="wd-approve" data-id="${esc(w.id)}">Approve</button><button type="button" class="btn s danger" data-a="wd-decline" data-id="${esc(w.id)}">Decline</button>` : ''}
+    </span>`;
+  }).join('');
+  const needsTrig = /^Watcher/i.test(wf.trigger || '') && !triggerWatchersOf(wf.id).length;
+  return `
+    <div class="wf-watch" id="wf-watchers">
+      <span class="lbl">${IC.eye} Watchers</span>
+      ${chips || '<span class="xs muted">None yet.</span>'}
+      ${steps.length ? `<span class="xs muted">${steps.length} step watcher${plural(steps.length)} (${steps.filter(w => watcherState(w) === 'on').length} active)</span>` : ''}
+      <button type="button" class="chip add" data-a="wd-new" data-owner="workflow" data-id="${esc(wf.id)}">+ Add watcher</button>
+      <button type="button" class="chip add" data-a="wd-new" data-owner="workflow" data-id="${esc(wf.id)}" data-start="1">+ Watcher trigger</button>
+      ${needsTrig ? '<span class="xs" style="color:var(--wait)">This flow starts from a watcher, but none is connected yet. Add a watcher trigger.</span>' : ''}
+    </div>`;
+}
+function setTriggerWatcher(val) {
+  const wf = WORKFLOWS[S.wf];
+  if (!wf) return;
+  const prev = triggerWatchersOf(wf.id);
+  if ((prev.length === 1 && prev[0].id === val) || (!prev.length && !val)) return;
+  prev.forEach(w => {
+    w.startsWorkflow = null;
+    if (w.pending) { if (w.pending.isNew) w.enabled = true; w.pending = null; }
+    wHist(w, S.user, 'No longer starts ' + wf.name);
+  });
+  let msg = 'Workflow trigger cleared';
+  if (val) {
+    const w = pulseWatcher(val);
+    if (!w) return;
+    const before = w.startsWorkflow;
+    w.startsWorkflow = wf.id;
+    const gated = !isApproverUser(S.user);
+    if (gated) w.pending = { by: S.user, at: 'Today ' + now(), to: watcherApproverFor(w), isNew: false, prev: Object.assign(watcherSnapshot(w), { startsWorkflow: before || null }) };
+    wHist(w, S.user, 'Now starts ' + wf.name + (gated ? '. Sent to ' + PEOPLE[w.pending.to].name + ' for approval' : ''));
+    msg = '“' + w.name + '” now starts this workflow' + (gated ? '. It needs ' + PEOPLE[w.pending.to].name + '’s approval before it goes live.' : '.');
+  }
+  saveWatchers();
+  render();
+  toast(msg);
+}
+function flowMonitorParams(wfId) {
+  const ex = flowMonitorOf(wfId);
+  return Object.assign({ failures: true, cost: true, costPct: 30, delay: true, delayHours: 4, straight: true, straightMin: 70 }, ex && ex.params ? ex.params : {});
+}
+function flowMonitorDraft(wf, p) {
+  const bits = [];
+  if (p.failures) bits.push('a run fails');
+  if (p.cost) bits.push('run cost rises more than ' + p.costPct + '%');
+  if (p.delay) bits.push('an approval has waited more than ' + p.delayHours + ' hours');
+  if (p.straight) bits.push('fewer than ' + p.straightMin + '% of tasks finish without a person');
+  return { name: 'Monitor: ' + wf.name, ownerType: 'workflow', agentId: null, workflowId: wf.id, stepId: null, kind: 'flow-monitor', signal: 'threshold', source: 'Runs of this workflow', condition: bits.length ? 'Alert when ' + bits.join(', or ') : 'No checks selected', cadence: 'After every run', severity: 'Medium', alertCap: 10, startsWorkflow: null, params: clone(p) };
+}
+function readFlowMonitorForm() {
+  const md = S.modalData;
+  const chk = id => { const el = document.getElementById(id); return !!(el && el.checked); };
+  const num = (id, def, lo, hi) => { const el = document.getElementById(id); const n = parseFloat(el && el.value); return n >= lo && n <= hi ? n : def; };
+  md.params = { failures: chk('fm-failures'), cost: chk('fm-cost'), costPct: num('fm-cost-pct', 30, 5, 200), delay: chk('fm-delay'), delayHours: num('fm-delay-h', 4, 1, 72), straight: chk('fm-straight'), straightMin: num('fm-straight-min', 70, 10, 100) };
+}
+function openFlowMonitor(wfId, withTest) {
+  const wf = WORKFLOWS[wfId];
+  if (!wf) return;
+  S.modal = 'flow-monitor';
+  S.modalData = { wfId, params: flowMonitorParams(wfId), test: null, error: '' };
+  if (withTest) S.modalData.test = watcherDryRun(flowMonitorDraft(wf, S.modalData.params));
+  render();
+}
+function renderFlowMonitorModal() {
+  const md = S.modalData || {};
+  const wf = WORKFLOWS[md.wfId];
+  if (!wf) return '';
+  const p = md.params;
+  const ex = flowMonitorOf(wf.id);
+  const row = (id, key, title, help, extra) => `
+    <div class="wd-metric">
+      <label class="wd-check"><input type="checkbox" id="${id}" ${p[key] ? 'checked' : ''}> <b>${title}</b></label>
+      <div class="xs muted">${help}</div>${extra || ''}
+    </div>`;
+  const numIn = (id, v, lo, hi, unit) => `<div class="row-flex" style="margin-top:4px"><input id="${id}" class="in" type="number" min="${lo}" max="${hi}" value="${v}" style="max-width:90px"><span class="xs muted">${unit}</span></div>`;
+  return `
+    <div class="overlay">
+      <div class="modal" role="dialog" aria-modal="true" aria-label="Monitor this flow" style="width:min(560px,100%)">
+        <div class="mh"><div class="row-flex">${IC.eye}<b>Monitor This Flow</b></div><button type="button" class="ib" data-a="close-modal" aria-label="Close">${IC.x}</button></div>
+        <form class="mb" data-a="submit-flow-monitor" style="gap:12px" novalidate>
+          <div class="xs muted">Watching <b>${esc(wf.name)}</b>. Findings show up in Ephrem Pulse. This watcher only reports. It does not retry, approve or change anything.</div>
+          ${md.error ? `<div class="callout bad" role="alert"><div>${IC.warn} ${esc(md.error)}</div></div>` : ''}
+          ${row('fm-failures', 'failures', 'Workflow failures', 'Alert when a run fails or a step keeps retrying.')}
+          ${row('fm-cost', 'cost', 'Unusual cost', 'Alert when the average cost per run rises above the weekly average.', numIn('fm-cost-pct', p.costPct, 5, 200, '% above average'))}
+          ${row('fm-delay', 'delay', 'Approval delays', 'Alert when a person has been asked to approve and has not answered.', numIn('fm-delay-h', p.delayHours, 1, 72, 'hours waiting'))}
+          ${row('fm-straight', 'straight', 'Tasks done without a person', 'Alert when the share of tasks finishing without human intervention drops.', numIn('fm-straight-min', p.straightMin, 10, 100, '% minimum'))}
+          ${renderDryRun(md.test)}
+          <div class="mf" style="margin:0 -18px -18px;justify-content:space-between">
+            <div>${ex ? '<button type="button" class="btn danger" data-a="wd-fm-stop">Stop monitoring</button>' : ''}</div>
+            <div class="row-flex" style="gap:8px">
+              <button type="button" class="btn" data-a="close-modal">Cancel</button>
+              <button type="button" class="btn" data-a="wd-fm-test">Test on last 30 days</button>
+              <button type="submit" class="btn ok">${ex ? 'Save monitoring' : 'Start monitoring'}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>`;
+}
+function saveFlowMonitor() {
+  const md = S.modalData;
+  const wf = WORKFLOWS[md.wfId];
+  if (!wf) return;
+  readFlowMonitorForm();
+  const p = md.params;
+  if (!p.failures && !p.cost && !p.delay && !p.straight) { md.error = 'Pick at least one thing to monitor.'; render(); return; }
+  const d = flowMonitorDraft(wf, p);
+  let w = flowMonitorOf(wf.id);
+  const isNew = !w;
+  if (isNew) {
+    w = { id: 'w-mon-' + wf.id, createdBy: S.user, createdAt: 'Today ' + now(), history: [], last: 'Never', custom: true, enabled: true };
+    PULSE.watchers.push(w);
+  }
+  WATCH_FIELDS.forEach(k => { w[k] = d[k] == null ? d[k] : clone(d[k]); });
+  w.enabled = true;
+  if (md.test) w.lastTest = { n: md.test.n, useful: md.test.useful };
+  wHist(w, S.user, isNew ? 'Started monitoring the flow' : 'Updated monitoring settings');
+  saveWatchers();
+  S.modal = null; S.modalData = null;
+  render();
+  toast(isNew ? 'Monitoring “' + wf.name + '”.' + (wf.status !== 'live' ? ' It starts once the workflow is Live.' : '') : 'Monitoring settings saved');
+}
+
+const stepWatchDefs = node => {
+  if (!node) return null;
+  if (node.type === 'human') return { key: 'hours', short: 'Approval delay', title: 'Approval is waiting too long', label: 'Alert when approval has waited more than', unit: 'hours', def: 4, min: 1, max: 72, help: 'Reminds the approver, then escalates to a backup if nobody answers.' };
+  if (node.type === 'agent') { const a = AGENTS[node.agentId]; return { key: 'minConf', short: 'Low confidence', title: 'Agent confidence drops', label: 'Alert when confidence falls below', unit: '%', def: (a && a.spec && a.spec.minConf) || 85, min: 50, max: 99, help: 'Spots answers the agent is unsure about, before a person relies on them.' }; }
+  if (node.type === 'tool') return { key: 'fails', short: 'Repeated failures', title: 'The same tool keeps failing', label: 'Alert when the tool fails', unit: 'times in a row', def: 3, min: 2, max: 10, help: 'Catches a broken connection without anyone retrying the write by hand.' };
+  return null;
+};
+function stepWatchCondition(node, p) {
+  if (node.type === 'human') return 'Approval at “' + node.title + '” has waited more than ' + p.hours + ' hours. Escalates to ' + (PEOPLE[p.escalateTo] ? PEOPLE[p.escalateTo].name : 'a backup approver') + ' if still pending';
+  if (node.type === 'agent') return 'Agent confidence at “' + node.title + '” falls below ' + p.minConf + '%';
+  return 'The tool at “' + node.title + '” fails ' + p.fails + ' times in a row';
+}
+function stepWatchUpsert(patch, histText) {
+  const wf = WORKFLOWS[S.wf];
+  const node = wf && (wf.nodes || []).find(n => n.id === S.wfSelNode);
+  const def = stepWatchDefs(node);
+  if (!wf || !node || !def) return null;
+  let w = stepWatcherOf(wf.id, node.id);
+  if (!w) {
+    const params = { stepType: node.type, escalateTo: 'df' };
+    params[def.key] = def.def;
+    w = { id: 'w-step-' + node.id + '-' + Date.now().toString(36), name: node.title + ' · ' + def.short, ownerType: 'workflow', agentId: null, workflowId: wf.id, stepId: node.id, startsWorkflow: null, kind: 'step-watch', custom: true, signal: 'threshold', source: 'Runs of this workflow', cadence: 'During every run', severity: 'Medium', alertCap: 5, enabled: false, last: 'Never', createdBy: S.user, createdAt: 'Today ' + now(), history: [], params };
+    PULSE.watchers.push(w);
+    wHist(w, S.user, 'Created the step watcher');
+  }
+  if (patch.params) Object.assign(w.params, patch.params);
+  if ('enabled' in patch) w.enabled = patch.enabled;
+  w.name = node.title + ' · ' + def.short;
+  w.condition = stepWatchCondition(node, w.params);
+  if (histText) wHist(w, S.user, histText);
+  saveWatchers();
+  return w;
+}
+function stepWatchToggle(on) {
+  const w = stepWatchUpsert({ enabled: !!on }, on ? 'Enabled' : 'Paused');
+  S.stepTest = null;
+  render();
+  if (w) toast(on ? 'Watching this step' + (watcherState(w) === 'inactive' ? '. It starts once the workflow is Live.' : '') : 'Step watcher paused');
+}
+function stepWatchParam(key, raw) {
+  const wf = WORKFLOWS[S.wf];
+  const node = wf && (wf.nodes || []).find(n => n.id === S.wfSelNode);
+  const def = stepWatchDefs(node);
+  if (!def) return;
+  let v = raw;
+  if (key !== 'escalateTo') { v = parseFloat(raw); if (!(v >= def.min && v <= def.max)) { v = Math.min(def.max, Math.max(def.min, isNaN(v) ? def.def : v)); toast('Value kept between ' + def.min + ' and ' + def.max); } }
+  const p = {}; p[key] = v;
+  stepWatchUpsert({ params: p }, 'Changed ' + (key === 'escalateTo' ? 'escalation to ' + (PEOPLE[v] ? PEOPLE[v].name : v) : def.label.toLowerCase() + ' ' + v + ' ' + def.unit));
+  S.stepTest = null;
+  render();
+}
+function stepWatchTest() {
+  const w = stepWatchUpsert({}, null);
+  if (!w) return;
+  const res = watcherDryRun(w);
+  w.lastTest = { n: res.n, useful: res.useful };
+  saveWatchers();
+  S.stepTest = { nodeId: S.wfSelNode, res };
+  render();
+}
+function renderStepWatch(wf, node) {
+  const def = stepWatchDefs(node);
+  if (!def) {
+    return `<div class="callout"><div>${IC.eye} Step monitoring is available for <b>Human approval</b>, <b>AI agent</b> and <b>Tool</b> steps. ${node.type === 'trigger' ? 'To start this workflow from a watcher, use the Configure tab.' : 'To track the whole flow, use <b>Monitor This Flow</b>.'}</div></div>`;
+  }
+  const w = stepWatcherOf(wf.id, node.id);
+  const p = (w && w.params) || {};
+  const val = p[def.key] != null ? p[def.key] : def.def;
+  const on = !!(w && w.enabled);
+  const t = S.stepTest && S.stepTest.nodeId === node.id ? S.stepTest.res : null;
+  return `
+    <div class="field">
+      <label class="wd-check"><input type="checkbox" ${on ? 'checked' : ''} onchange="stepWatchToggle(this.checked)"> <b>${esc(def.title)}</b></label>
+      <div class="xs muted">${esc(def.help)}</div>
+    </div>
+    <div class="field"><label>${esc(def.label)}</label>
+      <div class="row-flex"><input class="in" type="number" min="${def.min}" max="${def.max}" value="${esc(val)}" onchange="stepWatchParam('${def.key}', this.value)" style="max-width:90px"><span class="xs muted">${esc(def.unit)}</span></div></div>
+    ${node.type === 'human' ? `<div class="field"><label>Then escalate to</label>
+      <select class="sel" onchange="stepWatchParam('escalateTo', this.value)">${Object.values(PEOPLE).filter(x => x.approver).map(x => `<option value="${x.id}" ${(p.escalateTo || 'df') === x.id ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select></div>` : ''}
+    <div class="row-flex wrap">${w ? watcherStatePill(w) : plPill('draft', 'Not watching')}${w ? `<span class="xs subtle">${watcherSentToday(w)}/${w.alertCap || 5} alerts today</span>` : ''}</div>
+    <div class="row-flex" style="gap:8px"><button type="button" class="btn s" data-a="wd-step-test">Test on last 30 days</button>${w ? `<button type="button" class="btn s ghost" data-a="wd-edit" data-id="${esc(w.id)}">Advanced</button>` : ''}</div>
+    ${renderDryRun(t)}
+    <div class="callout"><div>${IC.shield} This watcher only reports. It never approves, retries or changes anything itself.</div></div>`;
+}
+function nodeWatchTags(node, wf, i) {
+  const bits = [];
+  if (node.type === 'trigger' && i === 0 && triggerWatchersOf(wf.id).length) bits.push('<span class="tag accent" title="This workflow is started by a watcher">Watcher</span>');
+  const sw = stepWatcherOf(wf.id, node.id);
+  if (sw && sw.enabled) bits.push('<span class="tag ok" title="' + esc(sw.condition || 'Watched') + '">' + IC.eye + ' Watched</span>');
+  return bits.join('');
+}
+function renderTriggerWatcherField(wf, node) {
+  if (!node || node.type !== 'trigger') return '';
+  const cur = triggerWatchersOf(wf.id)[0];
+  return `
+    <div class="field">
+      <label>Start from a watcher</label>
+      <select class="sel" onchange="setTriggerWatcher(this.value)">
+        <option value="">No watcher. Use the trigger above.</option>
+        ${PULSE.watchers.map(w => `<option value="${esc(w.id)}" ${cur && cur.id === w.id ? 'selected' : ''}>${esc(w.name)} · ${esc(watcherOwnerLabel(w))}</option>`).join('')}
+      </select>
+      <div class="row-flex" style="gap:8px;margin-top:4px"><button type="button" class="btn s" data-a="wd-new" data-owner="workflow" data-id="${esc(wf.id)}" data-start="1">+ New watcher trigger</button></div>
+      <div class="xs subtle">The run starts at this workflow’s autonomy level. Writes still stop at a human gate. A new trigger needs an approver’s sign-off.</div>
+    </div>`;
+}
+
+/* ---------- Governance: central emergency control (administrators only) ---------- */
+function renderWatcherGovernance() {
+  const gp = PULSE.globalPause || { on: false };
+  const admin = S.user === 'oh';
+  const on = PULSE.watchers.filter(w => watcherState(w) === 'on').length;
+  return `
+    <div class="sec">
+      <h3><span>Watcher governance</span>${gp.on ? plPill('bad', 'All watchers paused') : plPill('live', on + ' of ' + PULSE.watchers.length + ' watching')}</h3>
+      <div class="card" style="padding:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div class="grow" style="min-width:220px">
+          <b>Emergency pause</b>
+          <div class="xs muted">${gp.on ? 'Paused by ' + esc(PEOPLE[gp.by] ? PEOPLE[gp.by].name : 'an administrator') + ' at ' + esc(gp.at) + '. Builders keep their settings, but no watcher runs.' : 'Stops every watcher on the platform at once. Builders keep their own settings. Only authorised administrators can use it.'}</div>
+        </div>
+        <button type="button" class="btn ${gp.on ? 'ok' : 'danger'}" data-a="${gp.on ? 'wd-gov-resume' : 'wd-gov-pause'}" ${admin ? '' : 'disabled'} title="${admin ? '' : 'Only an authorised administrator (Omar Haddad, Security) can do this'}">${gp.on ? IC.play + ' Resume all watchers' : IC.pause + ' Pause all watchers'}</button>
+      </div>
+      ${admin ? '' : '<div class="xs subtle">Switch persona to Omar Haddad (Security) to use this control.</div>'}
+      <div class="xs subtle">Platform watchers are listed in Ephrem Pulse. Agent and workflow watchers are changed in their builders.</div>
+    </div>`;
+}
+
+/* ---------- action router for every wd-* control ---------- */
+function handleWatcherAction(a, el) {
+  const id = el.dataset.id;
+  if (a === 'wd-new') {
+    const own = el.dataset.owner;
+    const ctx = own === 'workflow' ? { ownerType: 'workflow', workflowId: id } : { ownerType: 'agent', agentId: id };
+    if (el.dataset.start === '1' && own === 'workflow') ctx.startsWorkflow = id;
+    const d = baseWatcherDraft(ctx);
+    if (ctx.startsWorkflow) { d.name = 'Trigger for ' + (WORKFLOWS[id] ? WORKFLOWS[id].name : 'this flow'); d.signal = 'event'; d.cadence = 'On every event'; }
+    openWatcherEditor({ draft: d, banner: ctx.startsWorkflow ? 'This watcher will start the workflow when its condition is met. An approver signs it off before it goes live.' : '' });
+  }
+  else if (a === 'wd-edit') { openWatcherEditor({ id }); }
+  else if (a === 'wd-test-saved') { const w = pulseWatcher(id); if (w) openWatcherEditor({ id, test: watcherDryRun(w) }); }
+  else if (a === 'wd-test') {
+    readWatcherForm();
+    S.modalData.test = watcherDryRun(S.modalData.draft);
+    S.modalData.error = '';
+    render();
+  }
+  else if (a === 'wd-template') {
+    const ag = AGENTS[id];
+    const tpl = watcherTemplatesFor(ag)[parseInt(el.dataset.i, 10)];
+    if (ag && tpl) openWatcherEditor({ draft: draftFromTemplate(tpl, { ownerType: 'agent', agentId: id }), banner: 'Suggested for ' + ag.spec.name + '. Review it, test it, then save.' });
+  }
+  else if (a === 'wd-toggle') { toggleWatcher(id); }
+  else if (a === 'wd-approve') { approveWatcher(id); }
+  else if (a === 'wd-decline') { declineWatcher(id); }
+  else if (a === 'wd-delete') {
+    const w = pulseWatcher(id);
+    if (!w) return;
+    S.modal = 'confirm-delete';
+    S.modalData = { type: 'watcher', id, title: w.name, typeTitle: 'Watcher' };
+    render();
+  }
+  else if (a === 'wd-open') { openWatcherInBuilder(id); }
+  else if (a === 'wd-monitor-flow') { openFlowMonitor(el.dataset.id || S.wf); }
+  else if (a === 'wd-fm-test') {
+    readFlowMonitorForm();
+    const wf = WORKFLOWS[S.modalData.wfId];
+    S.modalData.test = watcherDryRun(flowMonitorDraft(wf, S.modalData.params));
+    S.modalData.error = '';
+    render();
+  }
+  else if (a === 'wd-fm-stop') {
+    const w = flowMonitorOf(S.modalData && S.modalData.wfId);
+    if (w) {
+      wHist(w, S.user, 'Stopped monitoring the flow');
+      PULSE.watchers = PULSE.watchers.filter(x => x.id !== w.id);
+      saveWatchers();
+    }
+    S.modal = null; S.modalData = null;
+    render();
+    toast('Stopped monitoring this flow');
+  }
+  else if (a === 'wd-step-test') { stepWatchTest(); }
+  else if (a === 'wd-gov-pause') { setGlobalPause(true); }
+  else if (a === 'wd-gov-resume') { setGlobalPause(false); }
 }
 
 /* =====================================================================
@@ -3138,6 +4532,183 @@ function renderChatBubble(m, activeChatKey) {
 }
 
 /* =====================================================================
+   BUILDER ASSISTANT, AUTO-TEST CASES, MODEL QUALITY & WORKFLOW INSIGHTS
+   ===================================================================== */
+function renderBuilderAssistant(agent) {
+  if (!agent || !agent.spec) return '';
+  const spec = agent.spec;
+  const hasWrite = agentHasWrite(agent);
+  const writeToolNames = (spec.tools || []).filter(t => TOOLS[t] && TOOLS[t].mode === 'write').map(t => TOOLS[t].name);
+  const rules = spec.rules || [];
+  const hasThresholdOrDup = rules.some(r => /50,000|duplicate|sign-off|approv|surcharge/i.test(r.text)) && rules.length >= 2;
+  const emailConflict = spec.trigger && spec.trigger.type === 'email' && (spec.tools || []).indexOf('outlook-read') < 0;
+  const untestedWarning = (agent.tests || 0) === 0;
+  return `
+    <div class="sec" id="builder-assistant-sec">
+      <h3>
+        <span>Builder Assistant · Live Safety & Conflict Checks</span>
+        <span class="pill ${(!emailConflict && !untestedWarning && hasThresholdOrDup) ? 'live' : 'wait'}"><i></i>${(!emailConflict && !untestedWarning && hasThresholdOrDup) ? 'All Checks Passed' : 'Review Suggested'}</span>
+      </h3>
+      <div class="ab-assist">
+        <div class="ab-assist-item">
+          <div class="grow">
+            <b>1. External System Write Protection:</b>
+            <div class="xs muted">${hasWrite ? `Holds write tool (<b>${esc(writeToolNames.join(', '))}</b>). Permanently capped at Proactivity Level 2 (Draft for approval) and gated by ${esc(PEOPLE[spec.approver] ? PEOPLE[spec.approver].name : 'Fatima Al Mansoori')}.` : 'Read-only tools connected. Cannot modify SAP ERP or external records directly.'}</div>
+          </div>
+          <span class="tag ${hasWrite ? 'inv' : 'ok'}">${hasWrite ? 'Human Gate Locked' : 'Read-Only Safe'}</span>
+        </div>
+        <div class="ab-assist-item">
+          <div class="grow">
+            <b>2. Safety & Threshold Rules:</b>
+            <div class="xs muted">${hasThresholdOrDup ? `${rules.length} active safety guardrails configured (including Golden Rule & exception routing).` : 'Missing an explicit duplicate/exception guardrail rule for edge cases.'}</div>
+          </div>
+          <button type="button" class="btn s ${hasThresholdOrDup ? '' : 'ok'}" data-a="ab-assistant-add-rule" data-id="${esc(agent.id)}">+ Add Safety Rule</button>
+        </div>
+        <div class="ab-assist-item">
+          <div class="grow">
+            <b>3. Configuration & Sandbox Readiness:</b>
+            <div class="xs muted">${emailConflict ? 'Conflict: Email trigger is set, but "Outlook · Read mail" tool is not connected.' : untestedWarning ? '0 sandbox test runs recorded. Run auto-generated test cases before requesting production sign-off.' : `No conflicting settings (${esc(spec.model)}, min confidence ${spec.minConf || 85}%, ${agent.tests || 0} sandbox tests run).`}</div>
+          </div>
+          ${emailConflict ? `<button type="button" class="btn s ok" data-a="ab-assistant-fix-conflict" data-id="${esc(agent.id)}">Fix Conflict</button>` : untestedWarning ? `<button type="button" class="btn s p" data-a="ab-gen-tests" data-id="${esc(agent.id)}">Auto-Generate Tests</button>` : `<span class="tag ok">Verified</span>`}
+        </div>
+      </div>
+    </div>`;
+}
+
+function getAgentTestCases(agent) {
+  if (!agent || !agent.spec) return [];
+  if (!Array.isArray(agent.generatedTests) || !agent.generatedTests.length) {
+    const tpls = AGENT_TEST_TEMPLATES[agent.spec.kind] || AGENT_TEST_TEMPLATES.generic;
+    agent.generatedTests = tpls.map(t => Object.assign({}, t, { status: (agent.tests || 0) > 0 ? 'passed' : 'ready' }));
+  }
+  return agent.generatedTests;
+}
+
+function renderAgentTestCasesCard(agent) {
+  if (!agent || !agent.spec) return '';
+  const cases = getAgentTestCases(agent);
+  const passedCount = cases.filter(c => c.status === 'passed').length;
+  return `
+    <div class="card" style="padding:16px;margin-bottom:12px" id="auto-test-cases-card">
+      <div class="row-flex wrap" style="justify-content:space-between;margin-bottom:8px">
+        <div>
+          <h3 style="margin:0">Auto-Generated Test Cases (${passedCount}/${cases.length} Passed)</h3>
+          <div class="xs muted">Tailored to <b>${esc(agent.spec.name)}</b>’s role (${esc(agent.spec.kind)}) — covers duplicates, missing details, variances and policy limits.</div>
+        </div>
+        <div class="row-flex wrap" style="gap:6px">
+          <button type="button" class="btn s" data-a="ab-gen-tests" data-id="${esc(agent.id)}">+ Generate Edge Cases</button>
+          <button type="button" class="btn s ok" data-a="ab-run-all-tests" data-id="${esc(agent.id)}">${IC.play} Run All (${cases.length})</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${cases.map(tc => `
+          <div class="ab-case-row" data-tcase="${esc(tc.id)}">
+            <div class="grow" style="min-width:220px">
+              <div class="row-flex wrap" style="gap:6px">
+                <b>${esc(tc.name)}</b>
+                ${tc.status === 'passed' ? '<span class="pill live"><i></i>Passed</span>' : '<span class="pill draft"><i></i>Ready</span>'}
+              </div>
+              <div class="xs muted" style="margin-top:2px"><b>Input:</b> ${esc(tc.input)}</div>
+              <div class="xs subtle"><b>Expected:</b> ${esc(tc.expected)}${tc.status === 'passed' ? ' · <b>Result:</b> ' + esc(tc.outcome) : ''}</div>
+            </div>
+            <button type="button" class="btn s ${tc.status === 'passed' ? '' : 'p'}" data-a="ab-run-case" data-id="${esc(agent.id)}" data-tc="${esc(tc.id)}">${tc.status === 'passed' ? 'Re-run' : 'Run Case'}</button>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+}
+
+function renderModelQualityMonitor(focusModelId) {
+  const keys = focusModelId && MODEL_QUALITY[focusModelId] ? [focusModelId] : Object.keys(MODEL_QUALITY);
+  return `
+    <div class="sec" id="model-quality-sec">
+      <h3>
+        <span>Live Model Quality & Drift Monitor</span>
+        <span class="xs muted">Continuous accuracy vs expected threshold</span>
+      </h3>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${keys.map(mId => {
+          const mq = MODEL_QUALITY[mId];
+          if (!mq) return '';
+          return `
+            <div class="card" style="padding:12px 14px;border-color:${mq.drifted ? 'var(--bad)' : 'var(--line)'}">
+              <div class="row-flex wrap" style="justify-content:space-between">
+                <div class="row-flex wrap" style="gap:8px">
+                  <b>${esc(mId)}</b>
+                  <span class="pill ${mq.drifted ? 'bad' : 'live'}"><i></i>${mq.drifted ? 'Accuracy Below Threshold (' + mq.current + '%)' : 'Healthy (' + mq.current + '%)'}</span>
+                  <span class="xs muted">Expected min: <b>${mq.expected}%</b> · Evaluated on ${mq.cases} cases</span>
+                </div>
+                <button type="button" class="btn s ${mq.drifted ? 'ok' : ''}" data-a="model-quality-sim" data-m="${esc(mId)}">
+                  ${mq.drifted ? 'Restore Model Baseline' : 'Simulate Quality Drop Alert'}
+                </button>
+              </div>
+              <div class="xs muted" style="margin-top:4px">${esc(mq.note)}</div>
+            </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+function renderWorkflowSmartStrip(wf) {
+  if (!wf) return '';
+  const types = (wf.nodes || []).map(n => n.type);
+  const nextSteps = [];
+  if (types.indexOf('conditional') < 0) nextSteps.push({ type: 'conditional', title: 'Threshold Fork (> AED 50k)', label: '+ Threshold Fork (> AED 50k)' });
+  if (types.indexOf('human') < 0) nextSteps.push({ type: 'human', title: 'Fatima Human Gate', label: '+ Human Approval Gate' });
+  if (types.indexOf('council') < 0) nextSteps.push({ type: 'council', title: 'Procurement Council', label: '+ Procurement Council' });
+  if (types.indexOf('notify') < 0) nextSteps.push({ type: 'notify', title: 'Tell me & Record Audit', label: '+ Signed Audit Notification' });
+  if (nextSteps.length < 2) {
+    nextSteps.push({ type: 'agent', title: 'Supplier Risk Check', label: '+ Supplier Risk Step' });
+    nextSteps.push({ type: 'conditional', title: 'Duplicate Invoice Check', label: '+ Duplicate Check Fork' });
+  }
+  const failedRun = RUNS.find(r => r.out === 'failed');
+  return `
+    <div class="wf-insights" id="wf-smart-strip">
+      <span class="xs subtle" style="font-weight:800;text-transform:uppercase;letter-spacing:.06em">Suggested Next Steps:</span>
+      ${nextSteps.slice(0, 3).map(s => `<button type="button" class="chip add" data-a="wf-add-suggested-step" data-pal="${esc(s.type)}" data-title="${esc(s.title)}">${esc(s.label)}</button>`).join('')}
+      <span class="xs subtle" style="margin-inline-start:6px;font-weight:800;text-transform:uppercase;letter-spacing:.06em">Cost & Delay Insights:</span>
+      <button type="button" class="chip ${wf.costOptimized ? '' : 'add'}" data-a="wf-opt-retries" data-id="${esc(wf.id)}" title="Run #210 retried 3 times (+38% cost). Lower retries on read/posting steps to 1.">
+        ${wf.costOptimized ? '✓ Retries Optimized (-28% cost)' : '⚡ Cut Retries 3→1 (-28% cost)'}
+      </button>
+      <button type="button" class="chip add" data-a="wf-opt-delay" data-id="${esc(wf.id)}" title="Watch human approval step and escalate to Dr. Faisal if waiting > 4h">
+        ⏱️ Watch 4h Approval Delay
+      </button>
+      ${failedRun ? `
+        <button type="button" class="chip add" style="border-color:var(--bad);color:var(--bad)" data-a="wf-raise-incident" data-run="${failedRun.n}" title="Safe Failure Recovery: Run #${failedRun.n} failed after 3 retries. Raise incident and prepare governed fix for approval.">
+          ${IC.warn} Safe Recovery: Run #${failedRun.n}${failedRun.incidentRaised ? ' (Incident Queued)' : ' → Raise Incident & Fix'}
+        </button>` : ''}
+    </div>`;
+}
+
+function renderWorkflowSidebarExtras() {
+  return `
+    <div class="grp" style="margin-top:14px">Upcoming Compliance Deadlines</div>
+    ${COMPLIANCE_DEADLINES.map(cd => `
+      <div class="card" style="padding:9px 10px;margin-bottom:6px;display:flex;flex-direction:column;gap:4px">
+        <div class="row-flex" style="justify-content:space-between">
+          <b style="font-size:11.5px">${esc(cd.title)}</b>
+          <span class="tag ${cd.severity === 'High' ? 'wait' : ''}">Due in ${esc(cd.dueIn)}</span>
+        </div>
+        <div class="xs muted">${esc(cd.source)} · Target ${esc(cd.date)}</div>
+        <button type="button" class="btn s" data-a="pulse-watch-deadline" data-id="${esc(cd.id)}">${IC.eye} Watch Deadline</button>
+      </div>
+    `).join('')}
+    <div class="grp" style="margin-top:12px">Repeated Manual Work Spotted</div>
+    ${MANUAL_PATTERNS.map(mp => {
+      const exists = !!WORKFLOWS[mp.wfId];
+      return `
+        <div class="card" style="padding:9px 10px;margin-bottom:6px;display:flex;flex-direction:column;gap:4px">
+          <div class="row-flex" style="justify-content:space-between">
+            <b style="font-size:11.5px">${esc(mp.title)}</b>
+            <span class="tag accent">${esc(mp.freq)}</span>
+          </div>
+          <div class="xs muted">${esc(mp.detail)}</div>
+          <button type="button" class="btn s ${exists ? '' : 'ok'}" data-a="pulse-automate-pattern" data-id="${esc(mp.id)}">${exists ? 'Open Draft Flow →' : '+ Automate with Draft Flow'}</button>
+        </div>`;
+    }).join('')}`;
+}
+
+/* =====================================================================
    VIEW 2: AGENT BUILDER (PRD SECTION 4: PROMPT-TO-AGENT)
    ===================================================================== */
 function renderAgentBuilderView() {
@@ -3369,7 +4940,11 @@ function renderAgentBuilderView() {
                 </div>
               </div>
 
+              ${renderBuilderAssistant(agent)}
+
               ${renderProactivitySection(agent)}
+
+              ${renderWatchersSection(agent)}
 
               <div class="sec">
                 <h3><span>Safety Guardrails & Governance (PRD 7.8)</span></h3>
@@ -3436,6 +5011,7 @@ function renderAgentBuilderView() {
             <div class="callout wait">
               <div><b>Safe Sandbox Mode:</b> Tests do not touch real enterprise databases or mailboxes. Simulated UAE invoices and POs are injected.</div>
             </div>
+            ${renderAgentTestCasesCard(agent)}
             <div class="card" style="padding:16px">
               <h3>Test Ingestion & Accuracy</h3>
               <div class="thread scroll" style="min-height:220px;height:auto;max-height:380px;margin:12px 0">
@@ -3471,6 +5047,7 @@ function renderAgentBuilderView() {
               </div>
               <button class="btn s" data-a="toast" data-t="Re-running 50 multi-agent council deliberation vectors...">Re-run Council Benchmark</button>
             </div>
+            ${renderModelQualityMonitor('noah-decide')}
           </div>
         </div>
         ` : `
@@ -3481,13 +5058,18 @@ function renderAgentBuilderView() {
               <div class="stat">
                 <div><small>Benchmark Score</small><b style="color:var(--ok)">${qc.pct}%</b></div>
                 <div><small>Test Cases Passed</small><b>${qc.passed} / ${qc.total}</b></div>
-                <div><small>Evaluation Model</small><b>noah-verify</b></div>
+                <div><small>Evaluation Model</small><b>${esc(spec.model || 'noah-verify')}</b></div>
               </div>
               <div class="callout ok">
                 <div>${qc.note}</div>
               </div>
-              <button class="btn s" data-a="toast" data-t="Re-running 50 automated test vectors...">Re-run Evaluation Suite</button>
+              <div class="row-flex wrap" style="gap:8px">
+                <button class="btn s" data-a="ab-test-history" data-id="${esc(agent.id)}">Re-run Historical Case Suite</button>
+                <button class="btn s" data-a="ab-run-all-tests" data-id="${esc(agent.id)}">Run Auto-Generated Edge Cases</button>
+              </div>
             </div>
+            ${renderProactivitySection(agent)}
+            ${renderModelQualityMonitor(spec.model || 'noah-verify')}
           </div>
         </div>
         `
@@ -3516,6 +5098,13 @@ function renderAgentBuilderView() {
                   </button>
                 </div>
               `).join('')}
+              ${!isCouncil ? (() => {
+                const wl = PULSE.watchers.filter(w => w.agentId === agent.id).reduce((acc, w) => acc.concat((w.history || []).map(h => ({ h, w }))), []);
+                return wl.length ? `
+                <h3 style="margin-top:18px"><span>Watcher changes</span></h3>
+                <div class="xs muted">Watchers are recorded here as well as in the audit log. Changes that start a workflow need an approver before they go live.</div>
+                ${wl.slice(0, 12).map(x => `<div class="card" style="padding:10px 14px"><div class="sm"><b>${esc(x.w.name)}</b> · ${esc(x.h.text)}</div><div class="xs muted">${esc(x.h.at)} · ${esc(PEOPLE[x.h.who] ? PEOPLE[x.h.who].name : 'System')}</div></div>`).join('')}` : '';
+              })() : ''}
             </div>
           </div>
         </div>
@@ -3605,7 +5194,7 @@ function renderWorkflowsView() {
 
         <div class="grp">Seven Core Bricks (Drag to Canvas)</div>
         <div class="pal-b" draggable="true" data-a="add-brick" data-pal="trigger" data-title="Trigger Event" title="Click or drag to canvas to add a Trigger">
-          ${IC.flow} <div>Trigger <small>Schedule, Email, Webhook, Threshold</small></div>
+          ${IC.flow} <div>Trigger <small>Schedule, Email, Webhook, Threshold, Watcher</small></div>
         </div>
         <div class="pal-b" draggable="true" data-a="add-brick" data-pal="agent" data-title="AI Agent Task" title="Click or drag to canvas to add an AI Agent">
           ${IC.agent} <div>AI Agent <small>noah-verify / decide</small></div>
@@ -3625,6 +5214,7 @@ function renderWorkflowsView() {
         <div class="pal-b" draggable="true" data-a="add-brick" data-pal="notify" data-title="Tell me & Record Audit" title="Click or drag to canvas to add Notification & Audit">
           ${IC.activity} <div>Notification / Audit <small>Signed Audit Log & Alerts</small></div>
         </div>
+        ${renderWorkflowSidebarExtras()}
       </div>
     </aside>
 
@@ -3640,6 +5230,8 @@ function renderWorkflowsView() {
             <b>Autonomy Dial: Level ${wf.autonomy || 2}</b>
             <span class="dial-desc">(${wf.autonomy === 1 ? 'Suggest' : wf.autonomy === 3 ? 'Act within limits' : 'Act after approval'})</span>
           </button>
+          ${(() => { const fm = flowMonitorOf(wf.id); const fmOn = !!(fm && fm.enabled); return `<button type="button" class="btn s ${fmOn ? 'ok' : ''}" data-a="wd-monitor-flow" data-id="${wf.id}" title="Watch this flow for failures, unusual cost, approval delays and how many tasks finish without a person">${IC.eye} Monitor This Flow${fmOn ? ': On' : ''}</button>`; })()}
+          ${(() => { const tw = triggerWatchersOf(wf.id)[0]; return tw ? `<button type="button" class="tag accent wd-origin" data-a="wd-edit" data-id="${esc(tw.id)}" title="Open this watcher">Started by ${esc(tw.name)}</button>` : ''; })()}
         </div>
         <div class="acts">
           <button class="btn s ok" data-a="simulate-scenario" data-scen="mismatch" title="Simulate Invoice INV-2291 through threshold and approval gate">${IC.play} Simulate Run (#216)</button>
@@ -3657,6 +5249,9 @@ function renderWorkflowsView() {
           </button>
         </div>
       </div>
+
+      ${renderWorkflowWatchers(wf)}
+      ${renderWorkflowSmartStrip(wf)}
 
       <div class="wf-body">
         <div class="canvas scroll" id="canvas-area">
@@ -3702,6 +5297,7 @@ function renderWorkflowsView() {
             <button class="${S.wfNodeTab === 'cfg' ? 'on' : ''}" data-a="node-tab" data-t="cfg">Configure</button>
             <button class="${S.wfNodeTab === 'adv' ? 'on' : ''}" data-a="node-tab" data-t="adv">Advanced</button>
             <button class="${S.wfNodeTab === 'io' ? 'on' : ''}" data-a="node-tab" data-t="io">In / Out</button>
+            <button class="${S.wfNodeTab === 'watch' ? 'on' : ''}" data-a="node-tab" data-t="watch">${IC.eye} Watch</button>
             <button class="btn s danger" style="margin-inline-start:auto;margin-inline-end:6px;align-self:center;font-size:11px;padding:3px 8px;min-height:24px" data-a="delete-canvas-node" data-id="${selNode.id}" title="Delete step from canvas">Delete Step</button>
           </div>
 
@@ -3723,6 +5319,9 @@ function renderWorkflowsView() {
                   <option value="general-llm" ${selNode.model === 'general-llm' ? 'selected' : ''}>general-llm (Q&A & Drafting)</option>
                 </select>
               </div>
+              ${renderTriggerWatcherField(wf, selNode)}
+            ` : S.wfNodeTab === 'watch' ? `
+              ${renderStepWatch(wf, selNode)}
             ` : S.wfNodeTab === 'adv' ? `
               <div class="field"><label>Execution Retries</label><input class="in" value="${(selNode.adv && selNode.adv.retries) || 3} retries" onchange="updateCurStepAdv('retries', parseInt(this.value,10)||3)"></div>
               <div class="field"><label>Timeout (seconds)</label><input class="in" value="${(selNode.adv && selNode.adv.timeout) || 60}" onchange="updateCurStepAdv('timeout', parseInt(this.value,10)||60)"></div>
@@ -3817,6 +5416,7 @@ function renderCanvasNode(node, i, wf) {
           <div class="k">${node.type.toUpperCase()} · ${esc((node.desc || '').slice(0, 48))}...</div>
         </div>
         ${badge.tag}
+        ${nodeWatchTags(node, wf, i)}
         <button type="button" class="node-del-btn" data-a="delete-canvas-node" data-id="${node.id}" title="Delete step" onclick="deleteCanvasNode('${node.id}'); event.stopPropagation();">${IC.x}</button>
       </div>
     </div>
@@ -3881,7 +5481,7 @@ function renderRunsView() {
                 ${filteredRuns.map(r => `
                   <tr class="click ${S.run === r.n ? 'sel' : ''}" data-a="open-run-drawer" data-n="${r.n}">
                     <td><b>#${r.n}</b></td>
-                    <td>${r.inv} · ${r.sup} (AED ${fmt(r.amt)})</td>
+                    <td>${r.inv} · ${r.sup} (AED ${fmt(r.amt)})${r.watcher && pulseWatcher(r.watcher) ? `<div class="xs subtle">${IC.eye} Started by ${esc(pulseWatcher(r.watcher).name)}</div>` : ''}</td>
                     <td><span class="pill ${OUT[r.out] ? OUT[r.out].pill : 'draft'}"><i></i>${OUT[r.out] ? OUT[r.out].label : r.out}</span></td>
                     <td>${r.by}</td>
                     <td>${r.when}</td>
@@ -3923,6 +5523,13 @@ function renderRunsView() {
                   </div>
                 </div>
               </div>
+
+              ${selectedRun.watcher && pulseWatcher(selectedRun.watcher) ? `
+                <div class="callout accent wd-origin-box">
+                  <div class="grow">${IC.eye} <b>Started by ${esc(pulseWatcher(selectedRun.watcher).name)}</b>
+                    <div class="xs muted" style="margin-top:2px">${esc(pulseWatcher(selectedRun.watcher).condition || '')} · ${esc(watcherOwnerLabel(pulseWatcher(selectedRun.watcher)))}</div></div>
+                  <button type="button" class="btn s" data-a="wd-open" data-id="${esc(selectedRun.watcher)}">${esc(watcherOwnerLinkLabel(pulseWatcher(selectedRun.watcher)))} →</button>
+                </div>` : ''}
 
               <div class="drawer-seal-box">
                 <div class="drawer-seal-head">
@@ -4019,6 +5626,9 @@ function renderRunsView() {
                 ${selectedRun.out === 'waiting' ? `
                   <button class="btn s ok grow" data-a="open-approval-modal" data-run="${selectedRun.n}">Review Human Approval Gate (Fatima)</button>
                 ` : ''}
+                ${selectedRun.out === 'failed' ? `
+                  <button class="btn s danger grow" data-a="wf-raise-incident" data-run="${selectedRun.n}">${selectedRun.incidentRaised ? 'Incident #INC-' + selectedRun.n + ' Queued in Pulse' : 'Safe Failure Recovery: Raise Incident & Queue Fix for Approval'}</button>
+                ` : ''}
                 <button class="btn s grow" data-a="toast" data-t="Replaying Run #${selectedRun.n} in test sandbox with identical inputs...">Replay with same data</button>
                 <button class="btn s" data-a="toast" data-t="Exported Run #${selectedRun.n} cryptographic seal certificate (PDF)">Certificate</button>
               </div>
@@ -4046,6 +5656,7 @@ function renderModelsView() {
       </div>
 
       <div class="card-col scroll">
+        ${renderModelQualityMonitor()}
         <div class="models">
           ${Object.values(MODELS).map(m => `
             <div class="mcard ${m.id === DEF.model ? 'def' : ''}">
@@ -4086,6 +5697,7 @@ function renderActivityView() {
         <div class="acts"><button class="btn s" data-a="mark-all-read">Mark All Read</button></div>
       </div>
       <div class="card-col scroll">
+        ${renderWatcherGovernance()}
         <div class="sec">
           <h3><span>Recent Governance & Orchestration Events</span></h3>
           ${ACTIVITY.map(act => `
@@ -4110,6 +5722,9 @@ function renderActivityView() {
 function renderModal() {
   const root = $('#modal-root');
   if (!S.modal) { root.innerHTML = ''; return; }
+
+  if (S.modal === 'watcher') { root.innerHTML = renderWatcherModal(); return; }
+  if (S.modal === 'flow-monitor') { root.innerHTML = renderFlowMonitorModal(); return; }
 
   if (S.modal === 'confirm-delete') {
     const data = S.modalData || { title: 'Item', type: 'item', id: null };
@@ -4159,6 +5774,10 @@ function renderModal() {
                 <option value="Email · Finance mailbox" ${isEdit && wf.trigger.includes('Email') ? 'selected' : ''}>Incoming Email (Shared Finance Mailbox)</option>
                 <option value="SAP · Ledger event" ${isEdit && wf.trigger.includes('SAP') ? 'selected' : ''}>SAP S/4HANA Ledger Event / Webhook</option>
                 <option value="Threshold · Metric alert" ${isEdit && wf.trigger.includes('Threshold') ? 'selected' : ''}>Metric Threshold / Anomaly Alert (proactive)</option>
+                <option value="Watcher · Detected by a watcher" ${isEdit && /^Watcher/.test(wf.trigger) ? 'selected' : ''}>Watcher (starts when a watcher finds a match)</option>
+                <option value="Event · Contract nearing expiry (60d)" ${isEdit && wf.trigger.includes('Contract nearing expiry') ? 'selected' : ''}>Event · Contract nearing expiry (60 days)</option>
+                <option value="Event · Supplier licence renewal (30d)" ${isEdit && wf.trigger.includes('Supplier licence') ? 'selected' : ''}>Event · Supplier licence renewal due (30 days)</option>
+                <option value="Event · Financial amount > AED 50,000" ${isEdit && wf.trigger.includes('AED 50,000') ? 'selected' : ''}>Event · Financial amount exceeds AED 50,000</option>
                 <option value="Schedule · Weekly" ${isEdit && wf.trigger.includes('Schedule') ? 'selected' : ''}>Scheduled Cron (e.g. Weekly on Sunday)</option>
                 <option value="When asked in chat" ${isEdit && wf.trigger.includes('chat') ? 'selected' : ''}>Interactive Chat / Slash Command</option>
               </select>
@@ -4450,14 +6069,19 @@ function renderModal() {
   }
 
   if (S.modal === 'approval') {
-    const isFatima = S.user === 'fa';
     const runNum = (S.modalData && S.modalData.run) ? S.modalData.run : (S.simulating ? 216 : 215);
+    const runObj = RUNS.find(r => r.n === runNum);
+    const isFatima = S.user === 'fa' || (runObj && runObj.escalatedTo && S.user === runObj.escalatedTo);
     const runData = runNum === 215 ? {
       inv: 'INV-2293',
       sup: 'Gulf Office Supplies',
       amt: 'AED 12,400',
       poAmt: 'AED 12,000',
       diff: '+AED 400 (Shipping Surcharge)',
+      docs: 'Invoice INV-2293 PDF · PO-10911 · Delivery Note #DN-8821 · Supplier Register (Active)',
+      risks: 'AED 400 shipping surcharge not listed on PO-10911 (3.3% variance); supplier had 2/6 recent runs flagged',
+      decision: 'Approve with surcharge condition or reject surcharge line (99.4% extraction confidence)',
+      waiting: '2h 15m',
       note: 'Matches PO-10911 line items, but includes an unauthorized shipping surcharge of AED 400 not listed on the PO.',
       reasoning: 'Under procurement threshold rules, unapproved surcharges require authorized sign-off from Fatima Al Mansoori before SAP General Ledger posting.'
     } : {
@@ -4466,6 +6090,10 @@ function renderModal() {
       amt: 'AED 84,200',
       poAmt: 'AED 81,500',
       diff: '+AED 2,700 (+5 units)',
+      docs: 'Invoice INV-2291 PDF · PO-10877 · Dept Correspondence (14 Oct) · Trade Licence #774120',
+      risks: 'Exceeds AED 50,000 threshold (+AED 2,700 for 5 emergency units); trade licence renews in 9 days',
+      decision: 'Approve emergency unit variance per attached 14 Oct department email (99.2% confidence)',
+      waiting: '45m',
       note: 'Invoice amount of AED 84,200 exceeds the AED 50,000 human sign-off threshold.',
       reasoning: 'Variance of +5 units detected. Supplier attached emergency department correspondence on 14 Oct. Staged for Fatima Al Mansoori sign-off.'
     };
@@ -4484,10 +6112,22 @@ function renderModal() {
             <div class="callout ${isFatima ? 'ok' : 'wait'}">
               <div>
                 ${isFatima ? `
-                  <b>👑 Logged in as Fatima Al Mansoori:</b> You hold authorized signatory authority (PRD 5.2). Your approval applies a SHA-256 cryptographic seal and executes the ledger posting in SAP S/4HANA.
+                  <b>👑 Logged in as Authorized Approver (${esc(PEOPLE[S.user].name)}):</b> You hold authorized signatory authority (PRD 5.2). Your approval applies a SHA-256 cryptographic seal and executes the ledger posting in SAP S/4HANA.
                 ` : `
-                  <b>Golden Rule Active (PRD 5.2):</b> You are logged in as <b>${PEOPLE[S.user].name}</b>. Zero automated ledger writes occur without authorized signatory sign-off from Fatima Al Mansoori.
+                  <b>Golden Rule Active (PRD 5.2):</b> You are logged in as <b>${PEOPLE[S.user].name}</b>. Zero automated ledger writes occur without authorized signatory sign-off from Fatima Al Mansoori${runObj && runObj.escalatedTo ? ' or backup approver ' + esc(PEOPLE[runObj.escalatedTo].name) : ''}.
                 `}
+              </div>
+            </div>
+
+            <div class="pl-dossier" aria-label="One-place approval summary">
+              <div class="row-flex wrap" style="justify-content:space-between">
+                <b class="xs" style="text-transform:uppercase;letter-spacing:.05em;color:var(--accent)">Prepared Approval Summary (All Context in One Place)</b>
+                <span class="xs subtle">Waiting: <b>${runData.waiting}</b> · Backup Approver: <b>Dr. Faisal Al Qasimi</b></span>
+              </div>
+              <div class="pl-dossier-grid">
+                <div><span class="xs subtle">Supporting Documents:</span><div class="xs">${esc(runData.docs)}</div></div>
+                <div><span class="xs subtle">Possible Risks:</span><div class="xs">${esc(runData.risks)}</div></div>
+                <div><span class="xs subtle">AI Suggested Decision:</span><div class="xs"><b>${esc(runData.decision)}</b></div></div>
               </div>
             </div>
 
@@ -4508,7 +6148,7 @@ function renderModal() {
             </div>
           </div>
 
-          <div class="mf" style="padding:12px 18px;justify-content:space-between">
+          <div class="mf" style="padding:12px 18px;justify-content:space-between;flex-wrap:wrap;gap:8px">
             ${isFatima ? `
               <button class="btn danger" data-a="decision-reject" data-run="${runNum}">Reject & Halt Transaction</button>
               <div style="display:flex;gap:8px">
@@ -4516,7 +6156,11 @@ function renderModal() {
                 <button class="btn ok" data-a="decision-approve" data-run="${runNum}">Approve & Cryptographically Sign to SAP</button>
               </div>
             ` : `
-              <button class="btn" data-a="close-modal">Wait for Fatima's Review</button>
+              <div class="row-flex wrap" style="gap:6px">
+                <button class="btn" data-a="close-modal">Wait for Review</button>
+                <button class="btn s" data-a="remind-run-approver" data-run="${runNum}">Send Reminder</button>
+                <button class="btn s ghost" data-a="escalate-run-approver" data-run="${runNum}">${runObj && runObj.escalatedTo ? 'Escalated to Dr. Faisal' : 'Escalate to Backup (Dr. Faisal)'}</button>
+              </div>
               <button class="btn ok" data-a="switch-to-fatima-and-open" data-run="${runNum}">Switch to Fatima & Sign Off</button>
             `}
           </div>
@@ -4784,6 +6428,14 @@ document.addEventListener('click', e => {
       if (S.chat === 'agent:' + data.id) S.chat = 'agent:' + remainingAgents[0];
       if (S.ab.agentId === data.id) S.ab.agentId = remainingAgents[0];
       toast('Deleted agent "' + data.title + '"');
+    } else if (data.type === 'watcher') {
+      const w = pulseWatcher(data.id);
+      if (w) {
+        logActivity(S.user, (PEOPLE[S.user] ? PEOPLE[S.user].name : 'A user') + ' deleted watcher “' + w.name + '” (' + watcherOwnerLabel(w) + ')', 'Watcher');
+        PULSE.watchers = PULSE.watchers.filter(x => x.id !== w.id);
+        saveWatchers();
+      }
+      toast('Deleted watcher “' + data.title + '”');
     } else if (data.type === 'council') {
       delete COUNCILS[data.id];
       delete CH['council:' + data.id];
@@ -4794,6 +6446,9 @@ document.addEventListener('click', e => {
       toast('Deleted council "' + data.title + '"');
     } else if (data.type === 'workflow') {
       delete WORKFLOWS[data.id];
+      PULSE.watchers = PULSE.watchers.filter(w => w.workflowId !== data.id);
+      PULSE.watchers.forEach(w => { if (w.startsWorkflow === data.id) { w.startsWorkflow = null; if (w.pending) { if (w.pending.isNew) w.enabled = true; w.pending = null; } wHist(w, S.user, 'No longer starts “' + data.title + '” because that workflow was deleted'); } });
+      saveWatchers();
       const remainingWfs = Object.keys(WORKFLOWS);
       if (remainingWfs.length === 0) {
         WORKFLOWS.custom = {
@@ -4818,6 +6473,8 @@ document.addEventListener('click', e => {
         const idx = wf.nodes.findIndex(n => n.id === data.id);
         if (idx !== -1) {
           wf.nodes.splice(idx, 1);
+          PULSE.watchers = PULSE.watchers.filter(w => !(w.kind === 'step-watch' && w.workflowId === wf.id && w.stepId === data.id));
+          saveWatchers();
           if (wf.nodes.length > 0) {
             const nextIdx = Math.min(idx, wf.nodes.length - 1);
             S.wfSelNode = wf.nodes[nextIdx].id;
@@ -4983,6 +6640,9 @@ document.addEventListener('click', e => {
   else if ((a && a.indexOf('pulse-') === 0) || a === 'set-agent-proactivity') {
     handlePulseAction(a, el);
   }
+  else if (a && a.indexOf('wd-') === 0) {
+    handleWatcherAction(a, el);
+  }
   else if (a === 'mark-all-read') {
     S.unread = 0;
     render();
@@ -5052,6 +6712,196 @@ document.addEventListener('click', e => {
     render();
     toast('Created new draft agent');
   }
+  else if (a === 'ab-assistant-add-rule') {
+    const ag = AGENTS[el.dataset.id || S.ab.agentId];
+    if (!ag || !ag.spec) return;
+    if (!Array.isArray(ag.spec.rules)) ag.spec.rules = [];
+    const ruleText = ag.spec.kind === 'invoice'
+      ? 'Flag any duplicate invoice or unapproved surcharge and route to Fatima Al Mansoori.'
+      : 'Escalate any exception, policy ambiguity or missing mandatory document to ' + (PEOPLE[ag.spec.approver] ? PEOPLE[ag.spec.approver].name : 'Fatima Al Mansoori') + ' before proceeding.';
+    if (ag.spec.rules.some(r => r.text === ruleText)) { toast('Recommended safety rule is already present'); return; }
+    ag.spec.rules.push({ id: uid('r'), text: ruleText });
+    if (ag.liveSpec) ag.liveSpec.rules = clone(ag.spec.rules);
+    logActivity(S.user, (PEOPLE[S.user] ? PEOPLE[S.user].name : 'A user') + ' added safety guardrail rule to ' + ag.spec.name + ' via Builder Assistant', 'Builder Assistant');
+    render();
+    toast('Added recommended safety rule to ' + ag.spec.name);
+  }
+  else if (a === 'ab-assistant-fix-conflict') {
+    const ag = AGENTS[el.dataset.id || S.ab.agentId];
+    if (!ag || !ag.spec) return;
+    if (!Array.isArray(ag.spec.tools)) ag.spec.tools = [];
+    if (ag.spec.tools.indexOf('outlook-read') < 0) ag.spec.tools.push('outlook-read');
+    logActivity(S.user, 'Resolved trigger/tool conflict on ' + ag.spec.name + ' by connecting Outlook · Read mail', 'Builder Assistant');
+    render();
+    toast('Connected "Outlook · Read mail" to resolve email trigger conflict');
+  }
+  else if (a === 'ab-gen-tests') {
+    const ag = AGENTS[el.dataset.id || S.ab.agentId];
+    if (!ag || !ag.spec) return;
+    const base = getAgentTestCases(ag);
+    const extraId = 'tc-extra-' + (base.length + 1);
+    if (!base.some(c => c.id === extraId)) {
+      base.push({
+        id: extraId,
+        name: 'Adversarial Prompt & Threshold Bypass Check',
+        input: 'Urgent vendor request to bypass AED 50,000 sign-off gate',
+        expected: 'Refuse bypass & enforce Golden Rule human approval gate',
+        outcome: 'Blocked bypass attempt · 100% policy compliance',
+        status: 'passed'
+      });
+    }
+    base.forEach(c => { c.status = 'passed'; });
+    ag.tests = Math.max(ag.tests || 0, base.length);
+    S.ab.tab = 'test';
+    logActivity(S.user, 'Auto-generated and executed ' + base.length + ' sandbox test cases for ' + ag.spec.name, 'Sandbox Test');
+    render();
+    toast('Auto-generated and verified ' + base.length + ' test cases for ' + ag.spec.name);
+  }
+  else if (a === 'ab-run-all-tests') {
+    const ag = AGENTS[el.dataset.id || S.ab.agentId];
+    if (!ag || !ag.spec) return;
+    const cases = getAgentTestCases(ag);
+    cases.forEach(c => { c.status = 'passed'; });
+    ag.tests = (ag.tests || 0) + cases.length;
+    const evi = getAgentAutonomyEvidence(ag);
+    evi.lastTestedAt = 'Just now';
+    logActivity(S.user, 'Executed all ' + cases.length + ' sandbox test cases for ' + ag.spec.name + ' (100% passed)', 'Sandbox Test');
+    render();
+    toast('All ' + cases.length + ' test cases passed in safe sandbox');
+  }
+  else if (a === 'ab-run-case') {
+    const ag = AGENTS[el.dataset.id || S.ab.agentId];
+    if (!ag || !ag.spec) return;
+    const cases = getAgentTestCases(ag);
+    const tc = cases.find(c => c.id === el.dataset.tc);
+    if (tc) {
+      tc.status = 'passed';
+      ag.tests = (ag.tests || 0) + 1;
+      const evi = getAgentAutonomyEvidence(ag);
+      evi.lastTestedAt = 'Just now';
+      render();
+      toast('Passed test case "' + tc.name + '": ' + tc.outcome);
+    }
+  }
+  else if (a === 'ab-test-history') {
+    const ag = AGENTS[el.dataset.id || S.ab.agentId];
+    if (!ag || !ag.spec) return;
+    const evi = getAgentAutonomyEvidence(ag);
+    if ((ag.tests || 0) >= 2 && evi.accurate < evi.total - 1) evi.accurate = evi.total - 1;
+    evi.lastTestedAt = 'Just now (' + now() + ')';
+    ag.tests = Math.max(ag.tests || 0, evi.total);
+    logActivity(S.user, 'Replayed ' + evi.total + ' historical cases on ' + ag.spec.name + ': ' + evi.accurate + '/' + evi.total + ' accurate, 0 unauthorized writes', 'Autonomy Replay');
+    render();
+    toast('Replayed ' + evi.total + ' historical cases: ' + evi.accurate + '/' + evi.total + ' handled accurately · ' + evi.humanIntervention + ' routed to human gate · 0 unauthorized writes.');
+  }
+  else if (a === 'ab-apply-rec-proact') {
+    const ag = AGENTS[el.dataset.id || S.ab.agentId];
+    if (!ag || !ag.spec) return;
+    const targetLvl = parseInt(el.dataset.l, 10) || 2;
+    setAgentProactivity(ag.id, targetLvl);
+  }
+  else if (a === 'model-quality-sim') {
+    const mId = el.dataset.m || 'noah-verify';
+    const mq = MODEL_QUALITY[mId];
+    if (!mq) return;
+    mq.drifted = !mq.drifted;
+    if (mq.drifted) {
+      mq.current = +(mq.expected - 4.2).toFixed(1);
+      mq.note = 'Alert: Rolling accuracy (' + mq.current + '%) dropped below expected minimum (' + mq.expected + '%). Team alerted in Pulse & Activity.';
+      const sgId = 'sg-model-drift-' + mId;
+      let sg = pulseFind(sgId);
+      if (!sg) {
+        sg = {
+          id: sgId, watcher: 'w-health', agentId: 'ic', kind: 'risk', sev: 'High', seq: ++PULSE.seq, at: 'Today ' + now(),
+          title: 'Model quality alert: ' + mId + ' accuracy dropped to ' + mq.current + '%',
+          why: 'Continuous model monitoring detected rolling accuracy (' + mq.current + '%) below the expected ' + mq.expected + '% threshold.',
+          evidence: ['Rolling accuracy: ' + mq.current + '% vs expected ' + mq.expected + '% minimum', 'Detected on Arabic/English scanned VAT invoices', 'Fallback verification and human review gate remain active'],
+          effect: { type: 'navigate', view: 'models', msg: 'Opened Model Registry to inspect ' + mId }, approver: null, cta: 'Inspect Model Registry', gov: 'Opens Model Registry. External writes remain gated.'
+        };
+        PULSE.sugg.unshift(sg);
+      }
+      surfaceSugg(sg);
+      logActivity('ep', 'Model Quality Monitor alerted team: ' + mId + ' accuracy (' + mq.current + '%) dropped below expected ' + mq.expected + '% threshold', 'Model Alert');
+      render();
+      toast('Model quality alert triggered for ' + mId + ' (' + mq.current + '% < ' + mq.expected + '%). Team notified in Pulse.');
+    } else {
+      mq.current = mq.baseline;
+      mq.note = 'Restored to baseline (' + mq.current + '% accuracy across ' + mq.cases + ' benchmark cases).';
+      const sg = pulseFind('sg-model-drift-' + mId);
+      if (sg) { sg.status = 'applied'; sg.note = 'Model baseline restored'; }
+      logActivity(S.user, 'Restored ' + mId + ' model baseline to ' + mq.current + '% accuracy', 'Model Benchmark');
+      render();
+      toast(mId + ' restored to healthy baseline (' + mq.current + '%).');
+    }
+  }
+  else if (a === 'wf-add-suggested-step') {
+    const pal = el.dataset.pal || 'human';
+    const title = el.dataset.title || 'Governed Step';
+    addBrickToWorkflow(pal, title);
+  }
+  else if (a === 'wf-opt-retries') {
+    const wf = WORKFLOWS[el.dataset.id || S.wf];
+    if (!wf) return;
+    (wf.nodes || []).forEach(n => {
+      if (!n.adv) n.adv = {};
+      n.adv.retries = 1;
+    });
+    wf.costOptimized = true;
+    saveWorkflows();
+    logActivity(S.user, 'Optimized step retries (3 → 1) on "' + wf.name + '" to cut unnecessary retry spend by 28%', 'Cost Optimization');
+    render();
+    toast('Optimized step retries to 1 across "' + wf.name + '" (-28% estimated run cost).');
+  }
+  else if (a === 'wf-opt-delay') {
+    const wf = WORKFLOWS[el.dataset.id || S.wf];
+    if (!wf) return;
+    const humanNode = (wf.nodes || []).find(n => n.type === 'human');
+    if (humanNode) {
+      S.wfSelNode = humanNode.id;
+      S.wfNodeTab = 'watch';
+      stepWatchUpsert({ enabled: true, params: { stepType: 'human', hours: 4, escalateTo: 'df' } }, 'Enabled 4h approval delay watch with escalation to Dr. Faisal');
+      render();
+      toast('Enabled 4-hour approval delay watcher on "' + humanNode.title + '" (escalates to Dr. Faisal).');
+    } else {
+      openFlowMonitor(wf.id);
+    }
+  }
+  else if (a === 'wf-raise-incident') {
+    const runNum = parseInt(el.dataset.run, 10) || 210;
+    const r = RUNS.find(x => x.n === runNum) || RUNS[RUNS.length - 1];
+    if (r) r.incidentRaised = true;
+    const sgId = 'sg-inc-' + runNum;
+    let sg = pulseFind(sgId);
+    if (!sg) {
+      sg = {
+        id: sgId, watcher: 'w-health', agentId: 'fp', kind: 'risk', sev: 'High', seq: ++PULSE.seq, at: 'Today ' + now(),
+        title: 'Incident #INC-' + runNum + ': Safe recovery fix staged for failed Run #' + runNum,
+        why: 'Run #' + runNum + ' (' + (r ? r.inv + ', ' + r.sup : 'INV-2285') + ') failed at SAP posting after 3 safe read/connection retries. Ephrem halted further retries, raised Incident #INC-' + runNum + ', and prepared a governed re-queue for approval.',
+        evidence: ['3 safe connection retries exhausted on SAP Finance connector', '0 unapproved writes made to SAP S/4HANA (Golden Rule preserved)', 'Suggested fix: Re-queue posting via verified backup connector after Fatima Al Mansoori sign-off'],
+        effect: { type: 'navigate', view: 'runs', msg: 'Approved safe recovery for Run #' + runNum }, approver: 'fa', cta: 'Approve safe recovery',
+        done: () => !!(r && r.out === 'approved')
+      };
+      PULSE.sugg.unshift(sg);
+    }
+    surfaceSugg(sg);
+    logActivity(S.user, 'Safe Failure Recovery: Raised Incident #INC-' + runNum + ' for failed Run #' + runNum + ' and queued suggested fix for approval', 'Incident Recovery');
+    render();
+    toast('Incident #INC-' + runNum + ' raised! Suggested fix queued in Pulse for approval (no unapproved writes).');
+  }
+  else if (a === 'remind-run-approver') {
+    const runNum = parseInt(el.dataset.run, 10) || 215;
+    logActivity(S.user, 'Sent approval reminder to Fatima Al Mansoori for Run #' + runNum + ' with one-place dossier attached', 'Reminder');
+    render();
+    toast('Reminder sent to Fatima Al Mansoori via Microsoft Teams & Outlook.');
+  }
+  else if (a === 'escalate-run-approver') {
+    const runNum = parseInt(el.dataset.run, 10) || 215;
+    const r = RUNS.find(x => x.n === runNum);
+    if (r) r.escalatedTo = 'df';
+    logActivity(S.user, 'Escalated pending Run #' + runNum + ' approval gate to backup approver Dr. Faisal Al Qasimi', 'Escalation');
+    render();
+    toast('Run #' + runNum + ' escalated to backup approver Dr. Faisal Al Qasimi.');
+  }
   else if (a === 'toast') {
     toast(el.dataset.t);
   }
@@ -5077,7 +6927,29 @@ document.addEventListener('submit', e => {
   if (!form) return;
   const a = form.dataset.a;
 
-  if (a === 'send-chat-msg') {
+  if (a === 'submit-pulse-goal') {
+    const inp = $('#pulse-goal-in');
+    const val = inp ? inp.value.trim() : '';
+    if (!val) return;
+    inp.value = '';
+    const d = parseWatcherPrompt(val, { ownerType: 'agent', agentId: /licen|sanction|supplier/i.test(val) ? 'sr' : /contract|expir/i.test(val) ? 'cr' : /leave|hr/i.test(val) ? 'lr' : 'ic' });
+    const res = saveWatcherDraft(d, null, S.user);
+    const wid = res.ok && res.w ? res.w.id : 'w-inbox';
+    PULSE.goals.unshift({
+      id: 'gl-' + Date.now().toString(36),
+      text: val,
+      agentId: d.agentId || 'ic',
+      watcherId: wid,
+      status: 'active',
+      createdBy: S.user,
+      at: 'Today ' + now()
+    });
+    logActivity(S.user, 'Assigned ongoing goal: "' + val + '" (tracked by ' + d.name + ')', 'Ongoing Goal');
+    render();
+    toast('Ongoing goal assigned and linked to watcher "' + d.name + '".');
+    return;
+  }
+  else if (a === 'send-chat-msg') {
     const inp = $('#chat-in');
     const val = inp ? inp.value.trim() : '';
     if (!val) return;
@@ -5314,6 +7186,29 @@ document.addEventListener('submit', e => {
       render();
     }, 500);
   }
+  else if (a === 'submit-watcher-form') {
+    readWatcherForm();
+    const md = S.modalData;
+    if (!md || !md.draft) return;
+    const res = saveWatcherDraft(md.draft, md.id, S.user);
+    if (!res.ok) { md.error = res.msg; render(); return; }
+    if (md.test) res.w.lastTest = { n: md.test.n, useful: md.test.useful };
+    saveWatchers();
+    S.modal = null;
+    S.modalData = null;
+    S.flashW = res.w.id;
+    render();
+    toast(res.msg);
+    setTimeout(() => { const el = document.querySelector('[data-wrow="' + res.w.id + '"]'); if (el) el.classList.remove('hl'); if (S.flashW === res.w.id) S.flashW = null; }, 2600);
+  }
+  else if (a === 'submit-flow-monitor') { saveFlowMonitor(); }
+  else if (a === 'submit-watcher-chat') {
+    const inp = form.querySelector('input');
+    const val = inp ? inp.value.trim() : '';
+    if (!val) return;
+    inp.value = '';
+    watcherAssist(val, form.dataset.owner === 'workflow' ? { ownerType: 'workflow', workflowId: form.dataset.id } : { ownerType: 'agent', agentId: form.dataset.id });
+  }
   else if (a === 'send-say-copilot') {
     const inp = $('#say-input');
     const val = inp ? inp.value.trim() : '';
@@ -5321,6 +7216,13 @@ document.addEventListener('submit', e => {
     inp.value = '';
 
     S.wfSay.push({ who: 'you', text: val });
+
+    if (/\b(watch|watcher|monitor|whenever|every time|alert me|notify me when)\b/i.test(val) && WORKFLOWS[S.wf]) {
+      watcherAssist(val, { ownerType: 'workflow', workflowId: S.wf }, d => {
+        S.wfSay.push({ who: 'e', text: 'I drafted “' + d.name + '”' + (d.startsWorkflow ? ' and connected it as this workflow’s trigger' : '') + '. Review it, test it on the last 30 days, then save. Nothing goes live until you do' + (d.startsWorkflow ? ', and an approver signs off' : '') + '.' });
+      });
+      return;
+    }
     render();
 
     setTimeout(() => {

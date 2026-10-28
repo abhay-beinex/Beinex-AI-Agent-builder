@@ -34,11 +34,12 @@ Based on **Beinex AI Agent Workflow Builder PRD v1.0**.
 7. **Kiosk & Showcase Mode (PRD 7.16)**:
    - Touch-optimized 48px interface tailored for Beinex HQ Executive Experience Centres with instant scenario simulation.
 
-8. **Ephrem Pulse · Governed Proactivity**:
-   - **Autonomous Watchers**: Background listeners across Schedule, Webhooks/Events, Metric Thresholds, and Inbound Mailboxes.
-   - **Morning Executive Briefing**: Synthesizes open approvals, paused systems, failed runs, and watcher findings.
-   - **Governed Suggestions & One-Click Actions**: Suggests draft workflows (e.g. contract renewal), autonomy upgrades, and rule additions while enforcing Fatima Al Mansoori / Omar Haddad human sign-offs.
-   - **Per-Agent Proactivity Levels (1: Notify, 2: Draft for approval, 3: Act within limits)**: Proactively acts while adhering strictly to the Golden Rule (agents with write tools are permanently capped at Level 2).
+8. **Ephrem Pulse · Governed Proactivity & Shared Watchers**:
+   - **Shared Watcher Architecture**: Configure watchers in **Agent Builder** and **Workflow Builder**, monitor findings read-only in **Ephrem Pulse**, and govern centrally with emergency admin pause.
+   - **Role-Based Briefings & Alert Controls**: Tailored executive briefings by persona (Finance Ops, Finance Manager, Security, Internal Audit) with daily alert caps, quiet hours (`19:00–07:00`), and Microsoft Teams / Outlook delivery channels.
+   - **Prepared Approval Dossiers & Backup Escalation**: One-place approval summaries (supporting documents, possible risks, AI confidence, backup approver escalation, and reminders) across Pulse and Human Approval Gates.
+   - **Evidence-Based Autonomy & Builder Assistant**: Historical 20-case replay, auto-generated sandbox test suites, live rule/conflict checking, and rolling model quality drift monitoring.
+   - **Workflow Intelligence & Safe Failure Recovery**: Context-aware next-step suggestions, repeated manual work detection, step retry/cost optimization, and governed incident recovery (`#INC-210`).
 
 ---
 
