@@ -440,7 +440,8 @@ a { color: inherit; text-decoration: none; }
 .in[readonly] { color: var(--muted); background: var(--card2); }
 .sel { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 17px) 55%, calc(100% - 12px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-inline-end: 28px; }
 .seg { display: inline-flex; border: 1px solid var(--line2); border-radius: var(--r2); overflow: hidden; background: var(--bg); }
-.seg button { border: none; background: transparent; padding: 6px 12px; font-weight: 600; color: var(--muted); min-height: 32px; border-inline-end: 1px solid var(--line); font-size: 12px; }
+.seg button { border: none; background: transparent; padding: 6px 12px; font-weight: 600; color: var(--muted); min-height: 32px; border-inline-end: 1px solid var(--line); font-size: 12px; cursor: pointer; }
+.seg button:hover { color: var(--fg); background: var(--hover); }
 .seg button:last-child { border-inline-end: none; }
 .seg button.on { background: var(--btn); color: var(--btnfg); }
 .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; border: 1px solid var(--line2); border-radius: 7px; padding: 3px 9px; background: var(--card2); }
@@ -779,11 +780,11 @@ a { color: inherit; text-decoration: none; }
 .clickable-dial .dial-desc { font-weight: 500; opacity: .88; font-size: 10.5px; }
 
 /* ---------- Runs & Model Registry ---------- */
-.stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.stat { flex: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
 .stat > div { border: 1px solid var(--line); border-radius: var(--r3); padding: 12px 14px; background: var(--card); display: flex; flex-direction: column; gap: 2px; }
 .stat b { font-size: 26px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .stat small { font-size: 10.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--subtle); }
-.table { border: 1px solid var(--line); border-radius: var(--r3); overflow: auto; background: var(--card); }
+.table { flex: none; border: 1px solid var(--line); border-radius: var(--r3); overflow: auto; background: var(--card); }
 .table table { width: 100%; border-collapse: collapse; min-width: 720px; }
 .table th { text-align: start; padding: 10px 14px; font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--subtle); background: var(--card2); border-bottom: 1px solid var(--line); font-weight: 800; }
 .table td { padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 12.5px; }
@@ -851,6 +852,21 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   gap: 16px;
   background: var(--side);
+}
+.drawer-foot {
+  flex: none;
+  padding: 12px 18px 14px;
+  border-top: 1px solid var(--line);
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2;
+}
+.drawer-foot .btn {
+  white-space: normal;
+  text-align: center;
+  line-height: 1.35;
 }
 .drawer-seal-box {
   background: var(--card);
@@ -2018,7 +2034,10 @@ const RUNS = [
   { n: 213, wf: 'inv', inv: 'INV-2290', sup: 'Emirates Print House', amt: 3150, trig: 'SAP · Ledger event', out: 'matched', by: 'No person needed (under limit)', when: 'Today 09:04', took: '40 s', cost: 0.6, ver: 3, note: 'Matched PO within limits.' },
   { n: 212, wf: 'inv', inv: 'INV-2288', sup: 'Desert Logistics', amt: 61900, trig: 'Email · Finance mailbox', out: 'rejected', by: 'Fatima Al Mansoori', when: 'Yesterday', took: '3 h', cost: 1.2, ver: 3, note: 'Contract has expired. Hold until renewed.' },
   { n: 211, wf: 'inv', inv: 'INV-2287', sup: 'Al Noor Supplies', amt: 8700, trig: 'Email · Finance mailbox', out: 'matched', by: 'No person needed (under limit)', when: 'Yesterday', took: '35 s', cost: 0.6, ver: 3, note: 'Matched PO within limits.' },
-  { n: 210, wf: 'inv', inv: 'INV-2285', sup: 'Gulf Office Supplies', amt: 2200, trig: 'Email · Finance mailbox', out: 'failed', by: 'Alerted Owner', when: 'Yesterday', took: '1 min', cost: 0.5, ver: 3, note: 'The Finance system did not respond when posting. Retried 3 times.' }
+  { n: 210, wf: 'inv', inv: 'INV-2285', sup: 'Gulf Office Supplies', amt: 2200, trig: 'Email · Finance mailbox', out: 'failed', by: 'Alerted Owner', when: 'Yesterday', took: '1 min', cost: 0.5, ver: 3, note: 'The Finance system did not respond when posting. Retried 3 times.' },
+  { n: 209, wf: 'inv', inv: 'INV-2281', sup: 'Gulf Cargo LLC', amt: 54800, trig: 'Email · Finance mailbox', out: 'rejected', by: 'Fatima Al Mansoori', when: '2 days ago', took: '1 h 20 min', cost: 1.1, ver: 3, note: 'Missing mandatory UAE Federal Tax Authority TRN number on tax invoice.' },
+  { n: 208, wf: 'inv', inv: 'INV-2276', sup: 'Al Noor Supplies', amt: 19500, trig: 'Email · Finance mailbox', out: 'rejected', by: 'Fatima Al Mansoori', when: '3 days ago', took: '45 min', cost: 0.8, ver: 3, note: 'Duplicate submission of INV-2269 already settled in SAP S/4HANA.' },
+  { n: 207, wf: 'inv', inv: 'INV-2270', sup: 'Emirates Print House', amt: 14200, trig: 'SAP · Ledger event', out: 'rejected', by: 'Fatima Al Mansoori', when: '4 days ago', took: '2 h', cost: 0.9, ver: 3, note: 'Unit rate exceeded contracted rate card by 12% without addendum.' }
 ];
 
 // Runs that began with an inbound email were started by the shared Invoice Inbox Watcher record.
@@ -2109,64 +2128,64 @@ const PULSE = {
   sugg: [
     {
       id: 'sg-renew', watcher: 'w-contracts', agentId: 'cr', kind: 'renewal', initial: true, seq: 4, at: 'Today 06:00',
-      title: 'Start a renewal flow for the Desert Logistics contract',
-      why: 'The Contracts Register shows this framework agreement as expired, and run #212 was already rejected because of it. More invoices from this supplier are likely.',
-      evidence: ['Contract status: expired (Contracts Register)', 'Run #212 (INV-2288, AED 61,900) rejected: "Contract has expired. Hold until renewed."', 'No renewal workflow exists yet'],
+      title: 'Agent · Contract Review: Start a renewal workflow for the expired Desert Logistics contract',
+      why: 'The Contract Review agent detected in the Contracts Register that the Desert Logistics framework agreement has expired, which already caused Run #212 (INV-2288, AED 61,900) to be rejected in the Invoice Approval Workflow. Creating a Contract Renewal workflow will prevent further blocked invoices.',
+      evidence: ['Contract status: expired (checked by Contract Review agent in Contracts Register)', 'Invoice Approval Workflow Run #212 (INV-2288, AED 61,900) rejected: "Contract has expired. Hold until renewed."', 'No Contract Renewal workflow exists yet'],
       effect: { type: 'new-flow', tpl: 'ren', safe: true }, approver: null, cta: 'Create draft flow', gov: 'Creates a draft flow only. Nothing goes live without sign-off.',
       done: () => !!WORKFLOWS.wf_pulse_ren
     },
     {
       id: 'sg-auto', watcher: 'w-inbox', agentId: 'ic', kind: 'automation', initial: true, seq: 3, at: 'Today 06:05',
-      title: 'Let Invoice Approval run straight-through at Autonomy Level 3',
-      why: 'Small invoices keep matching their purchase orders, so a person adds little at the low end. Level 3 lets Ephrem handle those itself while the human gate still applies to anything above AED 50,000 or any mismatch.',
-      evidence: ['Runs #211 and #213 (both under AED 10,000) matched their PO with no discrepancy', 'Both finished in under a minute with no person needed', 'The gate stays for amounts over AED 50,000 and any mismatch'],
+      title: 'Workflow · Invoice Approval Workflow: Upgrade to Autonomy Level 3 for low-value PO matches',
+      why: 'In the Invoice Approval Workflow, the Invoice Checker agent keeps matching low-value invoices (under AED 10,000) to their SAP purchase orders with 100% precision. Level 3 lets Ephrem handle exact low-value matches automatically while Fatima Al Mansoori’s human gate remains locked for anything above AED 50,000 or any PO mismatch.',
+      evidence: ['Invoice Approval Workflow Runs #211 (AED 8,700) and #213 (AED 3,150) matched their PO via Invoice Checker with zero discrepancy', 'Both finished in under a minute with no person needed', 'Fatima Al Mansoori’s human approval gate stays enforced for amounts over AED 50,000 and any mismatch'],
       effect: { type: 'wf-autonomy', wf: 'inv', level: 3 }, approver: 'fa', cta: 'Apply Level 3',
       done: () => !!(WORKFLOWS.inv && parseInt(WORKFLOWS.inv.autonomy, 10) === 3)
     },
     {
       id: 'sg-resume', watcher: 'w-health', agentId: 'di', kind: 'hygiene', initial: true, seq: 2, at: 'Today 06:00',
-      title: 'Document Intake has been paused since Monday. Resume it?',
-      why: 'Security paused this agent for a scanning review and expected to resume it on Thursday. Uploaded documents have no one to route them while it is paused.',
-      evidence: ['Paused by Security (Omar Haddad) on Mon 09:12', 'Stated reason: review of document-upload scanning', 'Only Security can resume it, so the request goes to Omar Haddad'],
+      title: 'Agent · Document Intake: Paused by Security since Monday — request resumption?',
+      why: 'The Document Intake agent (which receives uploaded documents, scans them and routes each to the right team) was paused by Security (Omar Haddad) for a document-upload scanning review and was expected to resume Thursday. Uploaded supplier and compliance documents remain unrouted while this agent is paused.',
+      evidence: ['Agent "Document Intake" paused by Security (Omar Haddad) on Mon 09:12', 'Stated reason: review of document-upload scanning (expected back Thursday)', 'Only Security (Omar Haddad) can resume the Document Intake agent'],
       effect: { type: 'resume-agent', agentId: 'di' }, approver: 'oh', cta: 'Resume agent',
       done: () => !(AGENTS.di && AGENTS.di.status === 'paused')
     },
     {
       id: 'sg-test', watcher: 'w-health', agentId: 'so', kind: 'hygiene', initial: true, seq: 1, at: 'Today 06:00',
-      title: 'Supplier Onboarding has not been tested yet',
-      why: 'This agent is still a draft with no test runs, so it cannot be submitted for approval with confidence.',
-      evidence: ['0 test runs recorded', 'Quality check not yet run', 'Draft has not been sent to Fatima Al Mansoori'],
+      title: 'Agent · Supplier Onboarding (Draft): Run sandbox tests before requesting live sign-off',
+      why: 'The Supplier Onboarding agent (used in the New Supplier Onboarding workflow to verify trade licences and VAT certificates) is still in Draft status with 0 sandbox test runs, so it cannot yet be sent to Fatima Al Mansoori for production approval.',
+      evidence: ['0 test runs recorded on Supplier Onboarding agent (used by New Supplier Onboarding workflow)', 'Quality check not yet run in Agent Builder', 'Draft agent has not been sent to Fatima Al Mansoori for sign-off'],
       effect: { type: 'navigate', view: 'agent', agentId: 'so', tab: 'test', msg: 'Opened the Test Sandbox for Supplier Onboarding' }, approver: null, cta: 'Open Test Sandbox', gov: 'Opens the sandbox. Nothing is changed.',
       done: () => !AGENTS.so || (AGENTS.so.tests || 0) > 0 || AGENTS.so.status === 'live'
     },
     {
       id: 'sg-dup', watcher: 'w-inbox', agentId: 'ic', kind: 'risk',
-      title: 'INV-2294 may duplicate INV-2291 from Al Noor Supplies',
-      why: 'A new invoice arrived with the same supplier and the same amount as one approved today. A rule on the Invoice Checker would catch repeats automatically.',
-      evidence: ['INV-2291: Al Noor Supplies, AED 84,200, approved today (run #214)', 'INV-2294: same supplier and amount, received 12 minutes ago', 'The Invoice Checker has no duplicate-detection rule today'],
+      title: 'Agent · Invoice Checker: Potential duplicate invoice INV-2294 from Al Noor Supplies (AED 84,200)',
+      why: 'During intake for the Invoice Approval Workflow, a new invoice (INV-2294) arrived with the exact same supplier and amount as INV-2291 (approved today in Run #214). Adding a duplicate-detection rule to the Invoice Checker agent will catch repeat submissions automatically.',
+      evidence: ['INV-2291: Al Noor Supplies, AED 84,200, approved today in Invoice Approval Workflow (Run #214)', 'INV-2294: same supplier and amount, received 12 minutes ago via Invoice Inbox Watcher', 'The Invoice Checker agent has no duplicate-detection rule today'],
       effect: { type: 'add-rule', agentId: 'ic', rule: 'Flag any invoice with the same supplier and amount as one already approved this month.' }, approver: 'fa', cta: 'Add duplicate-check rule',
       done: () => !!(AGENTS.ic && AGENTS.ic.spec && (AGENTS.ic.spec.rules || []).some(r => /same supplier and amount/i.test(r.text)))
     },
     {
       id: 'sg-ledger', watcher: 'w-ledger', agentId: 'pr', kind: 'risk',
-      title: 'Price variances are repeating on Gulf Office Supplies invoices',
-      why: 'Run #215 shows a surcharge that is not on the purchase order, and this supplier has had two of the last six runs needing attention. A review flow would catch the pattern earlier.',
-      evidence: ['Run #215: AED 400 shipping surcharge not on PO-10911', 'Gulf Office Supplies: 2 of the last 6 runs needed attention (#215, #210)', 'A threshold flow can flag any variance above 5% before it reaches the gate'],
+      title: 'Agent · Posting Recommender: Repeating PO price variances on Gulf Office Supplies invoices',
+      why: 'In the Invoice Approval Workflow, Run #215 shows a shipping surcharge not on PO-10911, and Gulf Office Supplies has had 2 of the last 6 workflow runs (#215, #210) need attention. Creating a Supplier Variance Review workflow with the Posting Recommender agent will catch rate deviations earlier.',
+      evidence: ['Invoice Approval Workflow Run #215: AED 400 shipping surcharge not on PO-10911', 'Gulf Office Supplies: 2 of the last 6 runs in Invoice Approval Workflow needed attention (#215, #210)', 'A threshold workflow using Posting Recommender can flag any variance above 5% before the human gate'],
       effect: { type: 'new-flow', tpl: 'var', safe: true }, approver: null, cta: 'Create draft review flow', gov: 'Creates a draft flow only. Nothing goes live without sign-off.',
       done: () => !!WORKFLOWS.wf_pulse_var
     },
     {
       id: 'sg-cost', watcher: 'w-health', agentId: 'ic', kind: 'cost',
-      title: 'Invoice Checker run cost is up 38% this week',
-      why: 'Average cost per run rose from AED 0.60 to AED 0.83. Retries on steps that fail at posting are the main driver.',
-      evidence: ['Run #210 retried 3 times before failing', 'Retries are set to 3 on every step by default', 'Lowering retries on read-only steps would cut spend without touching approvals'],
+      title: 'Workflow · Invoice Approval Workflow: Step retry costs on Invoice Checker & Finance Posting rose 38%',
+      why: 'Average cost per run in the Invoice Approval Workflow rose from AED 0.60 to AED 0.83 this week, driven by 3x automatic retries when the Finance Posting agent failed to reach SAP S/4HANA in Run #210.',
+      evidence: ['Invoice Approval Workflow Run #210 retried 3 times at the Finance Posting agent step before failing', 'Retries are set to 3 on every workflow step by default', 'Lowering retries on read-only steps (Invoice Checker) cuts spend without touching approvals'],
       effect: { type: 'navigate', view: 'runs', msg: 'Opened Runs & Audit' }, approver: null, cta: 'Review runs', gov: 'Opens Runs & Audit. Nothing is changed.'
     },
     {
       id: 'sg-supplier', watcher: 'w-suppliers', agentId: 'sr', kind: 'risk',
-      title: 'Al Noor Supplies: trade licence renews in 9 days',
-      why: 'The Supplier Register lists this licence as expiring soon. Contract clause 14 requires an active trade licence whenever an invoice is presented.',
-      evidence: ['Licence expiry date listed in the Supplier Register', 'Al Noor Supplies has recent invoices in runs #214 and #211', 'Clause 14 blocks posting when the licence has lapsed'],
+      title: 'Agent · Supplier Risk: Al Noor Supplies trade licence expires in 9 days',
+      why: 'The Supplier Risk agent detected in the UAE Supplier Register that Al Noor Supplies’s trade licence renews in 9 days. Because Al Noor Supplies has active invoices in the Invoice Approval Workflow (Runs #214 and #211), Clause 14 will block SAP posting if the licence lapses.',
+      evidence: ['Licence expiry date flagged by Supplier Risk agent in the Supplier Register', 'Al Noor Supplies has recent invoices in Invoice Approval Workflow runs #214 and #211', 'Procurement Policy Clause 14 blocks Finance Posting when a supplier trade licence has lapsed'],
       effect: { type: 'navigate', view: 'chats', chat: 'agent:sr', msg: 'Opened a chat with the Supplier Risk agent' }, approver: null, cta: 'Ask Supplier Risk agent', gov: 'Opens a chat. Nothing is changed.'
     }
   ],
@@ -2175,11 +2194,7 @@ const PULSE = {
     showAll: false,
     quietHours: { on: false, start: '19:00', end: '07:00' },
     channels: { teams: true, outlook: true, email: false }
-  },
-  goals: [
-    { id: 'gl-lic', text: 'Keep track of supplier licence expiry dates and alert me before they expire', agentId: 'sr', watcherId: 'w-suppliers', status: 'active', createdBy: 'df', at: '30 Sep' },
-    { id: 'gl-dup', text: 'Monitor the Finance mailbox for duplicate invoices and flag repeats', agentId: 'ic', watcherId: 'w-inbox', status: 'active', createdBy: 'mk', at: '2 Oct' }
-  ]
+  }
 };
 
 const APPROVAL_DOSSIERS = {
@@ -2220,9 +2235,9 @@ function getApprovalSummary(sg) {
 }
 
 const MANUAL_PATTERNS = [
-  { id: 'mp-lic', title: '14 manual supplier trade licence checks / month', detail: 'Staff manually check expiry dates in the Supplier Register before invoice runs.', freq: '14× / mo', saved: '3.5 hrs/mo', tpl: 'lic', wfId: 'wf_manual_lic', agentId: 'sr', watcherId: 'w-suppliers' },
-  { id: 'mp-status', title: '19 manual invoice-status email replies / week', detail: 'Finance team manually looks up PO match status to answer supplier enquiries.', freq: '19× / wk', saved: '4.8 hrs/wk', tpl: 'status', wfId: 'wf_manual_status', agentId: 'ic', watcherId: 'w-inbox' },
-  { id: 'mp-renew', title: '9 manual contract renewal reminders / quarter', detail: 'Procurement manually tracks 60-day notice windows in spreadsheets.', freq: '9× / qtr', saved: '6.0 hrs/qtr', tpl: 'ren', wfId: 'wf_pulse_ren', agentId: 'cr', watcherId: 'w-contracts' }
+  { id: 'mp-lic', title: '14 manual supplier trade licence checks / month', detail: 'Spotted by Supplier Risk Watcher: Staff manually check expiry dates in the UAE Supplier Register before Invoice Approval Workflow runs. Automatable via the Supplier Risk agent.', freq: '14× / mo', saved: '3.5 hrs/mo', tpl: 'lic', wfId: 'wf_manual_lic', agentId: 'sr', watcherId: 'w-suppliers' },
+  { id: 'mp-status', title: '19 manual invoice-status email replies / week', detail: 'Spotted by Invoice Inbox Watcher: Finance staff manually look up SAP PO match status for Invoice Approval Workflow runs to answer supplier enquiries. Automatable via the Invoice Checker agent.', freq: '19× / wk', saved: '4.8 hrs/wk', tpl: 'status', wfId: 'wf_manual_status', agentId: 'ic', watcherId: 'w-inbox' },
+  { id: 'mp-renew', title: '9 manual contract renewal reminders / quarter', detail: 'Spotted by Contract Expiry Watcher: Procurement manually tracks 60-day notice windows in spreadsheets. Automatable into a Contract Renewal Follow-up workflow via the Contract Review agent.', freq: '9× / qtr', saved: '6.0 hrs/qtr', tpl: 'ren', wfId: 'wf_pulse_ren', agentId: 'cr', watcherId: 'w-contracts' }
 ];
 
 const COMPLIANCE_DEADLINES = [
@@ -2719,45 +2734,145 @@ function pulseBrief() {
   const u = PEOPLE[S.user] || PEOPLE.mk;
   const lines = [];
   const btn = (a, label, attrs) => ({ a, label, attrs: attrs || '' });
-  if (PULSE.globalPause && PULSE.globalPause.on) lines.push({ tone: 'bad', text: '**All watchers are paused.** ' + (PEOPLE[PULSE.globalPause.by] ? PEOPLE[PULSE.globalPause.by].name : 'An administrator') + ' used the emergency pause at ' + PULSE.globalPause.at + '. Only an administrator can resume them from Governance.', btn: btn('view', 'Open Governance', 'data-v="activity"') });
+  if (PULSE.globalPause && PULSE.globalPause.on) {
+    lines.push({
+      tone: 'bad',
+      text: '**Platform Governance · All Watchers Paused:** ' + (PEOPLE[PULSE.globalPause.by] ? PEOPLE[PULSE.globalPause.by].name : 'An administrator') + ' activated the emergency pause at ' + PULSE.globalPause.at + ', halting automated monitoring across all workflows and agents. Only an administrator can resume them.',
+      btn: btn('view', 'Open Governance', 'data-v="runs"')
+    });
+  }
   const watcherAsks = PULSE.watchers.filter(w => w.pending && w.pending.to === u.id);
-  if (watcherAsks.length) lines.push({ tone: 'wait', text: '**' + watcherAsks.length + ' watcher change' + plural(watcherAsks.length) + '** need your sign-off before going live. Review ' + (watcherAsks.length === 1 ? 'it' : 'them') + ' in the builder that owns ' + (watcherAsks.length === 1 ? 'it' : 'them') + '.', btn: btn('pulse-open-owner', 'Open in builder', 'data-id="' + watcherAsks[0].id + '"') });
+  if (watcherAsks.length) {
+    const w0 = watcherAsks[0];
+    lines.push({
+      tone: 'wait',
+      text: '**Watcher Sign-Off · ' + watcherOwnerLabel(w0) + ':** Watcher **"' + w0.name + '"**' + (watcherAsks.length > 1 ? ' (and ' + (watcherAsks.length - 1) + ' more)' : '') + ' has pending trigger/monitoring changes that need your sign-off before going live.',
+      btn: btn('pulse-open-owner', 'Open in builder', 'data-id="' + w0.id + '"')
+    });
+  }
   const waiting = RUNS.filter(r => r.out === 'waiting');
   if (waiting.length) {
     const r = waiting[0];
-    if (u.id === 'fa') lines.push({ tone: 'wait', text: '**' + waiting.length + ' invoice run' + plural(waiting.length) + ' need' + (waiting.length === 1 ? 's' : '') + ' your decision.** Run #' + r.n + ' (' + r.inv + ', ' + r.sup + ', AED ' + fmt(r.amt) + '): ' + r.note, btn: btn('open-approval-modal', 'Review', 'data-run="' + r.n + '"') });
-    else lines.push({ tone: 'wait', text: 'Run #' + r.n + ' (' + r.inv + ', AED ' + fmt(r.amt) + ') is waiting for **Fatima Al Mansoori**.', btn: btn('switch-to-fatima-and-open', 'Open as Fatima', 'data-run="' + r.n + '"') });
+    const wfName = (WORKFLOWS[r.wf] && WORKFLOWS[r.wf].name) || 'Invoice Approval Workflow';
+    if (u.id === 'fa') {
+      lines.push({
+        tone: 'wait',
+        text: '**Workflow · ' + wfName + ' (' + waiting.length + ' invoice run' + plural(waiting.length) + ' need' + (waiting.length === 1 ? 's' : '') + ' your decision):** Run #' + r.n + ' (**' + r.inv + ' · ' + r.sup + '**, AED ' + fmt(r.amt) + ') was flagged by the **Invoice Checker** agent (' + r.note.replace(/\.$/, '') + ') and is paused at the **Finance Posting** human gate.',
+        btn: btn('open-approval-modal', 'Review', 'data-run="' + r.n + '"')
+      });
+    } else {
+      lines.push({
+        tone: 'wait',
+        text: '**Workflow · ' + wfName + ' (Run #' + r.n + '):** Invoice **' + r.inv + '** from **' + r.sup + '** (AED ' + fmt(r.amt) + ') was flagged by the **Invoice Checker** agent (' + r.note.replace(/\.$/, '') + ') and is paused at the **Finance Posting** human gate waiting for **Fatima Al Mansoori**.',
+        btn: btn('switch-to-fatima-and-open', 'Open as Fatima', 'data-run="' + r.n + '"')
+      });
+    }
   }
   const mine = PULSE.sugg.filter(s => s.status === 'pending' && (s.approver === u.id || s.escalatedTo === u.id));
-  if (mine.length) lines.push({ tone: 'accent', text: '**' + mine.length + ' Pulse proposal' + plural(mine.length) + '** need your approval before anything changes.', btn: btn('pulse-tab', 'Review', 'data-t="pending"') });
+  if (mine.length) {
+    const targets = [];
+    mine.forEach(s => {
+      const wf = s.effect && s.effect.wf && WORKFLOWS[s.effect.wf] ? 'Workflow: ' + WORKFLOWS[s.effect.wf].name : null;
+      const ag = AGENTS[s.agentId] && AGENTS[s.agentId].spec ? 'Agent: ' + AGENTS[s.agentId].spec.name : null;
+      const t = wf || ag;
+      if (t && targets.indexOf(t) < 0) targets.push(t);
+    });
+    const targetInfo = targets.length ? ' affecting **' + targets.join('**, **') + '**' : '';
+    lines.push({
+      tone: 'accent',
+      text: '**Governance Sign-Off (' + mine.length + ' Pulse proposal' + plural(mine.length) + '):** Proposed configuration changes' + targetInfo + ' need your approval before anything changes.',
+      btn: btn('pulse-tab', 'Review', 'data-t="pending"')
+    });
+  }
   const awaiting = Object.values(AGENTS).filter(a => a.awaiting && a.spec);
   if (awaiting.length) {
     const ag = awaiting[0];
     const who = ag.approval && PEOPLE[ag.approval.to] ? PEOPLE[ag.approval.to].name : 'an approver';
-    lines.push({ tone: 'wait', text: '**' + ag.spec.name + '** is waiting for sign-off from ' + who + (awaiting.length > 1 ? ' (and ' + (awaiting.length - 1) + ' more).' : '.'), btn: btn('edit-agent-btn', 'Open', 'data-id="' + esc(ag.id) + '"') });
+    const ver = (ag.approval && ag.approval.ver) || 1;
+    const roleDesc = ag.spec.role ? ag.spec.role.charAt(0).toLowerCase() + ag.spec.role.slice(1).replace(/\.$/, '') : 'staff leave requests';
+    lines.push({
+      tone: 'wait',
+      text: '**Agent · ' + ag.spec.name + ' (Draft v' + ver + '):** This AI agent (' + roleDesc + ', linked to **HR Questions Council**) is waiting for deployment sign-off from **' + who + '** before going live' + (awaiting.length > 1 ? ' (and ' + (awaiting.length - 1) + ' more).' : '.'),
+      btn: btn('edit-agent-btn', 'Open', 'data-id="' + esc(ag.id) + '"')
+    });
   }
   Object.values(AGENTS).filter(a => a.status === 'paused' && a.spec).forEach(ag => {
-    lines.push({ tone: 'bad', text: '**' + ag.spec.name + '** is paused' + (ag.pause && ag.pause.by ? ' by ' + ag.pause.by : '') + '.' + (ag.pause && ag.pause.reason ? ' ' + ag.pause.reason : ''), btn: btn('pulse-open', 'See agents', 'data-view="agent"') });
+    const roleDesc = ag.spec.role ? ag.spec.role.charAt(0).toLowerCase() + ag.spec.role.slice(1).replace(/\.$/, '') : 'document scanning and routing';
+    lines.push({
+      tone: 'bad',
+      text: '**Agent · ' + ag.spec.name + ' (Paused):** The **' + ag.spec.name + '** agent (' + roleDesc + ') is paused' + (ag.pause && ag.pause.by ? ' by **' + ag.pause.by + '**' : '') + '.' + (ag.pause && ag.pause.reason ? ' Reason: ' + ag.pause.reason : ''),
+      btn: btn('pulse-open', 'See agents', 'data-view="agent"')
+    });
   });
   const failed = RUNS.filter(r => r.out === 'failed');
-  if (failed.length) lines.push({ tone: 'bad', text: '**Run #' + failed[0].n + ' failed at posting.** ' + failed[0].note, btn: btn('pulse-open', 'Open run', 'data-view="runs" data-run="' + failed[0].n + '"') });
+  if (failed.length) {
+    const fr = failed[0];
+    const fwf = (WORKFLOWS[fr.wf] && WORKFLOWS[fr.wf].name) || 'Invoice Approval Workflow';
+    lines.push({
+      tone: 'bad',
+      text: '**Workflow · ' + fwf + ' (Run #' + fr.n + ' Failed):** The **Finance Posting** agent failed while posting invoice **' + fr.inv + '** (**' + fr.sup + '**, AED ' + fmt(fr.amt) + ') to SAP S/4HANA — ' + fr.note,
+      btn: btn('pulse-open', 'Open run', 'data-view="runs" data-run="' + fr.n + '"')
+    });
+  }
 
   // Role-specific priority line tailored to each persona
   if (u.id === 'df') {
-    lines.push({ tone: 'wait', text: '**Compliance & Audit Focus:** Desert Logistics contract is expired (Run #212 rejected) and **Al Noor Supplies** trade licence renews in 9 days. UAE FTA VAT reconciliation is due in 11 days.', btn: btn('pulse-watch-deadline', 'Inspect Watcher', 'data-id="cd-licence"') });
+    lines.push({
+      tone: 'wait',
+      text: '**Compliance & Audit Focus (Agents · Contract Review & Supplier Risk):** The **Contract Review** agent flagged an expired **Desert Logistics** agreement (blocking **Invoice Approval Workflow** Run #212), and the **Supplier Risk** agent flagged **Al Noor Supplies**’s trade licence expiring in 9 days. UAE FTA VAT reconciliation is due in 11 days.',
+      btn: btn('pulse-watch-deadline', 'Inspect Watcher', 'data-id="cd-licence"')
+    });
   } else if (u.id === 'oh') {
-    lines.push({ tone: 'ok', text: '**Security Posture:** All write-capable agents (**Finance Posting**) are locked at Proactivity Level 2 with human sign-off gates enforced. 0 unauthorized external writes.', btn: btn('view', 'Open Governance', 'data-v="activity"') });
+    lines.push({
+      tone: 'ok',
+      text: '**Security Posture (Agent · Finance Posting & Invoice Approval Workflow):** All write-capable agents (**Finance Posting**) are locked at Proactivity Level 2 with **Fatima Al Mansoori**’s human sign-off gate enforced. 0 unauthorized external writes.',
+      btn: btn('view', 'Open Governance', 'data-v="runs"')
+    });
   } else if (u.id === 'fa') {
-    lines.push({ tone: 'ok', text: '**Executive Approval Summary Ready:** Supporting documents, risk flags, and AI confidence scores are attached to every pending gate and proposal.', btn: btn('open-approval-modal', 'Open Dossier', 'data-run="215"') });
+    lines.push({
+      tone: 'ok',
+      text: '**Executive Approval Summary Ready (Workflow · Invoice Approval Workflow):** The **Invoice Checker** and **Posting Recommender** agents have attached PO-10911 variance evidence, risk flags, and 99.4% AI confidence scores to Run #215 and all pending proposals.',
+      btn: btn('open-approval-modal', 'Open Dossier', 'data-run="215"')
+    });
   } else {
     const unauto = MANUAL_PATTERNS.filter(m => !WORKFLOWS[m.wfId]);
-    if (unauto.length) lines.push({ tone: 'accent', text: '**Repeated manual work spotted:** ' + unauto[0].title + ' (' + unauto[0].saved + ' saved). Ephrem can draft a workflow for it.', btn: btn('pulse-automate-pattern', 'Draft flow', 'data-id="' + unauto[0].id + '"') });
+    if (unauto.length) {
+      const mp = unauto[0];
+      const mpAg = AGENTS[mp.agentId] && AGENTS[mp.agentId].spec ? AGENTS[mp.agentId].spec.name : 'Supplier Risk';
+      lines.push({
+        tone: 'accent',
+        text: '**Repeated manual work spotted (Agent · ' + mpAg + '):** **' + mp.title + '** (' + mp.saved + ' saved) — ' + mp.detail,
+        btn: btn('pulse-automate-pattern', 'Draft flow', 'data-id="' + mp.id + '"')
+      });
+    }
   }
 
   const open = PULSE.sugg.filter(s => s.surfaced && s.status === 'open');
-  if (open.length) lines.push({ tone: 'accent', text: '**' + open.length + ' suggestion' + plural(open.length) + '** from your watchers ' + (open.length === 1 ? 'is' : 'are') + ' ready to review.', btn: btn('pulse-tab', 'Review', 'data-t="open"') });
+  if (open.length) {
+    const targets = [];
+    open.forEach(s => {
+      const wf = (s.effect && s.effect.wf && WORKFLOWS[s.effect.wf]) ? WORKFLOWS[s.effect.wf].name : null;
+      const ag = (AGENTS[s.agentId] && AGENTS[s.agentId].spec) ? AGENTS[s.agentId].spec.name + ' agent' : null;
+      const label = wf || ag;
+      if (label && targets.indexOf(label) < 0) targets.push(label);
+    });
+    const targetSummary = targets.length ? ' across **' + targets.slice(0, 4).join('**, **') + '**' : '';
+    lines.push({
+      tone: 'accent',
+      text: '**' + open.length + ' suggestion' + plural(open.length) + '** from your watchers' + targetSummary + ' ' + (open.length === 1 ? 'is' : 'are') + ' ready to review.',
+      btn: btn('pulse-tab', 'Review', 'data-t="open"')
+    });
+  }
   const active = PULSE.watchers.filter(w => watcherState(w) === 'on').length;
-  lines.push({ tone: 'ok', text: '**' + active + ' of ' + PULSE.watchers.length + ' watchers** active. Last sweep: ' + PULSE.lastSweep + '.', btn: null });
+  const pausedW = PULSE.watchers.filter(w => watcherState(w) !== 'on');
+  const pausedSummary = pausedW.length
+    ? ' · Paused: **' + pausedW.map(w => w.name + ' (' + watcherOwnerLabel(w) + ')').join('**, **') + '**.'
+    : ' · All agent and workflow watchers are actively monitoring.';
+  lines.push({
+    tone: 'ok',
+    text: '**' + active + ' of ' + PULSE.watchers.length + ' watchers** active (Last sweep: ' + PULSE.lastSweep + ')' + pausedSummary,
+    btn: null
+  });
   return lines;
 }
 
@@ -2770,6 +2885,14 @@ function renderSuggCard(sg) {
   const escAppr = sg.escalatedTo ? PEOPLE[sg.escalatedTo] : null;
   const isApprover = (!!appr && S.user === appr.id) || (!!escAppr && S.user === escAppr.id);
   const modeTag = sg.mode === 'alert' ? '<span class="tag">Notify only</span>' : sg.mode === 'auto' ? '<span class="tag accent">Auto-applied</span>' : '<span class="tag accent">Draft</span>';
+  const wfTarget = (sg.effect && sg.effect.wf && WORKFLOWS[sg.effect.wf]) ? WORKFLOWS[sg.effect.wf]
+    : (w && w.workflowId && WORKFLOWS[w.workflowId]) ? WORKFLOWS[w.workflowId]
+    : (w && w.startsWorkflow && WORKFLOWS[w.startsWorkflow]) ? WORKFLOWS[w.startsWorkflow]
+    : null;
+  const entityBadges = [
+    ag && ag.spec ? `<span class="tag" style="background:var(--panel);border-color:var(--line2);color:var(--fg)">Agent · ${esc(ag.spec.name)}</span>` : '',
+    wfTarget ? `<span class="tag" style="background:var(--panel);border-color:var(--line2);color:var(--fg)">Workflow · ${esc(wfTarget.name)}</span>` : ''
+  ].filter(Boolean).join('');
   const gov = appr ? 'Needs ' + appr.name + (escAppr ? ' (or backup ' + escAppr.name + ')' : '') + '’s approval before anything changes' : (sg.gov || 'Draft only. Nothing goes live.');
   const dos = getApprovalSummary(sg);
   let actions = '';
@@ -2817,7 +2940,7 @@ function renderSuggCard(sg) {
   return `
     <article class="pl-sugg ${k.tone}" aria-label="${esc(sg.title)}">
       <div class="row-flex wrap" style="justify-content:space-between">
-        <div class="row-flex wrap"><span class="tag">${k.label}</span>${modeTag}${sevPill(suggSeverity(sg))}</div>
+        <div class="row-flex wrap"><span class="tag">${k.label}</span>${entityBadges}${modeTag}${sevPill(suggSeverity(sg))}</div>
         <span class="xs subtle">${esc(sg.at || '')}</span>
       </div>
       <h4>${esc(sg.title)}</h4>
@@ -2913,37 +3036,7 @@ function renderPulseControlsBar() {
 }
 
 function renderPulseGoalsAndPatterns() {
-  const goals = PULSE.goals || [];
   return `
-    <div class="sec" style="margin-top:8px">
-      <h3>
-        <span>Ongoing Agent Goals</span>
-        <span class="xs muted">${goals.length} active</span>
-      </h3>
-      <div class="xs muted">Assign long-term monitoring goals in plain language. The agent tracks the goal over time via a governed watcher and alerts you when action is needed.</div>
-      ${goals.map(g => {
-        const ag = AGENTS[g.agentId];
-        const w = pulseWatcher(g.watcherId);
-        return `
-          <div class="pl-goal-row">
-            <div class="row-flex" style="justify-content:space-between">
-              <b style="font-size:12.5px">“${esc(g.text)}”</b>
-              ${w ? watcherStatePill(w) : plPill('live', 'Active')}
-            </div>
-            <div class="row-flex wrap xs muted" style="justify-content:space-between">
-              <span>Agent: <b>${esc(ag && ag.spec ? ag.spec.name : 'Agent')}</b>${w ? ' · Watcher: <b>' + esc(w.name) + '</b>' : ''}</span>
-              ${w ? `<button type="button" class="btn s ghost" data-a="pulse-open-owner" data-id="${esc(w.id)}">Open in builder →</button>` : ''}
-            </div>
-          </div>`;
-      }).join('')}
-      <form class="wd-chat" data-a="submit-pulse-goal">
-        <div class="box">
-          <input id="pulse-goal-in" placeholder="e.g. Keep track of supplier licence expiry dates and alert me before they expire..." autocomplete="off">
-          <button type="submit" class="ib p" aria-label="Assign ongoing goal">${IC.send}</button>
-        </div>
-      </form>
-    </div>
-
     <div class="sec" style="margin-top:8px">
       <h3>
         <span>Repeated Manual Work Spotted</span>
@@ -2952,10 +3045,16 @@ function renderPulseGoalsAndPatterns() {
       <div class="xs muted">Ephrem spots tasks your team repeats by hand and drafts a governed workflow or agent for review.</div>
       ${MANUAL_PATTERNS.map(mp => {
         const done = !!WORKFLOWS[mp.wfId];
+        const mpAg = AGENTS[mp.agentId] && AGENTS[mp.agentId].spec ? AGENTS[mp.agentId].spec.name : null;
+        const mpW = pulseWatcher(mp.watcherId);
         return `
           <div class="pl-goal-row">
-            <div class="row-flex" style="justify-content:space-between">
-              <b style="font-size:12.5px">${esc(mp.title)}</b>
+            <div class="row-flex wrap" style="justify-content:space-between">
+              <div class="row-flex wrap" style="gap:6px">
+                <b style="font-size:12.5px">${esc(mp.title)}</b>
+                ${mpAg ? `<span class="tag">Agent · ${esc(mpAg)}</span>` : ''}
+                ${mpW ? `<span class="tag">Watcher · ${esc(mpW.name)}</span>` : ''}
+              </div>
               <span class="tag ${done ? 'ok' : 'wait'}">${done ? 'Draft flow ready' : esc(mp.saved)}</span>
             </div>
             <div class="xs muted">${esc(mp.detail)}</div>
@@ -3062,7 +3161,7 @@ function renderPulseView() {
                 <h3>Watchers</h3>
                 <span class="xs muted">${active} of ${PULSE.watchers.length} active · view only</span>
               </div>
-              ${PULSE.globalPause && PULSE.globalPause.on ? `<div class="callout bad"><div>${IC.warn} <b>Emergency pause is on.</b> Every watcher is stopped until an administrator resumes them in Governance.</div></div>` : ''}
+              ${PULSE.globalPause && PULSE.globalPause.on ? `<div class="callout bad"><div>${IC.warn} <b>Emergency pause is on.</b> Every watcher is stopped until an administrator resumes them in Runs &amp; Governance.</div></div>` : ''}
               <div class="callout">
                 <div>${IC.shield} Watchers are created and edited in <b>Agent Builder</b> and <b>Workflow Builder</b>. Pulse only shows what they find. Use the link on a watcher to open it in its builder.</div>
               </div>
@@ -3203,7 +3302,7 @@ function watcherOwnerLinkLabel(w, sg) {
     if (sg.agentId) return 'View in Agent Builder';
   }
   if (!w) return 'View in Agent Builder';
-  return w.ownerType === 'workflow' ? 'View in Workflow Builder' : w.ownerType === 'platform' ? 'View in Governance' : 'View in Agent Builder';
+  return w.ownerType === 'workflow' ? 'View in Workflow Builder' : w.ownerType === 'platform' ? 'View in Runs & Governance' : 'View in Agent Builder';
 }
 function watcherStatePill(w) {
   const st = watcherState(w);
@@ -3515,7 +3614,7 @@ function openWatcherInBuilder(id, noRender) {
     S.view = 'workflows'; S.wf = w.workflowId;
     if (w.stepId) { S.wfSelNode = w.stepId; S.wfNodeTab = 'watch'; }
   } else if (w.ownerType === 'platform' || (!w.agentId && !w.workflowId)) {
-    S.view = 'activity';
+    S.view = 'runs';
   } else if (w.agentId && AGENTS[w.agentId]) {
     S.view = 'agent'; S.ab.entityType = 'agent'; S.ab.agentId = w.agentId; S.ab.tab = 'card';
   } else { toast('The agent or workflow that owned this watcher was removed.'); return; }
@@ -3544,8 +3643,8 @@ function makeWatcherFinding(w) {
   const wf = w.startsWorkflow ? WORKFLOWS[w.startsWorkflow] : null;
   const sg = {
     id: 'sg-' + w.id + '-' + (PULSE.sugg.length + 1), watcher: w.id, agentId: w.agentId || null, workflowId: w.workflowId || null,
-    kind: watcherKindFor(w), sev: w.severity, seq: 0, at: '', title: w.name + ': ' + what,
-    why: 'This matched the condition “' + w.condition + '” set on ' + watcherOwnerLabel(w) + '.',
+    kind: watcherKindFor(w), sev: w.severity, seq: 0, at: '', title: watcherOwnerLabel(w) + ' (' + w.name + '): ' + what,
+    why: 'This matched the condition “' + w.condition + '” configured on ' + watcherOwnerLabel(w) + '.',
     evidence: [what, 'Source: ' + w.source + ' (read only)', 'Checked: ' + w.cadence].concat(wf ? ['Started workflow “' + wf.name + '” at Level ' + (parseInt(wf.autonomy, 10) || 2) + '. Write steps still stop at the human gate.'] : []),
     effect: { type: 'navigate', watcher: w.id, msg: 'Opened “' + w.name + '” in its builder' }, approver: null, cta: 'Open in builder', gov: 'Opens the builder. Nothing is changed.'
   };
@@ -4243,9 +4342,8 @@ function render() {
   if (S.view === 'chats') mainContent = renderChatsView();
   else if (S.view === 'agent') mainContent = renderAgentBuilderView();
   else if (S.view === 'workflows') mainContent = renderWorkflowsView();
-  else if (S.view === 'runs') mainContent = renderRunsView();
+  else if (S.view === 'runs' || S.view === 'activity') mainContent = renderRunsView();
   else if (S.view === 'models') mainContent = renderModelsView();
-  else if (S.view === 'activity') mainContent = renderActivityView();
   else if (S.view === 'pulse') mainContent = renderPulseView();
 
   app.innerHTML = renderRail() + mainContent;
@@ -4274,18 +4372,13 @@ function renderRail() {
         ${IC.flow}
         <span>Flows</span>
       </button>
-      <button class="rail-btn ${S.view === 'runs' ? 'on' : ''}" data-a="view" data-v="runs" title="Runs & Audit (PRD 7.12)">
+      <button class="rail-btn ${S.view === 'runs' || S.view === 'activity' ? 'on' : ''}" data-a="view" data-v="runs" title="Runs, Audit & Watcher Governance (PRD 7.12)">
         ${IC.runs}
         <span>Runs</span>
       </button>
       <button class="rail-btn ${S.view === 'models' ? 'on' : ''}" data-a="view" data-v="models" title="Model Registry (PRD 7.6)">
         ${IC.models}
         <span>Models</span>
-      </button>
-      <button class="rail-btn ${S.view === 'activity' ? 'on' : ''}" data-a="view" data-v="activity" title="Activity Center">
-        ${IC.activity}
-        <span>Activity</span>
-        ${S.unread ? `<span class="badge">${S.unread}</span>` : ''}
       </button>
 
       <div class="spacer"></div>
@@ -5427,6 +5520,14 @@ function renderCanvasNode(node, i, wf) {
    VIEW 4: RUNS & AUDIT LOGS (PRD 7.12 & 7.14)
    ===================================================================== */
 function renderRunsView() {
+  const waitingCount = RUNS.filter(r => r.out === 'waiting').length;
+  const rejectedCount = RUNS.filter(r => r.out === 'rejected').length;
+  const failedCount = RUNS.filter(r => r.out === 'failed').length;
+  const approvedCount = RUNS.filter(r => r.out === 'approved' || r.out === 'matched').length;
+  const autoCount = RUNS.filter(r => r.out === 'matched').length;
+  const humanCount = RUNS.filter(r => r.out === 'approved' || r.out === 'rejected' || r.out === 'waiting').length;
+  const totalCount = RUNS.length;
+
   const filteredRuns = RUNS.filter(r => {
     if (S.rf === 'Waiting') return r.out === 'waiting';
     if (S.rf === 'Approved') return r.out === 'approved' || r.out === 'matched';
@@ -5446,10 +5547,11 @@ function renderRunsView() {
         </div>
         <div class="acts">
           <div class="seg">
-            <button class="${S.rf === 'All' ? 'on' : ''}" data-a="run-filter" data-f="All">All (47)</button>
-            <button class="${S.rf === 'Waiting' ? 'on' : ''}" data-a="run-filter" data-f="Waiting">Waiting (1)</button>
-            <button class="${S.rf === 'Approved' ? 'on' : ''}" data-a="run-filter" data-f="Approved">Approved (41)</button>
-            <button class="${S.rf === 'Rejected' ? 'on' : ''}" data-a="run-filter" data-f="Rejected">Rejected (4)</button>
+            <button type="button" class="${S.rf === 'All' ? 'on' : ''}" data-a="run-filter" data-f="All">All (${totalCount})</button>
+            <button type="button" class="${S.rf === 'Waiting' ? 'on' : ''}" data-a="run-filter" data-f="Waiting">Waiting (${waitingCount})</button>
+            <button type="button" class="${S.rf === 'Approved' ? 'on' : ''}" data-a="run-filter" data-f="Approved">Approved (${approvedCount})</button>
+            <button type="button" class="${S.rf === 'Rejected' ? 'on' : ''}" data-a="run-filter" data-f="Rejected">Rejected (${rejectedCount})</button>
+            <button type="button" class="${S.rf === 'Failed' ? 'on' : ''}" data-a="run-filter" data-f="Failed">Failed (${failedCount})</button>
           </div>
           <button class="btn s" data-a="toast" data-t="Exported signed audit pack for UAE State Audit Authority (PDF / CSV)">Export Audit Pack</button>
         </div>
@@ -5458,10 +5560,10 @@ function renderRunsView() {
       <div class="runs-body">
         <div class="card-col scroll" style="flex:1;min-width:0">
           <div class="stat">
-            <div><small>Throughput this week</small><b>47</b></div>
-            <div><small>Straight-Through Auto</small><b style="color:var(--ok)">41</b></div>
-            <div><small>Human Decision Required</small><b>6</b></div>
-            <div><small>Waiting for Fatima</small><b style="color:var(--wait)">1</b></div>
+            <div><small>Throughput this week</small><b>${totalCount}</b></div>
+            <div><small>Straight-Through Auto</small><b style="color:var(--ok)">${autoCount}</b></div>
+            <div><small>Human Decision Required</small><b>${humanCount}</b></div>
+            <div><small>Waiting for Fatima</small><b style="color:var(--wait)">${waitingCount}</b></div>
           </div>
 
           <div class="table">
@@ -5478,7 +5580,7 @@ function renderRunsView() {
                 </tr>
               </thead>
               <tbody>
-                ${filteredRuns.map(r => `
+                ${filteredRuns.length ? filteredRuns.map(r => `
                   <tr class="click ${S.run === r.n ? 'sel' : ''}" data-a="open-run-drawer" data-n="${r.n}">
                     <td><b>#${r.n}</b></td>
                     <td>${r.inv} · ${r.sup} (AED ${fmt(r.amt)})${r.watcher && pulseWatcher(r.watcher) ? `<div class="xs subtle">${IC.eye} Started by ${esc(pulseWatcher(r.watcher).name)}</div>` : ''}</td>
@@ -5488,10 +5590,18 @@ function renderRunsView() {
                     <td>${r.took}</td>
                     <td class="mono">AED ${r.cost.toFixed(2)}</td>
                   </tr>
-                `).join('')}
+                `).join('') : `
+                  <tr>
+                    <td colspan="7" style="text-align:center;padding:28px 16px;color:var(--muted)">
+                      No runs currently in <b>${esc(S.rf)}</b> status.${S.rf === 'Waiting' ? ' All pending runs have already been reviewed and signed off.' : ''}
+                    </td>
+                  </tr>
+                `}
               </tbody>
             </table>
           </div>
+
+          ${renderWatcherGovernance()}
         </div>
 
         ${selectedRun ? `
@@ -5621,16 +5731,18 @@ function renderRunsView() {
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div class="row-flex" style="gap:8px;margin-top:auto;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--line)">
-                ${selectedRun.out === 'waiting' ? `
-                  <button class="btn s ok grow" data-a="open-approval-modal" data-run="${selectedRun.n}">Review Human Approval Gate (Fatima)</button>
-                ` : ''}
-                ${selectedRun.out === 'failed' ? `
-                  <button class="btn s danger grow" data-a="wf-raise-incident" data-run="${selectedRun.n}">${selectedRun.incidentRaised ? 'Incident #INC-' + selectedRun.n + ' Queued in Pulse' : 'Safe Failure Recovery: Raise Incident & Queue Fix for Approval'}</button>
-                ` : ''}
+            <div class="drawer-foot">
+              ${selectedRun.out === 'waiting' ? `
+                <button class="btn s ok" style="width:100%;font-weight:700" data-a="open-approval-modal" data-run="${selectedRun.n}">Review Human Approval Gate (Fatima)</button>
+              ` : ''}
+              ${selectedRun.out === 'failed' ? `
+                <button class="btn s danger" style="width:100%;font-weight:700" data-a="wf-raise-incident" data-run="${selectedRun.n}">${selectedRun.incidentRaised ? 'Incident #INC-' + selectedRun.n + ' Queued in Pulse' : 'Safe Failure Recovery: Raise Incident & Queue Fix for Approval'}</button>
+              ` : ''}
+              <div class="row-flex" style="gap:8px;width:100%">
                 <button class="btn s grow" data-a="toast" data-t="Replaying Run #${selectedRun.n} in test sandbox with identical inputs...">Replay with same data</button>
-                <button class="btn s" data-a="toast" data-t="Exported Run #${selectedRun.n} cryptographic seal certificate (PDF)">Certificate</button>
+                <button class="btn s" style="flex-shrink:0" data-a="toast" data-t="Exported Run #${selectedRun.n} cryptographic seal certificate (PDF)">Certificate</button>
               </div>
             </div>
           </div>
@@ -5678,36 +5790,6 @@ function renderModelsView() {
                 <div class="row-flex" style="justify-content:space-between"><span>Languages:</span><b>${m.langs}</b></div>
               </div>
               <button class="btn s" data-a="set-default-model" data-m="${m.id}">Set as Platform Default</button>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </main>
-  `;
-}
-
-/* =====================================================================
-   VIEW 6: ACTIVITY CENTER (PRD 7.11 & 7.14)
-   ===================================================================== */
-function renderActivityView() {
-  return `
-    <main class="main" style="grid-column: 2 / -1">
-      <div class="main-head">
-        <div class="who"><div class="ttl">Activity Center & Audit Stream</div></div>
-        <div class="acts"><button class="btn s" data-a="mark-all-read">Mark All Read</button></div>
-      </div>
-      <div class="card-col scroll">
-        ${renderWatcherGovernance()}
-        <div class="sec">
-          <h3><span>Recent Governance & Orchestration Events</span></h3>
-          ${ACTIVITY.map(act => `
-            <div class="card" style="padding:12px;display:flex;gap:11px;align-items:center">
-              <div class="av sm ${act.who}">${act.who.toUpperCase()}</div>
-              <div class="grow">
-                <b>${esc(act.text)}</b>
-                <div class="xs muted">${act.when}</div>
-              </div>
-              <span class="tag inv">${act.badge}</span>
             </div>
           `).join('')}
         </div>
@@ -6553,7 +6635,11 @@ document.addEventListener('click', e => {
   else if (a === 'select-canvas-node') { S.wfSelNode = el.dataset.id; render(); }
   else if (a === 'node-tab') { S.wfNodeTab = el.dataset.t; render(); }
   else if (a === 'ab-tab') { S.ab.tab = el.dataset.t; render(); }
-  else if (a === 'run-filter') { S.rf = el.dataset.f; render(); }
+  else if (a === 'run-filter') {
+    S.rf = el.dataset.f || 'All';
+    S.run = null;
+    render();
+  }
   else if (a === 'open-run-drawer') { S.run = parseInt(el.dataset.n, 10); render(); }
   else if (a === 'close-drawer') { S.run = null; render(); }
   else if (a === 'close-modal') { S.modal = null; render(); }
@@ -6927,29 +7013,7 @@ document.addEventListener('submit', e => {
   if (!form) return;
   const a = form.dataset.a;
 
-  if (a === 'submit-pulse-goal') {
-    const inp = $('#pulse-goal-in');
-    const val = inp ? inp.value.trim() : '';
-    if (!val) return;
-    inp.value = '';
-    const d = parseWatcherPrompt(val, { ownerType: 'agent', agentId: /licen|sanction|supplier/i.test(val) ? 'sr' : /contract|expir/i.test(val) ? 'cr' : /leave|hr/i.test(val) ? 'lr' : 'ic' });
-    const res = saveWatcherDraft(d, null, S.user);
-    const wid = res.ok && res.w ? res.w.id : 'w-inbox';
-    PULSE.goals.unshift({
-      id: 'gl-' + Date.now().toString(36),
-      text: val,
-      agentId: d.agentId || 'ic',
-      watcherId: wid,
-      status: 'active',
-      createdBy: S.user,
-      at: 'Today ' + now()
-    });
-    logActivity(S.user, 'Assigned ongoing goal: "' + val + '" (tracked by ' + d.name + ')', 'Ongoing Goal');
-    render();
-    toast('Ongoing goal assigned and linked to watcher "' + d.name + '".');
-    return;
-  }
-  else if (a === 'send-chat-msg') {
+  if (a === 'send-chat-msg') {
     const inp = $('#chat-in');
     const val = inp ? inp.value.trim() : '';
     if (!val) return;
