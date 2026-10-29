@@ -14,7 +14,7 @@ Previously, AI agents and workflows mostly waited for someone to click a button 
 
 ## 2. A Clear Rule for "Watchers" (Automated Lookouts)
 
-A **Watcher** is a digital lookout that checks your emails, registers, or workflows on a schedule (for example: *"Check every morning if any supplier’s trade licence is expiring within 30 days"*).
+A **Watcher** is a digital lookout assigned to a specific agent or workflow (for example: *"Check every morning if any supplier’s trade licence is expiring within 30 days"*). **A Watcher’s sole duty is to monitor its assigned agent or workflow—it never has access to any other agents or workflows.**
 
 To keep the platform simple and avoid confusion, Watchers now follow one clear rule across the entire app:
 
@@ -88,9 +88,9 @@ When building an AI assistant in **Agent Builder**, the platform now guides you 
 ### What’s New in Workflow Builder:
 * **Smart Next-Step Suggestions:**
   * As you build a workflow on screen, Ephrem looks at your steps and suggests what’s missing—such as adding a **Human Approval Gate** before a payment step, or an **Audit Log** at the end—and adds it with a single click.
-* **Spotting Repetitive Manual Work:**
-  * Ephrem notices when employees do the same chore by hand every week (for example, *"Mariam manually checked 14 supplier trade licences across three spreadsheets this month"*).
-  * With one click on **Create Draft Flow**, Ephrem builds a ready-to-review automated workflow to save hours of manual effort.
+* **Spotting Repetitive Manual Work (by Ephrem Assistant):**
+  * **Ephrem Assistant** (not individual Watchers) notices when employees do the same chore by hand every week (for example, *"Staff manually checked 14 supplier trade licences in the Supplier Register this month"*).
+  * With one click on **Create Draft Flow**, Ephrem Assistant builds a ready-to-review automated workflow to save hours of manual effort.
 * **Time & Cost Savings:**
   * If a workflow step is wasting money by retrying a slow tool 3 times in a row, Ephrem highlights it and lets you reduce retries in one click (cutting run costs by **28%**).
   * If a human approval step is slowing down the whole process, you can add a **4-hour delay alert** with one click.
